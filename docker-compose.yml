@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+
+  postgre:
+    image: postgres:latest
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+    environment:
+      APP_PORT: 8080
+      SWAGGER_DOC: "true"
+    volumes:
+      - ./server:/app
+
+  # client_mobile:
+  #   build: ./client_mobile
+  #   volumes:
+  #     - client_volume:/app
+
+  # client_web:
+  #   build: ./client_web
+  #   ports:
+  #     - "8081:8081"
+  #   volumes:
+  #     - client_volume:/app
+  #   depends_on:
+  #     - client_mobile
+  #     - server
+
+volumes:
+  client_volume:
+    driver: bridge
+    driver_opts:
+      size: "5GiB"
