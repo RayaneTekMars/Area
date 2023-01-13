@@ -2,23 +2,26 @@ version: "3"
 
 services:
 
-  postgre:
+  postgres_db:
     image: postgres:latest
     restart: on-failure
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_DB: ${POSTGRES_DB}
 
   server:
     build: ./server
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres_db
     environment:
       APP_PORT: 8080
       SWAGGER_DOC: "true"
+      POSTGRES_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:${POSTGRES_PORT}/${POSTGRES_DB}
     volumes:
       - ./server:/app
 
