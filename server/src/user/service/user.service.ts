@@ -13,7 +13,6 @@ export class UserService {
   ) {}
 
   add(user: UserDto): Observable<UserDto> {
-    //set the createdAt and updatedAt to the current time format yyyy-mm-dd hh:mm:ss
     user.createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
     user.updatedAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
     console.log(user.createdAt);
@@ -24,7 +23,12 @@ export class UserService {
   findAll(): Observable<UserDto[]> {
     return from(this.userRepository.find());
   }
+
   deleteUserById(id: number): Promise<any> {
     return this.userRepository.delete(id);
+  }
+  
+  updateUser(id: number, user: UserDto): Promise<any> {
+    return this.userRepository.update(id, { username: user.username, email: user.email, password: user.password, updatedAt: new Date().toISOString().slice(0, 19).replace('T', ' ') });
   }
 }
