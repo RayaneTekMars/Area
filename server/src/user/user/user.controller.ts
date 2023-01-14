@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Put } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { UserService } from '../service/user.service';
 import { UserDto } from '../models/user.dto';
@@ -15,5 +15,13 @@ export class UserController {
   @Get()
   findAll(): Observable<UserDto[]> {
     return this.userService.findAll();
+  }
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<any> {
+    await this.userService.deleteUserById(id);
+  }
+  @Put(":id")
+  async update(@Param('id') id: number, @Body() user: UserDto): Promise<any> {
+    await this.userService.updateUser(id, user);
   }
 }
