@@ -14,30 +14,12 @@ export class UserEntity {
   @Column()
   password: string;
 
+  @Column()
+  admin: boolean;
+
   @Column({ type: 'timestamp' })
-    createdAt: string;
+  createdAt: string;
 
   @Column({ type: 'timestamp' })
   updatedAt: string;
 }
-
-/*
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  username: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-}*/
