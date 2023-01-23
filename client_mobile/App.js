@@ -5,20 +5,20 @@ import { StyleSheet, Text, View, Image } from "react-native";
 const shape = StyleSheet.create({
   bottomLeft: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
+    bottom: "0%",
+    left: "0%",
   },
   topRight: {
     position: "absolute",
-    top: 0,
-    right: 0
-  }
+    top: "0%",
+    right: "0%",
+  },
 });
 
 const logo = StyleSheet.create({
   logoPosition: {
     position: "absolute",
-    top: "15%"
+    top: "15%",
   },
 });
 
@@ -28,11 +28,11 @@ const text = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Inter-ExtraBold",
     fontSize: 25,
-    marginHorizontal: 25
+    marginHorizontal: "5%",
   },
   textContainer: {
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 const global = StyleSheet.create({
@@ -40,8 +40,8 @@ const global = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#222222"
-  }
+    backgroundColor: "#222222",
+  },
 });
 
 export default function App() {
@@ -61,10 +61,12 @@ export default function App() {
         <Image source={require("./assets/images/amm_square_2.png")} />
       </View>
       <View style={logo.logoPosition}>
-        <Image source={require("./assets/images/amm_logo.png")} />
+        <Image source={require("./assets/images/amm_logo_full.png")} />
       </View>
       <View style={text.textContainer}>
-        <Text style={text.textTitle}>Votre nouveau compagnon au quotidien 🥰</Text>
+        <Text style={text.textTitle}>
+          Votre nouveau compagnon au quotidien 🥰
+        </Text>
       </View>
       <View style={shape.bottomLeft}>
         <Image source={require("./assets/images/amm_square_1.png")} />
