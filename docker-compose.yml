@@ -26,7 +26,7 @@ services:
   server:
     build: ./server
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - postgres_db
     environment:

@@ -20,10 +20,12 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json yarn.lock ./
 
-RUN yarn install --production
-
 ENV NODE_ENV production
 
+RUN yarn install --production
+
 COPY --from=builder /usr/src/app/dist ./dist
+
+EXPOSE 8080
 
 CMD [ "node", "dist/main.js" ]
