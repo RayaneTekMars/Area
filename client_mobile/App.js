@@ -18,7 +18,12 @@ const shape = StyleSheet.create({
 const logo = StyleSheet.create({
   logoPosition: {
     position: "absolute",
-    top: "15%",
+    top: "14%",
+  },
+  logoSize: {
+    width: 275,
+    height: 200,
+    resizeMode: "contain",
   },
 });
 
@@ -61,7 +66,10 @@ export default function App() {
         <Image source={require("./assets/images/amm_square_2.png")} />
       </View>
       <View style={logo.logoPosition}>
-        <Image source={require("./assets/images/amm_logo_full.png")} />
+        <Image
+          source={require("./assets/images/amm_logo_full.png")}
+          style={logo.logoSize}
+        />
       </View>
       <View style={text.textContainer}>
         <Text style={text.textTitle}>
