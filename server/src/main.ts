@@ -34,8 +34,6 @@ const bootstrap = async () => {
         return app.close()
     }
 
-    console.log(configService.get<string>('IS_SWAGGER_DOC_VISIBLE'))
-
     if (configService.get<string>('IS_SWAGGER_DOC_VISIBLE') === 'true') {
         const swaggerDocument = SwaggerModule.createDocument(app, documentConfig)
         SwaggerModule.setup('/swagger', app, swaggerDocument)

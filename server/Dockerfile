@@ -26,4 +26,6 @@ RUN yarn install --production
 
 COPY --from=builder /usr/src/app/dist ./dist
 
+EXPOSE 8080
+
 CMD [ "node", "dist/main.js" ]
