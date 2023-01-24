@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 const shape = StyleSheet.create({
   bottomLeft: {
@@ -27,16 +27,34 @@ const logo = StyleSheet.create({
   },
 });
 
+const button = StyleSheet.create({
+  buttonSignupPosition: {
+    position: "absolute",
+    bottom: "20%",
+  },
+  buttonSigninPosition: {
+    position: "absolute",
+    bottom: "10%",
+    borderRadius: 20,
+  },
+  buttonTitleText: {
+    fontSize: 15,
+    color: "#222222",
+    fontFamily: "Inter-ExtraBold",
+  },
+});
+
 const text = StyleSheet.create({
   textTitle: {
+    fontSize: 25,
     color: "#FFFFFF",
     textAlign: "center",
     fontFamily: "Inter-ExtraBold",
-    fontSize: 25,
-    marginHorizontal: "5%",
+    marginHorizontal: "6%",
   },
   textContainer: {
-    alignItems: "center",
+    position: "absolute",
+    top: "45%",
   },
 });
 
@@ -73,13 +91,61 @@ export default function App() {
       </View>
       <View style={text.textContainer}>
         <Text style={text.textTitle}>
-          Votre nouveau compagnon au quotidien 🥰
+          Votre nouveau compagnon, au quotidien 📋
         </Text>
+      </View>
+      {/* <View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#FFFFFF",
+            borderRadius: 20,
+            padding: 10,
+            alignItems: "center",
+            width: "30%",
+          }}
+          onPress={() => alert("🎉🎉🎉")}
+        >
+          <Text style={{ color: "#222222", fontFamily: "Inter-ExtraBold" }}>
+            Sign Up
+          </Text>
+        </TouchableOpacity>
+      </View> */}
+      <View>
+        <TouchableOpacity
+          style={{
+            // position: "absolute",
+            // bottom: "20%",
+            backgroundColor: "#FFFFFF",
+            borderRadius: 20,
+            padding: 10,
+            alignItems: "center",
+            width: "40%",
+            marginTop: 500,
+          }}
+          onPress={() => alert("🎉🎉🎉")}
+        >
+          <Text style={button.buttonTitleText}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            // position: "absolute",
+            // bottom: "10%",
+            backgroundColor: "#FFFFFF",
+            borderRadius: 20,
+            padding: 10,
+            alignItems: "center",
+            width: "40%",
+            marginTop: 50,
+          }}
+          onPress={() => alert("🎉🎉🎉")}
+        >
+          <Text style={button.buttonTitleText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
       <View style={shape.bottomLeft}>
         <Image source={require("./assets/images/amm_square_1.png")} />
       </View>
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
     </View>
   );
 }
