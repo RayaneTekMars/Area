@@ -2,24 +2,22 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
-const shape = StyleSheet.create({
+const homeShape = StyleSheet.create({
   bottomLeft: {
     position: "absolute",
     bottom: "0%",
     left: "0%",
+    zIndex: -1,
   },
   topRight: {
     position: "absolute",
     top: "0%",
     right: "0%",
+    zIndex: -1,
   },
 });
 
 const logo = StyleSheet.create({
-  logoPosition: {
-    position: "absolute",
-    top: "14%",
-  },
   logoSize: {
     width: 275,
     height: 200,
@@ -28,17 +26,16 @@ const logo = StyleSheet.create({
 });
 
 const button = StyleSheet.create({
-  buttonSignupPosition: {
-    position: "absolute",
-    bottom: "20%",
-  },
-  buttonSigninPosition: {
-    position: "absolute",
-    bottom: "10%",
+  button: {
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
     borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    margin: 20,
   },
-  buttonTitleText: {
-    fontSize: 15,
+  text: {
+    fontSize: "20rem",
     color: "#222222",
     fontFamily: "Inter-ExtraBold",
   },
@@ -46,24 +43,43 @@ const button = StyleSheet.create({
 
 const text = StyleSheet.create({
   textTitle: {
-    fontSize: 25,
+    fontSize: "25rem",
     color: "#FFFFFF",
     textAlign: "center",
     fontFamily: "Inter-ExtraBold",
-    marginHorizontal: "6%",
-  },
-  textContainer: {
-    position: "absolute",
-    top: "45%",
+    margin: "5%",
   },
 });
 
 const global = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
+    height: "100%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#222222",
+  },
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "40%",
+    width: "100%",
+  },
+  sloganContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "20%",
+    width: "100%",
+  },
+  buttonContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "40%",
+    width: "100%",
   },
 });
 
@@ -80,71 +96,37 @@ export default function App() {
 
   return (
     <View style={global.container}>
-      <View style={shape.topRight}>
+      <View style={homeShape.topRight}>
         <Image source={require("./assets/images/amm_square_2.png")} />
       </View>
-      <View style={logo.logoPosition}>
+
+      <View style={global.logoContainer}>
         <Image
           source={require("./assets/images/amm_logo_full.png")}
           style={logo.logoSize}
         />
       </View>
-      <View style={text.textContainer}>
+
+      <View style={global.sloganContainer}>
         <Text style={text.textTitle}>
           Votre nouveau compagnon, au quotidien 📋
         </Text>
       </View>
-      {/* <View>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#FFFFFF",
-            borderRadius: 20,
-            padding: 10,
-            alignItems: "center",
-            width: "30%",
-          }}
-          onPress={() => alert("🎉🎉🎉")}
-        >
-          <Text style={{ color: "#222222", fontFamily: "Inter-ExtraBold" }}>
-            Sign Up
-          </Text>
+
+      <View style={global.buttonContainer}>
+        <TouchableOpacity style={button.button} onPress={() => alert("🎉🎉🎉")}>
+          <Text style={button.text}>Sign Up</Text>
         </TouchableOpacity>
-      </View> */}
-      <View>
-        <TouchableOpacity
-          style={{
-            // position: "absolute",
-            // bottom: "20%",
-            backgroundColor: "#FFFFFF",
-            borderRadius: 20,
-            padding: 10,
-            alignItems: "center",
-            width: "40%",
-            marginTop: 500,
-          }}
-          onPress={() => alert("🎉🎉🎉")}
-        >
-          <Text style={button.buttonTitleText}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            // position: "absolute",
-            // bottom: "10%",
-            backgroundColor: "#FFFFFF",
-            borderRadius: 20,
-            padding: 10,
-            alignItems: "center",
-            width: "40%",
-            marginTop: 50,
-          }}
-          onPress={() => alert("🎉🎉🎉")}
-        >
-          <Text style={button.buttonTitleText}>Sign In</Text>
+
+        <TouchableOpacity style={button.button} onPress={() => alert("🎉🎉🎉")}>
+          <Text style={button.text}>Sign In</Text>
         </TouchableOpacity>
       </View>
-      <View style={shape.bottomLeft}>
+
+      <View style={homeShape.bottomLeft}>
         <Image source={require("./assets/images/amm_square_1.png")} />
       </View>
+
       {/* <StatusBar style="auto" /> */}
     </View>
   );
