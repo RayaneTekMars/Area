@@ -1,49 +1,106 @@
+import { useState } from "react";
 import { useFonts } from "expo-font";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 
-export default function SignupPage() {
+function SignupAction(navigation) {
+  // TODO : Rediriger plus tard vers la signinPage et non la homePage.
+  navigation.navigate("homePage");
+  // TODO : Requête vers l'API pour la création du compte.
+  alert("Félicitations, votre compte a été créé ! 🎉");
+}
+
+export default function SignupPage({ navigation }) {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
     "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
     "Inter-ExtraBold": require("../assets/fonts/Inter-ExtraBold.ttf"),
   });
 
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPasswordValue, setConfirmPassword] = useState("");
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <View style={homeContainers.globalContainer}>
-      <View style={homeShapes.shapeRight}>
+    <View style={signupContainers.globalContainer}>
+      <View style={signupShapes.shapeRight}>
         <Image source={require("../assets/images/amm_shape_right.png")} />
       </View>
-      <View style={homeContainers.logoContainer}>
+      <View style={signupContainers.logoContainer}>
         <Image
           source={require("../assets/images/amm_logo_full.png")}
-          style={homeComponents.componentLogo}
+          style={signupComponents.componentLogo}
         />
       </View>
-      <View style={homeContainers.sloganContainer}>
-        <Text style={homeTexts.textSlogan}>
-          Votre nouveau compagnon, au quotidien 🚀
-        </Text>
+      <View style={signupContainers.formContainer}>
+        <View style={signupContainers.fieldContainer}>
+          <MaterialCommunityIcons name="account" size={24} color="#ccc" />
+          <TextInput
+            style={signupComponents.componentField}
+            placeholder="Nom d'utilisateur"
+            onChangeText={(userInput) => setUsername(userInput)}
+            value={username}
+          />
+        </View>
+        <View style={signupContainers.fieldContainer}>
+          <MaterialCommunityIcons name="email" size={24} color="#ccc" />
+          <TextInput
+            style={signupComponents.componentField}
+            placeholder="Adresse E-mail"
+            onChangeText={(userInput) => setEmail(userInput)}
+            keyboardType="email-address"
+            value={email}
+          />
+        </View>
+        <View style={signupContainers.fieldContainer}>
+          <MaterialCommunityIcons name="lock" size={24} color="#ccc" />
+          <TextInput
+            style={signupComponents.componentField}
+            placeholder="Mot de passe"
+            onChangeText={(userInput) => setPassword(userInput)}
+            value={password}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={signupContainers.fieldContainer}>
+          <MaterialCommunityIcons name="key" size={24} color="#ccc" />
+          <TextInput
+            style={signupComponents.componentField}
+            placeholder="Confirmer mot de passe"
+            onChangeText={(userInput) => setConfirmPassword(userInput)}
+            value={confirmPasswordValue}
+            secureTextEntry={true}
+          />
+        </View>
       </View>
-      <View style={homeContainers.buttonContainer}>
+      <View style={signupContainers.buttonContainer}>
         <TouchableOpacity
-          style={homeComponents.componentButton}
-          onPress={() => alert("Sign Up button!")}
+          style={signupComponents.componentButton}
+          onPress={() => SignupAction(navigation)}
         >
-          <Text style={homeTexts.textButton}>Sign Up</Text>
+          <Text style={signupTexts.textButton}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-      <View style={homeShapes.shapeLeft}>
+      <View style={signupShapes.shapeLeft}>
         <Image source={require("../assets/images/amm_shape_left.png")} />
       </View>
     </View>
   );
 }
 
-const homeShapes = StyleSheet.create({
+const signupShapes = StyleSheet.create({
   shapeLeft: {
     position: "absolute",
     bottom: "0%",
@@ -58,7 +115,7 @@ const homeShapes = StyleSheet.create({
   },
 });
 
-const homeComponents = StyleSheet.create({
+const signupComponents = StyleSheet.create({
   componentLogo: {
     width: 275,
     height: 200,
@@ -72,16 +129,18 @@ const homeComponents = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
+  componentField: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    width: "60%",
+  },
 });
 
-const homeTexts = StyleSheet.create({
-  textSlogan: {
-    color: "#FFFFFF",
-    fontSize: "25rem",
-    textAlign: "center",
-    fontFamily: "Inter-ExtraBold",
-    margin: "5%",
-  },
+const signupTexts = StyleSheet.create({
   textButton: {
     color: "#222222",
     fontSize: "20rem",
@@ -89,7 +148,7 @@ const homeTexts = StyleSheet.create({
   },
 });
 
-const homeContainers = StyleSheet.create({
+const signupContainers = StyleSheet.create({
   globalContainer: {
     display: "flex",
     alignItems: "center",
@@ -105,18 +164,23 @@ const homeContainers = StyleSheet.create({
     width: "100%",
     height: "40%",
   },
-  sloganContainer: {
+  formContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "20%",
+    height: "30%",
+  },
+  fieldContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   buttonContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "40%",
+    height: "30%",
   },
 });

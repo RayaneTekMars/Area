@@ -1,9 +1,9 @@
 import * as React from "react";
-import HomePage from "./screens/HomePage";
-import SignupPage from "./screens/SignupPage";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import HomePage from "./screens/HomePage";
+import SignupPage from "./screens/SignupPage";
 
 const Stack = createNativeStackNavigator();
 
