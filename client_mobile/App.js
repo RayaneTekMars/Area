@@ -1,4 +1,5 @@
 import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 export default function App() {
@@ -13,39 +14,43 @@ export default function App() {
   }
 
   return (
-    <View style={homeContainers.globalContainer}>
-      <View style={homeShapes.shapeRight}>
-        <Image source={require("./assets/images/amm_shape_right.png")} />
-      </View>
-      <View style={homeContainers.logoContainer}>
-        <Image
-          source={require("./assets/images/amm_logo_full.png")}
-          style={homeComponents.componentLogo}
-        />
-      </View>
-      <View style={homeContainers.sloganContainer}>
-        <Text style={homeTexts.textSlogan}>
-          Votre nouveau compagnon, au quotidien 🚀
-        </Text>
-      </View>
-      <View style={homeContainers.buttonContainer}>
-        <TouchableOpacity
-          style={homeComponents.componentButton}
-          onPress={() => alert("Sign Up button!")}
-        >
-          <Text style={homeTexts.textButton}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={homeComponents.componentButton}
-          onPress={() => alert("Sign In button!")}
-        >
-          <Text style={homeTexts.textButton}>Sign In</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={homeShapes.shapeLeft}>
-        <Image source={require("./assets/images/amm_shape_left.png")} />
-      </View>
-    </View>
+    <NavigationContainer>
+      {
+        <View style={homeContainers.globalContainer}>
+          <View style={homeShapes.shapeRight}>
+            <Image source={require("./assets/images/amm_shape_right.png")} />
+          </View>
+          <View style={homeContainers.logoContainer}>
+            <Image
+              source={require("./assets/images/amm_logo_full.png")}
+              style={homeComponents.componentLogo}
+            />
+          </View>
+          <View style={homeContainers.sloganContainer}>
+            <Text style={homeTexts.textSlogan}>
+              Votre nouveau compagnon, au quotidien 🚀
+            </Text>
+          </View>
+          <View style={homeContainers.buttonContainer}>
+            <TouchableOpacity
+              style={homeComponents.componentButton}
+              onPress={() => alert("Sign Up button!")}
+            >
+              <Text style={homeTexts.textButton}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={homeComponents.componentButton}
+              onPress={() => alert("Sign In button!")}
+            >
+              <Text style={homeTexts.textButton}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homeShapes.shapeLeft}>
+            <Image source={require("./assets/images/amm_shape_left.png")} />
+          </View>
+        </View>
+      }
+    </NavigationContainer>
   );
 }
 
