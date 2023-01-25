@@ -1,50 +1,31 @@
-###################
-# BUILD FOR LOCAL DEVELOPMENT
-###################
+FROM node:lts as builder
 
-FROM node:18-alpine As development
-
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+# Install app dependencies
+COPY package.json yarn.lock ./
 
-RUN npm ci
+RUN yarn install
 
-COPY --chown=node:node . .
+COPY . .
 
-USER node
+RUN yarn build
 
-###################
-# BUILD FOR PRODUCTION
-###################
+FROM node:lts-slim
 
-FROM node:18-alpine As build
-
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
-
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
-
-COPY --chown=node:node . .
-
-RUN npm run build
+# Install app dependencies
+COPY package.json yarn.lock ./
 
 ENV NODE_ENV production
 
-RUN npm ci --only=production && npm cache clean --force
+RUN yarn install --production
 
-USER node
+COPY --from=builder /usr/src/app/dist ./dist
 
-###################
-# PRODUCTION
-###################
+EXPOSE 8080
 
-FROM node:18-alpine As production
-
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-
-# Start the server using the production build
 CMD [ "node", "dist/main.js" ]

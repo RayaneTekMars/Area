@@ -11,19 +11,42 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: localhost
+    networks:
+      - pg-tier
+
+  adminer:
+    image: adminer:latest
+    restart: on-failure
+    ports:
+      - 9001:8080
+    networks:
+      - pg-tier
 
   server:
     build: ./server
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - postgres_db
     environment:
       APP_PORT: 8080
-      SWAGGER_DOC: "true"
-      POSTGRES_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:${POSTGRES_PORT}/${POSTGRES_DB}
+      IS_SWAGGER_DOC_VISIBLE: ${IS_SWAGGER_DOC_VISIBLE}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_OPTION_EXPIRES_IN: ${JWT_OPTION_EXPIRES_IN}
+      GOOGLE_OAUTH2_CLIENT_ID: ${GOOGLE_OAUTH2_CLIENT_ID}
+      GOOGLE_OAUTH2_CLIENT_SECRET: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+      GOOGLE_OAUTH2_CALLBACK_URL: ${GOOGLE_OAUTH2_CALLBACK_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: postgres_db
     volumes:
       - ./server:/app
+    networks:
+      - pg-tier
+      - api-tier
+
 
   # client_mobile:
   #   build: ./client_mobile
@@ -40,8 +63,15 @@ services:
   #     - client_mobile
   #     - server
 
-volumes:
-  client_volume:
+# volumes:
+#   client_volume:
+#     driver: bridge
+#     driver_opts:
+#       size: "5GiB"
+
+networks:
+  pg-tier:
     driver: bridge
-    driver_opts:
-      size: "5GiB"
+  api-tier:
+    driver: bridge
+
