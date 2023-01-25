@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "area",
+    "slug": "area",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/amm_logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/amm_splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#222222"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/amm_logo.png",
+        "backgroundColor": "#222222"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "87321fb4-9370-43cf-8054-80f36c90a623"
+      }
+    },
+    "owner": "neex"
+  }
+}
