@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString } from 'class-validator'
 import { EntityType } from '../../common/enums/entity-type.enum'
 
 class AccountDto {

@@ -24,9 +24,9 @@ class GoogleApiService {
     async getPersonFromCode(code: string): Promise<Person> {
 
         const oauth2Client = new google.auth.OAuth2(
-            this.configService.get<string>('GOOGLE_CLIENT_ID'),
-            this.configService.get<string>('GOOGLE_CLIENT_SECRET'),
-            this.configService.get<string>('GOOGLE_CALLBACK_URL')
+            this.configService.get<string>('GOOGLE_OAUTH2_CLIENT_ID'),
+            this.configService.get<string>('GOOGLE_OAUTH2_CLIENT_SECRET'),
+            this.configService.get<string>('GOOGLE_OAUTH2_CALLBACK_URL')
         )
 
         let tokens: Credentials
