@@ -11,32 +11,31 @@ import {
   TextInput,
 } from "react-native";
 
-async function SignupAction(navigation, username, email, password) {
+async function SigninAction(navigation, email, password) {
   try {
     const data = {
       email: email,
-      username: username,
       password: password,
       authTokenName: "",
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/signup",
+      "http://10.20.85.249:8080/auth/login",
       data
     );
 
     if (response.status === 200) {
-      // à rediriger vers le dashboard
       navigation.navigate("homePage");
-      alert("Félicitations, votre compte a été créé ! 🎉");
+      // à rediriger vers le dashboard
+      alert("Bienvenue sur votre compte !");
     } else {
       // mettre en rouge les champs qui posent problème
       navigation.navigate("homePage");
-      alert("Erreur lors de la création de votre compte.");
+      alert("Erreur lors de la connexion à votre compte.");
     }
   } catch (error) {
     navigation.navigate("homePage");
-    alert("Erreur lors de la création de votre compte.");
+    alert("Erreur lors de la connexion à votre compte.");
   }
 }
 
@@ -47,10 +46,8 @@ export default function SignupPage({ navigation }) {
     "Inter-ExtraBold": require("../assets/fonts/Inter-ExtraBold.ttf"),
   });
 
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPasswordValue, setConfirmPassword] = useState("");
 
   if (!fontsLoaded) {
     return null;
@@ -68,15 +65,6 @@ export default function SignupPage({ navigation }) {
         />
       </View>
       <View style={signupContainers.formContainer}>
-        <View style={signupContainers.fieldContainer}>
-          <MaterialCommunityIcons name="account" size={24} color="#ccc" />
-          <TextInput
-            style={signupComponents.componentField}
-            placeholder="Nom d'utilisateur"
-            onChangeText={(userInput) => setUsername(userInput)}
-            value={username}
-          />
-        </View>
         <View style={signupContainers.fieldContainer}>
           <MaterialCommunityIcons name="email" size={24} color="#ccc" />
           <TextInput
@@ -100,23 +88,13 @@ export default function SignupPage({ navigation }) {
             secureTextEntry={true}
           />
         </View>
-        <View style={signupContainers.fieldContainer}>
-          <MaterialCommunityIcons name="key" size={24} color="#ccc" />
-          <TextInput
-            style={signupComponents.componentField}
-            placeholder="Confirmer mot de passe"
-            onChangeText={(userInput) => setConfirmPassword(userInput)}
-            value={confirmPasswordValue}
-            secureTextEntry={true}
-          />
-        </View>
       </View>
       <View style={signupContainers.buttonContainer}>
         <TouchableOpacity
           style={signupComponents.componentButton}
-          onPress={() => SignupAction(navigation, username, email, password)}
+          onPress={() => SigninAction(navigation, email, password)}
         >
-          <Text style={signupTexts.textButton}>Sign Up</Text>
+          <Text style={signupTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
       </View>
       <View style={signupShapes.shapeLeft}>

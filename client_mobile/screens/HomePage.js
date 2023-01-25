@@ -37,7 +37,7 @@ export default function HomePage({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={homeComponents.componentButton}
-          onPress={() => alert("Sign In button!")}
+          onPress={() => navigation.navigate("signinPage")}
         >
           <Text style={homeTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
