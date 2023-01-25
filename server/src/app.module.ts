@@ -2,6 +2,7 @@ import { ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/comm
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { AboutModule } from './about/about.module'
 import { AccountsModule } from './accounts/accounts.module'
 import { AuthModule } from './auth/auth.module'
 import { TokenModule } from './token/token.module'
@@ -34,7 +35,8 @@ import { TokenModule } from './token/token.module'
         }),
         AccountsModule,
         AuthModule,
-        TokenModule
+        TokenModule,
+        AboutModule
     ],
     providers: [
         {
