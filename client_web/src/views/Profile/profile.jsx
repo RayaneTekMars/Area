@@ -12,8 +12,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
-  const [open, setOpen] = React.useState(false);
-
   let services = [
     ["Twitter", "#00acee"],
     ["Youtube", "#c4302b"],
