@@ -6,6 +6,7 @@ import {
   Button,
   CardActionArea,
   Card,
+  TextField,
 } from "@mui/material";
 import { ReactComponent as Logo } from "../../components/logo.svg";
 import { ReactComponent as Text } from "../../components/text3.svg";
@@ -22,7 +23,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: 800,
   height: 510,
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -83,7 +84,7 @@ export default function HomePage() {
                 top: "20%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: 600,
+                width: 800,
                 height: 100,
                 bgcolor: "background.paper",
                 border: "2px solid #000",
@@ -95,6 +96,13 @@ export default function HomePage() {
                 borderRadius: "28px",
               }}
             >
+              <div>
+                <TextField
+                  style={{ width: "80%", height: "10%", marginBottom: "2%" }}
+                  label="Nom"
+                  variant="standard"
+                />
+              </div>
               <div
                 style={{ display: "flex", flexWrap: "wrap", marginTop: "4%" }}
               >
@@ -117,7 +125,7 @@ export default function HomePage() {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: 600,
+                width: 800,
                 height: 100,
                 bgcolor: "background.paper",
                 border: "2px solid #000",
@@ -152,7 +160,7 @@ export default function HomePage() {
                 top: "80%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: 600,
+                width: 800,
                 height: 100,
                 bgcolor: "background.paper",
                 border: "2px solid #000",
@@ -173,11 +181,14 @@ export default function HomePage() {
                       name={items[0]}
                       description={""}
                       color={items[2]}
-                      maxW={200}
-                      maxH={60}
                     />
                   );
                 })}
+                <CardArea
+                  name={"Créer Scénario"}
+                  description={""}
+                  maxHeight={60}
+                />
               </div>
             </Box>
           </Box>
@@ -189,19 +200,21 @@ export default function HomePage() {
           <div style={{ fontFamily: "Solid" }}>
             <Text />
           </div>
-          <Link to="/profile" style={{
-              marginLeft: "80%",
-            }} >
-          <Button
+          <Link
+            to="/profile"
             style={{
-              color: "black",
-              borderRadius: "50px",
-              backgroundColor: "white",
-              width: "20px",
+              marginLeft: "80%",
             }}
-            startIcon={<AccountCircleIcon />}
           >
-          </Button>
+            <Button
+              style={{
+                color: "black",
+                borderRadius: "50px",
+                backgroundColor: "white",
+                width: "20px",
+              }}
+              startIcon={<AccountCircleIcon />}
+            ></Button>
           </Link>
 
           <Grid container justify="flex-end"></Grid>
@@ -213,13 +226,27 @@ export default function HomePage() {
           fontFamily: "Inter",
           color: "white",
           fontSize: "3rem",
-          marginLeft: "25%",
+          width: "20%",
+          margin: "0 auto",
           marginTop: "5%",
+          marginTop: "2%",
         }}
       >
-        Commencez à automatiser vos tâches
+        Bonjour {localStorage.getItem("username")},
       </div>
-      <div></div>
+      <div
+        style={{
+          fontFamily: "Inter",
+          color: "white",
+          fontSize: "3rem",
+          width: "40%",
+          margin: "0 auto",
+          marginTop: "2%",
+        }}
+      >
+        Commencez à automatiser vos
+        tâches
+      </div>
       <div
         style={{
           fontFamily: "Inter",
@@ -247,12 +274,12 @@ export default function HomePage() {
             );
           })}
           <Card
-            sx={{ maxWidth: 140, maxHeight: 100}}
+            sx={{ maxWidth: 140, maxHeight: 100 }}
             style={{ backgroundColor: "white" }}
           >
             <CardActionArea onClick={handleOpenNewScenario}>
               <CardContent>
-                <Typography  component="div">
+                <Typography component="div">
                   Créer un nouveau scénario
                 </Typography>
               </CardContent>
