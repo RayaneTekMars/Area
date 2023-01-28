@@ -41,7 +41,7 @@ async function SignupAction() {
   };
   try {
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/signup",
+      "http://localhost:8080/auth/signup",
       data
     );
     if (response.status === 200) {
@@ -52,6 +52,64 @@ async function SignupAction() {
   } catch (error) {
     alert("Erreur lors de la création de votre compte.");
   }
+}
+
+async function SigninAction() {
+  console.log(document.getElementById("emaillogin").value)
+  console.log(document.getElementById("passwordlogin").value)
+  const data = {
+    email: document.getElementById("emaillogin").value,
+    password: document.getElementById("passwordlogin").value,
+    authTokenName: "",
+  };
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/auth/login",
+      data
+    );
+    if (response.status === 200) {
+    localStorage.setItem("jwt", response.data.data.bearerToken);
+    localStorage.setItem("username", response.data.data.account.username);
+    localStorage.setItem("email", response.data.data.account.email);
+    window.location.href = "/home";
+    } else {
+      alert("Erreur lors de la connexion.");
+    }
+  } catch (error) {
+    alert("Erreur lors de la connexion.");
+  }
+}
+
+
+
+async function SigninGoogle() {
+  const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+  const scopes = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid",
+  ];
+
+  url.searchParams.append("scope", scopes.join(" "));
+  url.searchParams.append("access_type", "offline");
+  url.searchParams.append("response_type", "code");
+  url.searchParams.append(
+    "redirect_uri",
+    "http://localhost:3000/oauth2/google"
+  );
+  url.searchParams.append(
+    "client_id",
+    "372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com"
+  );
+
+  axios
+    .get(url.toString())
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export default function LandingPage() {
@@ -121,6 +179,7 @@ export default function LandingPage() {
               <TextField
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Username or E-mail"
+                id="emaillogin"
                 variant="standard"
               />
             </div>
@@ -129,6 +188,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
+                id="passwordlogin"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Password"
                 variant="standard"
@@ -142,6 +202,7 @@ export default function LandingPage() {
                   borderRadius: "50px",
                   width: "50%",
                 }}
+                onClick={() => SigninAction()}
               >
                 Sign In
               </Button>
@@ -155,6 +216,7 @@ export default function LandingPage() {
                   borderRadius: "50px",
                   width: "50%",
                 }}
+                onClick={() => SigninGoogle()}
               >
                 Sign in with google
               </Button>
@@ -199,7 +261,8 @@ export default function LandingPage() {
               <AccountCircleIcon
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
-              <TextField id="username"
+              <TextField
+                id="username"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Username"
                 variant="standard"
