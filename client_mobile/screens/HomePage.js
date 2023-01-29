@@ -1,5 +1,13 @@
+// HomePage.js - Libraries imports.
+
 import { useFonts } from "expo-font";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+
+// HomePage.js - Ressources import.
+
+import * as Style from "./res/Style";
+
+// HomePage.js - Function.
 
 export default function HomePage({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -13,116 +21,47 @@ export default function HomePage({ navigation }) {
   }
 
   return (
-    <View style={homeContainers.globalContainer}>
-      <View style={homeShapes.shapeRight}>
+    <View style={Style.appContainers.globalContainer}>
+      <View style={Style.appShapes.shapeRight}>
         <Image source={require("../assets/images/amm_shape_right.png")} />
       </View>
-      <View style={homeContainers.logoContainer}>
+
+      <View style={Style.appContainers.logoContainer}>
         <Image
           source={require("../assets/images/amm_logo_full.png")}
-          style={homeComponents.componentLogo}
+          style={Style.appComponents.componentLogo}
         />
       </View>
-      <View style={homeContainers.sloganContainer}>
-        <Text style={homeTexts.textSlogan}>
+
+      <View style={Style.appContainers.sloganContainer}>
+        <Text style={Style.appTexts.textSlogan}>
           Votre nouveau compagnon, au quotidien 🚀
         </Text>
       </View>
-      <View style={homeContainers.buttonContainer}>
+
+      <View style={Style.appButtonContainers.buttonContainer40}>
+        <Text style={Style.appTexts.textBasic15}>
+          New here ? Register now ! ✨
+        </Text>
+
         <TouchableOpacity
-          style={homeComponents.componentButton}
-          onPress={() => navigation.navigate("signupPage")}
+          style={Style.appComponents.componentButton}
+          onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={homeTexts.textButton}>Sign Up</Text>
+          <Text style={Style.appTexts.textButton}>Sign Up</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={homeComponents.componentButton}
-          onPress={() => navigation.navigate("signinPage")}
+          style={Style.appComponents.componentButton}
+          onPress={() => navigation.navigate("SignIn")}
         >
-          <Text style={homeTexts.textButton}>Sign In</Text>
+          <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
       </View>
-      <View style={homeShapes.shapeLeft}>
+
+      <View style={Style.appShapes.shapeLeft}>
         <Image source={require("../assets/images/amm_shape_left.png")} />
       </View>
     </View>
   );
 }
-
-const homeShapes = StyleSheet.create({
-  shapeLeft: {
-    position: "absolute",
-    bottom: "0%",
-    left: "0%",
-    zIndex: -1,
-  },
-  shapeRight: {
-    position: "absolute",
-    top: "0%",
-    right: "0%",
-    zIndex: -1,
-  },
-});
-
-const homeComponents = StyleSheet.create({
-  componentLogo: {
-    width: 275,
-    height: 200,
-    resizeMode: "contain",
-  },
-  componentButton: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 20,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-});
-
-const homeTexts = StyleSheet.create({
-  textSlogan: {
-    color: "#FFFFFF",
-    fontSize: "25rem",
-    textAlign: "center",
-    fontFamily: "Inter-ExtraBold",
-    margin: "5%",
-  },
-  textButton: {
-    color: "#222222",
-    fontSize: "20rem",
-    fontFamily: "Inter-ExtraBold",
-  },
-});
-
-const homeContainers = StyleSheet.create({
-  globalContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#222222",
-    width: "100%",
-    height: "100%",
-  },
-  logoContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "40%",
-  },
-  sloganContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "20%",
-  },
-  buttonContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "40%",
-  },
-});
