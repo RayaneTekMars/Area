@@ -16,6 +16,7 @@ import { Grid } from "@material-ui/core";
 import { ReactComponent as Text } from "../../components/text3.svg";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import axios from "axios";
+import GoogleButton from "../../components/googleButton.jsx";
 
 const style = {
   position: "absolute",
@@ -78,38 +79,6 @@ async function SigninAction() {
   } catch (error) {
     alert("Erreur lors de la connexion.");
   }
-}
-
-
-
-async function SigninGoogle() {
-  const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-  const scopes = [
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "openid",
-  ];
-
-  url.searchParams.append("scope", scopes.join(" "));
-  url.searchParams.append("access_type", "offline");
-  url.searchParams.append("response_type", "code");
-  url.searchParams.append(
-    "redirect_uri",
-    "http://localhost:3000/oauth2/google"
-  );
-  url.searchParams.append(
-    "client_id",
-    "372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com"
-  );
-
-  axios
-    .get(url.toString())
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 }
 
 export default function LandingPage() {
@@ -210,17 +179,7 @@ export default function LandingPage() {
             </div>
             <div style={{ marginTop: "2%", marginLeft: "25%" }}>or</div>
             <div style={{ marginTop: "2%" }}>
-              <Button
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  borderRadius: "50px",
-                  width: "50%",
-                }}
-                onClick={() => SigninGoogle()}
-              >
-                Sign in with google
-              </Button>
+              <GoogleButton />
             </div>
             <div style={{ marginTop: "1%" }}>
               <Button

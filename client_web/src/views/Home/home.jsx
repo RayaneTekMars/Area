@@ -215,8 +215,7 @@ export default function HomePage() {
           fontSize: "3rem",
           width: "20%",
           margin: "0 auto",
-          marginTop: "5%",
-          marginTop: "2%",
+          marginTop: "7%",
         }}
       >
         Bonjour {localStorage.getItem("username")},
