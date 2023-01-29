@@ -17,28 +17,46 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Fond1 from "../../assets/fond1.png";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: 600,
   height: 510,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  backgroundColor: "white",
   borderRadius: "28px",
-  display: "flex",
-  flexWrap: "wrap",
-  backgroundColor: "#222222",
 };
 
 export default function HomePage() {
   const [open, setOpen] = React.useState(false);
   const handleOpenNewScenario = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [scenario, setScenario] = React.useState("");
+  const [action, setAction] = React.useState("");
+  const [reaction, setReaction] = React.useState("");
+
+  const handleChangeScenario = (event: SelectChangeEvent) => {
+    setScenario(event.target.value);
+  };
+
+  const handleChangeAction = (event: SelectChangeEvent) => {
+    setAction(event.target.value);
+  };
+
+  const handleChangeReaction = (event: SelectChangeEvent) => {
+    setReaction(event.target.value);
+  };
   let areas = [
     ["Area 1", "Description Area 1", "#EBBF16"],
     ["Area 2", "Description Area 2", "#EB1815"],
@@ -59,7 +77,7 @@ export default function HomePage() {
     ["Action 3", "Description Action 3", "#15EBAF"],
   ];
 
-  let reaction = [
+  let reactions = [
     ["Reaction 1", "Description Reaction 1", "#EBBF16"],
     ["Reaction 2", "Description Reaction 2", "#EB1815"],
     ["Reaction 3", "Description Reaction 3", "#15EBAF"],
@@ -78,119 +96,88 @@ export default function HomePage() {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Box
-              sx={{
+            <img
+              src={Fond1}
+              style={{
                 position: "absolute",
-                top: "20%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 800,
-                height: 100,
-                bgcolor: "background.paper",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-                backgroundColor: "white",
-                display: "flex",
-                flexWrap: "wrap",
-                borderRadius: "28px",
-              }}
-            >
-              <div>
-                <TextField
-                  style={{ width: "80%", height: "10%", marginBottom: "2%" }}
-                  label="Nom"
-                  variant="standard"
-                />
-              </div>
-              <div
-                style={{ display: "flex", flexWrap: "wrap", marginTop: "4%" }}
-              >
-                {services.map((items, index) => {
-                  return (
-                    <CardArea
-                      name={items[0]}
-                      description={""}
-                      color={items[1]}
-                      maxW={200}
-                      maxH={60}
-                    />
-                  );
-                })}
-              </div>
-            </Box>
-            <Box
-              sx={{
-                position: "absolute",
+                right: "0px",
                 top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 800,
-                height: 100,
-                bgcolor: "background.paper",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-                backgroundColor: "white",
-                display: "flex",
-                flexWrap: "wrap",
-                borderRadius: "28px",
+                transform: "translateY(-50%)",
               }}
-            >
-              <div
-                style={{ display: "flex", flexWrap: "wrap", marginTop: "4%" }}
-              >
-                {actions.map((items, index) => {
-                  return (
-                    <CardArea
-                      name={items[0]}
-                      description={""}
-                      color={items[2]}
-                      maxW={200}
-                      maxH={60}
-                    />
-                  );
-                })}
-              </div>
-            </Box>
+              alt="fond"
+            />
+            <div style={{ marginLeft: "10%", marginTop: "3%", fontFamily: "Inter", fontSize: "150%" }}>
+              Nouveau Scénario
+            </div>
+            <div style={{ marginTop: "2%" }}>
+              <TextField
+                id="scenarioname"
+                style={{ width: "30%", marginLeft: "2%" }}
+                label="Nom"
+                variant="standard"
+              />
+            </div>
+            <div style={{ marginTop: "2%" }}>
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                  <InputLabel id="demo-select-small">Service</InputLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={scenario}
+                    label="Scenario"
+                    onChange={handleChangeScenario}
+                  >
+                    {services.map((items, index) => {
+                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+            </div>
+            <div style={{ marginTop: "2%" }}>
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                  <InputLabel id="demo-select-small">Actions</InputLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={action}
+                    label="Actions"
+                    onChange={handleChangeAction}
+                  >
+                    {actions.map((items, index) => {
+                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+            </div>
+            <div style={{ marginTop: "2%" }}>
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                  <InputLabel id="demo-select-small">Reactions</InputLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={reaction}
+                    label="Reaction"
+                    onChange={handleChangeReaction}
+                  >
+                    {reactions.map((items, index) => {
+                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+            </div>
+            <div style={{ marginTop: "10%" }}>
+              <Button
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  borderRadius: "50px",
+                  width: "50%",
+                }}
 
-            <Box
-              sx={{
-                position: "absolute",
-                top: "80%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 800,
-                height: 100,
-                bgcolor: "background.paper",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-                backgroundColor: "white",
-                display: "flex",
-                flexWrap: "wrap",
-                borderRadius: "28px",
-              }}
-            >
-              <div
-                style={{ display: "flex", flexWrap: "wrap", marginTop: "4%" }}
               >
-                {reaction.map((items, index) => {
-                  return (
-                    <CardArea
-                      name={items[0]}
-                      description={""}
-                      color={items[2]}
-                    />
-                  );
-                })}
-                <CardArea
-                  name={"Créer Scénario"}
-                  description={""}
-                  maxHeight={60}
-                />
-              </div>
-            </Box>
+                Créer votre scénario
+              </Button>
+            </div>
           </Box>
         </Modal>
       </div>
@@ -244,8 +231,7 @@ export default function HomePage() {
           marginTop: "2%",
         }}
       >
-        Commencez à automatiser vos
-        tâches
+        Commencez à automatiser vos tâches
       </div>
       <div
         style={{
