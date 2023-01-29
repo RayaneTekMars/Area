@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 function GooglePage() {
   const location = useLocation();
   const [code, setCode] = useState("");
-  const [response, setResponse] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -12,31 +11,29 @@ function GooglePage() {
 
     if (!queryCode) return;
 
-    setCode(queryCode);
+    setCode(queryCode.toString());
 
-    console.log(queryCode);
+    const headers = new Headers();
+    headers.append("Accept", "application/json");
+    headers.append("Content-Type", "application/json");
 
-    // const headers = new Headers();
-    // headers.append("Accept", "application/json");
-    // headers.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        code: queryCode,
+        authTokenName: "google"
+      }),
+    };
 
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers,
-    //   body: JSON.stringify({
-    //     code: queryCode,
-    //     authTokenName: "google"
-    //   }),
-    // };
-
-    // fetch("http://localhost:8080/auth/login/google/code", requestOptions)
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     localStorage.setItem("jwt", res.data.data.bearerToken);
-    //     console.log(res.data);
-    //     window.location.href = "/home";
-    //   });
-  }, [location]);
+    fetch("http://localhost:8080/auth/login/google/code", requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("jwt", res.data.bearerToken);
+        window.location.href = "/home";
+      });
+  }, [location.search]);
 
   return (
       <head>
