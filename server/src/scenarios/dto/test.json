@@ -1,0 +1,19 @@
+{
+  "name": "NewPostForNewFollower",
+  "trigger": {
+    "name": "New Follower",
+    "serviceName": "Twitter",
+    "params": []
+  },
+  "reaction": {
+    "name": "Post Tweet",
+    "serviceName": "Twitter",
+    "params": [
+      {
+        "name": "Tweet",
+        "value": "Hello World",
+        "required": true
+      }
+    ]
+  }
+}
