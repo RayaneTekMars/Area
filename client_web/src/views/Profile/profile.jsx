@@ -113,7 +113,7 @@ export default function HomePage() {
         }}
         onClick={disconnect}
       >
-        Déconnection
+        Déconnexion
       </Button>
     </div>
   );

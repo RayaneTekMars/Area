@@ -188,6 +188,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
+              type={"password"}
                 id="passwordlogin"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Password"
@@ -284,6 +285,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
+              type={"password"}
                 id="password"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Password"
@@ -295,6 +297,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
+              type={"password"}
                 id="confirmPassword"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Confirm Password"
