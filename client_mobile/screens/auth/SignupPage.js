@@ -1,6 +1,5 @@
 // SignupPage.js - Libraries imports.
 
-import axios from "axios";
 import { useState } from "react";
 import { useFonts } from "expo-font";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -8,38 +7,10 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 // SignupPage.js - Ressources imports.
 
+import * as Query from "../res/Query";
 import * as Style from "../res/Style";
 
 // SignupPage.js - Function.
-
-async function SignupAction(navigation, username, email, password) {
-  try {
-    const data = {
-      email: email,
-      username: username,
-      password: password,
-      authTokenName: "",
-    };
-
-    const response = await axios.post(
-      "http://10.20.85.249:8080/auth/signup",
-      data
-    );
-
-    if (response.status === 200) {
-      // à rediriger vers le dashboard
-      navigation.navigate("homePage");
-      alert("Félicitations, votre compte a été créé ! 🎉");
-    } else {
-      // mettre en rouge les champs qui posent problème
-      navigation.navigate("homePage");
-      alert("Erreur lors de la création de votre compte.");
-    }
-  } catch (error) {
-    navigation.navigate("homePage");
-    alert("Erreur lors de la création de votre compte.");
-  }
-}
 
 export default function SignupPage({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -121,7 +92,9 @@ export default function SignupPage({ navigation }) {
       <View style={Style.appButtonContainers.buttonContainer30}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => SignupAction(navigation, username, email, password)}
+          onPress={() =>
+            Query.SignupAction(navigation, username, email, password)
+          }
         >
           <Text style={Style.appTexts.textButton}>Sign Up</Text>
         </TouchableOpacity>
