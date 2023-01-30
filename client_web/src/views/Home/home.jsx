@@ -22,6 +22,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Fond1 from "../../assets/fond1.png";
+import '../../styles/style.css';
 
 const style = {
   position: "absolute",
@@ -117,15 +118,11 @@ export default function HomePage() {
   ];
 
   let actions = [
-    ["Action 1", "Description Action 1", "#EBBF16"],
-    ["Action 2", "Description Action 2", "#EB1815"],
-    ["Action 3", "Description Action 3", "#15EBAF"],
+    ["Nouveau follower"],
   ];
 
   let reactions = [
-    ["Reaction 1", "Description Reaction 1", "#EBBF16"],
-    ["Reaction 2", "Description Reaction 2", "#EB1815"],
-    ["Reaction 3", "Description Reaction 3", "#15EBAF"],
+    ["Tweet"],
   ];
 
   useEffect(() => {
@@ -217,6 +214,14 @@ export default function HomePage() {
                 </Select>
               </FormControl>
             </div>
+            <div style={{}}>
+              <TextField
+                id="scenariotext"
+                style={{ width: "30%", marginLeft: "2%" }}
+                label="Texte"
+                variant="standard"
+              />
+            </div>
             <div style={{ marginTop: "10%" }}>
               <Button
                 style={{
@@ -262,35 +267,23 @@ export default function HomePage() {
 
       <div
         style={{
-          fontFamily: "Inter",
+          fontFamily: "Inter-Black",
           color: "white",
-          fontSize: "3rem",
-          width: "20%",
+          fontSize: "2rem",
+          width: "15%",
           margin: "0 auto",
           marginTop: "5%",
         }}
       >
-        Bonjour {username} !
+        Bonjour {username}
       </div>
       <div
         style={{
-          fontFamily: "Inter",
-          color: "white",
-          fontSize: "3rem",
-          width: "40%",
-          margin: "0 auto",
-          marginTop: "2%",
-        }}
-      >
-        Commencez à automatiser vos tâches
-      </div>
-      <div
-        style={{
-          fontFamily: "Inter",
+          fontFamily: "Inter-ExtraBold",
           color: "white",
           fontSize: "2rem",
           marginLeft: "42%",
-          marginTop: "2%",
+          marginTop: "8%",
         }}
       >
         Vos scénarios
@@ -314,7 +307,7 @@ export default function HomePage() {
           >
             <CardActionArea onClick={handleOpenNewScenario}>
               <CardContent>
-                <Typography component="div">
+                <Typography component="div" style={{fontFamily: 'Inter-ExtraBold'}}>
                   Créer un nouveau scénario
                 </Typography>
               </CardContent>
