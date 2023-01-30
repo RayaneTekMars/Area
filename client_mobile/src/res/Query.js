@@ -59,3 +59,51 @@ export async function SignupQuery(navigation, username, email, password) {
 }
 
 export async function SigninGoogleQuery() {}
+
+export async function AddScenarioQuery() {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const data = {
+      name: "NewPostForNewFollower",
+      trigger: {
+        name: "NewFollower",
+        serviceName: "Twitter",
+        params: [],
+      },
+      reaction: {
+        name: "PostTweet",
+        serviceName: "Twitter",
+        params: [
+          {
+            name: "text",
+            value: "Hello World",
+            required: true,
+          },
+        ],
+      },
+    };
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.post(
+      "http://10.20.85.249:8080/scenarios/create",
+      data,
+      config
+    );
+
+    if (response.status === 200) {
+      alert("Congratulations, scenario created.");
+    } else {
+      alert("Error while creating your scenario.");
+    }
+  } catch (error) {
+    alert("Error while creating your scenario.");
+  }
+}

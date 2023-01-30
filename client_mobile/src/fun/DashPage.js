@@ -1,17 +1,20 @@
 // DashPage.js - Libraries imports.
 
-import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
+import React, { useState, useEffect } from "react";
+import SelectDropdown from "react-native-select-dropdown";
 import {
   Text,
   View,
   Image,
   TouchableOpacity,
+  TextInput,
   AsyncStorage,
 } from "react-native";
 
 // DashPage.js - Ressources import.
 
+import * as Query from "../res/Query";
 import * as Style from "../res/Style";
 
 // DashPage.js - Function.
@@ -23,7 +26,12 @@ export default function DashPage({ navigation }) {
     "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
   });
 
+  const services = ["Twitter"];
+  const triggers = ["NewFollower"];
+  const reactions = ["PostTweet"];
+
   const [name, setName] = useState("");
+  const [scenario, setScenario] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +60,86 @@ export default function DashPage({ navigation }) {
         <Text style={Style.appTexts.textSubTitle}>Nice to see you again</Text>
       </View>
 
-      <View style={Style.appContainers.cardContainer}></View>
+      <View style={Style.appContainers.cardContainer}>
+        <TextInput
+          style={Style.appComponents.componentField}
+          placeholder="Scenario name"
+          onChangeText={(userInput) => setScenario(userInput)}
+          value={scenario}
+        />
+
+        <SelectDropdown
+          data={services}
+          defaultButtonText={"First service"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={triggers}
+          defaultButtonText={"Trigger"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={services}
+          defaultButtonText={"Second service"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={reactions}
+          defaultButtonText={"Reaction"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        {/* TODO: Changer la taille du container car bouton presque pas clickable. */}
+        <TouchableOpacity
+          style={Style.appComponents.componentButton}
+          onPress={() => Query.AddScenarioQuery()}
+        >
+          <Text style={Style.appTexts.textButton}>Add scenario</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={Style.appButtonContainers.buttonContainer35}>
         <Text style={Style.appTexts.textBasic15}>
