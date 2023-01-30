@@ -100,7 +100,7 @@ export default function LandingPage() {
           <div style={{ fontFamily: "Solid" }}>
             <Text />
           </div>
-          <Grid container justify="flex-end">
+          <Grid container justifyContent="flex-end">
             <Button
               style={{ color: "white", borderRadius: "50px" }}
               onClick={handleOpenSignin}

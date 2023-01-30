@@ -17,7 +17,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -45,16 +45,32 @@ export default function HomePage() {
   const [scenario, setScenario] = React.useState("");
   const [action, setAction] = React.useState("");
   const [reaction, setReaction] = React.useState("");
+  const [username, setUsername] = React.useState("");
 
-  const handleChangeScenario = (event: SelectChangeEvent) => {
+  useEffect(() => {
+    // call /me to get user info
+    fetch("http://localhost:8080/me", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.data.username);
+      });
+  }, []);
+
+  const handleChangeScenario = (event) => {
     setScenario(event.target.value);
   };
 
-  const handleChangeAction = (event: SelectChangeEvent) => {
+  const handleChangeAction = (event) => {
     setAction(event.target.value);
   };
 
-  const handleChangeReaction = (event: SelectChangeEvent) => {
+  const handleChangeReaction = (event) => {
     setReaction(event.target.value);
   };
   let areas = [
@@ -106,7 +122,14 @@ export default function HomePage() {
               }}
               alt="fond"
             />
-            <div style={{ marginLeft: "10%", marginTop: "3%", fontFamily: "Inter", fontSize: "150%" }}>
+            <div
+              style={{
+                marginLeft: "10%",
+                marginTop: "3%",
+                fontFamily: "Inter",
+                fontSize: "150%",
+              }}
+            >
               Nouveau Scénario
             </div>
             <div style={{ marginTop: "2%" }}>
@@ -118,52 +141,52 @@ export default function HomePage() {
               />
             </div>
             <div style={{ marginTop: "2%" }}>
-            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
-                  <InputLabel id="demo-select-small">Service</InputLabel>
-                  <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    value={scenario}
-                    label="Scenario"
-                    onChange={handleChangeScenario}
-                  >
-                    {services.map((items, index) => {
-                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                <InputLabel id="demo-select-small">Service</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={scenario}
+                  label="Scenario"
+                  onChange={handleChangeScenario}
+                >
+                  {services.map((items, index) => {
+                    return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
             </div>
             <div style={{ marginTop: "2%" }}>
-            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
-                  <InputLabel id="demo-select-small">Actions</InputLabel>
-                  <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    value={action}
-                    label="Actions"
-                    onChange={handleChangeAction}
-                  >
-                    {actions.map((items, index) => {
-                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                <InputLabel id="demo-select-small">Actions</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={action}
+                  label="Actions"
+                  onChange={handleChangeAction}
+                >
+                  {actions.map((items, index) => {
+                    return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
             </div>
             <div style={{ marginTop: "2%" }}>
-            <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
-                  <InputLabel id="demo-select-small">Reactions</InputLabel>
-                  <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    value={reaction}
-                    label="Reaction"
-                    onChange={handleChangeReaction}
-                  >
-                    {reactions.map((items, index) => {
-                      return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 180 }} size="large">
+                <InputLabel id="demo-select-small">Reactions</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={reaction}
+                  label="Reaction"
+                  onChange={handleChangeReaction}
+                >
+                  {reactions.map((items, index) => {
+                    return <MenuItem value={items[0]}>{items[0]}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
             </div>
             <div style={{ marginTop: "10%" }}>
               <Button
@@ -173,7 +196,6 @@ export default function HomePage() {
                   borderRadius: "50px",
                   width: "50%",
                 }}
-
               >
                 Créer votre scénario
               </Button>
@@ -204,7 +226,7 @@ export default function HomePage() {
             ></Button>
           </Link>
 
-          <Grid container justify="flex-end"></Grid>
+          <Grid container justifyContent="flex-end"></Grid>
         </Toolbar>
       </AppBar>
 
@@ -215,10 +237,10 @@ export default function HomePage() {
           fontSize: "3rem",
           width: "20%",
           margin: "0 auto",
-          marginTop: "7%",
+          marginTop: "5%",
         }}
       >
-        Bonjour {localStorage.getItem("username")},
+        Bonjour {username} !
       </div>
       <div
         style={{

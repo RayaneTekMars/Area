@@ -17,7 +17,7 @@ const GoogleButton = () => {
     url.searchParams.append('client_id', '372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com')
 
     return (
-        <a href={url.href} passHref >
+        <a href={url.href} >
             <button className={styles.button} >
 
                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">

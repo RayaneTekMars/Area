@@ -14,6 +14,23 @@ function disconnect() {
 }
 
 export default function HomePage() {
+  const [username, setUsername] = React.useState("");
+
+  useEffect(() => {
+    // call /me to get user info
+    fetch("http://localhost:8080/me", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.data.username);
+      });
+  }, []);
+
   let services = [
     ["Twitter", "#00acee"],
   ];
@@ -47,7 +64,7 @@ export default function HomePage() {
             ></Button>
           </Link>
 
-          <Grid container justify="flex-end"></Grid>
+          <Grid container justifyContent="flex-end"></Grid>
         </Toolbar>
       </AppBar>
 
@@ -72,7 +89,7 @@ export default function HomePage() {
           margin: "0 auto",
         }}
       >
-        {localStorage.getItem("username")}
+        {username}
       </div>
       <div></div>
       <div

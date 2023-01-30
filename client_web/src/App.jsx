@@ -4,7 +4,7 @@ import LandingPage from "./views/Landing";
 import SigninPage from "./views/Signin";
 import HomePage from "./views/Home";
 import ProfilePage from "./views/Profile";
-import OauthGoogle from "./views/oauth";
+import OauthGoogle from "./views/Oauth";
 import * as ROUTES from './constants/routes';
 
 const App = () => (
