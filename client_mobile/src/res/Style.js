@@ -82,6 +82,10 @@ export const appTexts = StyleSheet.create({
     fontSize: "15rem",
     paddingLeft: "5%",
   },
+  textDropdown: {
+    color: "#222222",
+    fontSize: "20rem",
+  },
 });
 
 export const appComponents = StyleSheet.create({
@@ -111,6 +115,15 @@ export const appComponents = StyleSheet.create({
     borderRadius: 30,
     overflow: "hidden",
     resizeMode: "contain",
+  },
+  componentDropdown: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 5,
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    width: "60%",
   },
 });
 

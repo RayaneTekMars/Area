@@ -2,6 +2,7 @@
 
 import { useFonts } from "expo-font";
 import React, { useState, useEffect } from "react";
+import SelectDropdown from "react-native-select-dropdown";
 import {
   Text,
   View,
@@ -67,6 +68,71 @@ export default function DashPage({ navigation }) {
           value={scenario}
         />
 
+        <SelectDropdown
+          data={services}
+          defaultButtonText={"First service"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={triggers}
+          defaultButtonText={"Trigger"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={services}
+          defaultButtonText={"Second service"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        <SelectDropdown
+          data={reactions}
+          defaultButtonText={"Reaction"}
+          buttonStyle={Style.appComponents.componentDropdown}
+          buttonTextStyle={Style.appTexts.textDropdown}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item) => {
+            return item;
+          }}
+        />
+
+        {/* TODO: Changer la taille du container car bouton presque pas clickable. */}
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={() => Query.AddScenarioQuery()}
