@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -46,6 +46,7 @@ export default function HomePage() {
   const [action, setAction] = React.useState("");
   const [reaction, setReaction] = React.useState("");
   const [username, setUsername] = React.useState("");
+  const [areas, setAreas] = useState([]);
 
   useEffect(() => {
     // call /me to get user info
@@ -62,6 +63,22 @@ export default function HomePage() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8080/scenarios", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data");
+        let areas = data.data.map(item => [item.account, item.id, item.name]);
+        setAreas(areas);
+      });
+  }, []);
+
   const handleChangeScenario = (event) => {
     setScenario(event.target.value);
   };
@@ -73,15 +90,6 @@ export default function HomePage() {
   const handleChangeReaction = (event) => {
     setReaction(event.target.value);
   };
-  let areas = [
-    ["Area 1", "Description Area 1", "#EBBF16"],
-    ["Area 2", "Description Area 2", "#EB1815"],
-    ["Area 3", "Description Area 3", "#15EBAF"],
-    ["Area 3", "Description Area 3", "#15EBAF"],
-    ["Area 3", "Description Area 3", "#15EBAF"],
-    ["Area 3", "Description Area 3", "#15EBAF"],
-    ["Area 4", "Description Area 4", "#ED28BD"],
-  ];
   let services = [
     ["Twitter", "#00acee"],
     ["Youtube", "#c4302b"],
@@ -270,9 +278,7 @@ export default function HomePage() {
           {areas.map((items, index) => {
             return (
               <CardArea
-                name={items[0]}
-                description={items[1]}
-                color={items[2]}
+                name={items[2]}
                 maxW={200}
                 minW={200}
                 maxH={200}
