@@ -34,7 +34,6 @@ export default function DashPage({ navigation }) {
         console.log(error);
       }
     };
-
     fetchData();
   }, []);
 
