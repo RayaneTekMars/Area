@@ -33,7 +33,7 @@ function GooglePage() {
         localStorage.setItem("jwt", res.data.bearerToken);
         window.location.href = "/home";
       });
-  }, [location.search]);
+  },);
 
   return (
       <head>
