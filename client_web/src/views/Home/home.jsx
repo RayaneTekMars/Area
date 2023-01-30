@@ -38,6 +38,27 @@ const style = {
   borderRadius: "28px",
 };
 
+async function CreateScenario() {
+  const data = {
+    name: document.getElementById("scenarioname").value,
+    trigger: {},
+    reaction: {}
+  };
+  fetch("http://localhost:8080/scenarios/create", {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: JSON.stringify(data)
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      window.location.reload();
+    });
+}
+
 export default function HomePage() {
   const [open, setOpen] = React.useState(false);
   const handleOpenNewScenario = () => setOpen(true);
@@ -153,7 +174,7 @@ export default function HomePage() {
                 <InputLabel id="demo-select-small">Service</InputLabel>
                 <Select
                   labelId="demo-select-small"
-                  id="demo-select-small"
+                  id="scenarioservice"
                   value={scenario}
                   label="Scenario"
                   onChange={handleChangeScenario}
@@ -169,7 +190,7 @@ export default function HomePage() {
                 <InputLabel id="demo-select-small">Actions</InputLabel>
                 <Select
                   labelId="demo-select-small"
-                  id="demo-select-small"
+                  id="scenarioaction"
                   value={action}
                   label="Actions"
                   onChange={handleChangeAction}
@@ -185,7 +206,7 @@ export default function HomePage() {
                 <InputLabel id="demo-select-small">Reactions</InputLabel>
                 <Select
                   labelId="demo-select-small"
-                  id="demo-select-small"
+                  id="scenarioreaction"
                   value={reaction}
                   label="Reaction"
                   onChange={handleChangeReaction}
@@ -204,6 +225,7 @@ export default function HomePage() {
                   borderRadius: "50px",
                   width: "50%",
                 }}
+                onClick={() => CreateScenario()}
               >
                 Créer votre scénario
               </Button>
