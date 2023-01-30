@@ -24,9 +24,9 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Home" component={HomePage} />
+        {/* <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="SignUp" component={SignupPage} />
-        <Stack.Screen name="SignIn" component={SigninPage} />
+        <Stack.Screen name="SignIn" component={SigninPage} /> */}
         <Stack.Screen name="Dash" component={DashPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
       </Stack.Navigator>

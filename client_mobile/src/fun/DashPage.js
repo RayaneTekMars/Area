@@ -1,17 +1,19 @@
 // DashPage.js - Libraries imports.
 
-import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
   Image,
   TouchableOpacity,
+  TextInput,
   AsyncStorage,
 } from "react-native";
 
 // DashPage.js - Ressources import.
 
+import * as Query from "../res/Query";
 import * as Style from "../res/Style";
 
 // DashPage.js - Function.
@@ -23,7 +25,12 @@ export default function DashPage({ navigation }) {
     "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
   });
 
+  const services = ["Twitter"];
+  const triggers = ["NewFollower"];
+  const reactions = ["PostTweet"];
+
   const [name, setName] = useState("");
+  const [scenario, setScenario] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +59,21 @@ export default function DashPage({ navigation }) {
         <Text style={Style.appTexts.textSubTitle}>Nice to see you again</Text>
       </View>
 
-      <View style={Style.appContainers.cardContainer}></View>
+      <View style={Style.appContainers.cardContainer}>
+        <TextInput
+          style={Style.appComponents.componentField}
+          placeholder="Scenario name"
+          onChangeText={(userInput) => setScenario(userInput)}
+          value={scenario}
+        />
+
+        <TouchableOpacity
+          style={Style.appComponents.componentButton}
+          onPress={() => Query.AddScenarioQuery()}
+        >
+          <Text style={Style.appTexts.textButton}>Add scenario</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={Style.appButtonContainers.buttonContainer35}>
         <Text style={Style.appTexts.textBasic15}>
