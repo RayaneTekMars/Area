@@ -6,6 +6,7 @@ import { AboutModule } from './about/about.module'
 import { AccountsModule } from './accounts/accounts.module'
 import { AuthModule } from './auth/auth.module'
 import { TokenModule } from './token/token.module'
+import { ScenariosModule } from './scenarios/scenarios.module'
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { TokenModule } from './token/token.module'
         AccountsModule,
         AuthModule,
         TokenModule,
-        AboutModule
+        AboutModule,
+        ScenariosModule
     ],
     providers: [
         {
