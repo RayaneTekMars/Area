@@ -35,7 +35,7 @@ export default function HomePage({ navigation }) {
 
       <View style={Style.appContainers.sloganContainer}>
         <Text style={Style.appTexts.textSlogan}>
-          Votre nouveau compagnon, au quotidien 🚀
+          Your new best companion, every day 🚀
         </Text>
       </View>
 
