@@ -68,7 +68,7 @@ export default function SigninPage({ navigation }) {
       <View style={Style.appButtonContainers.buttonContainer40}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => SigninQuery(navigation, email, password)}
+          onPress={() => Query.SigninQuery(navigation, email, password)}
         >
           <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>

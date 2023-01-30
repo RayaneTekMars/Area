@@ -10,6 +10,7 @@ import HomePage from "./src/HomePage";
 import DashPage from "./src/fun/DashPage";
 import SignupPage from "./src/auth/SignupPage";
 import SigninPage from "./src/auth/SigninPage";
+import ProfilePage from "./src/user/ProfilePage";
 
 // App.js - Function.
 
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignupPage} />
         <Stack.Screen name="SignIn" component={SigninPage} />
         <Stack.Screen name="Dash" component={DashPage} />
+        <Stack.Screen name="Profile" component={ProfilePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
