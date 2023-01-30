@@ -3,7 +3,7 @@ import {
     Column,
     Entity,
     JoinColumn,
-    OneToOne,
+    ManyToOne,
     PrimaryColumn
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
@@ -19,7 +19,7 @@ export class Scenario {
     @Column()
     name: string
 
-    @OneToOne(() => Account)
+    @ManyToOne(() => Account)
     @JoinColumn()
     account: Account
 
