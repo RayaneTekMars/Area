@@ -1,8 +1,8 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, CardMedia } from "@mui/material";
+import TwitterLogo from "../assets/logo_twitter.jpeg";
 
 export default function CardAreaConnect(props) {
   return (
@@ -14,12 +14,14 @@ export default function CardAreaConnect(props) {
     >
       <CardActionArea>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {props.name}
-          </Typography>
-          <Typography variant="body4" color="text.secondary">
-            {props.description}
-          </Typography>
+        <CardMedia
+        component="img"
+        height="194"
+        maxWidth="20"
+        maxHeight="20"
+        image={TwitterLogo}
+        alt="logo"
+      />
         </CardContent>
       </CardActionArea>
       <CardActions>

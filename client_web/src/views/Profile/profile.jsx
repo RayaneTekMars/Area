@@ -33,7 +33,6 @@ export default function HomePage() {
 
   let services = [
     ["Twitter", "#00acee"],
-    ["Youtube", "#c4302b"],
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#222222";
