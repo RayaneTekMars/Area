@@ -54,3 +54,5 @@ export async function SignupQuery(navigation, username, email, password) {
     alert("Error while creating your account.");
   }
 }
+
+export async function SigninGoogleQuery(navigation) {}

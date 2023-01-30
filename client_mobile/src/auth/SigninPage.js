@@ -68,7 +68,7 @@ export default function SigninPage({ navigation }) {
       <View style={Style.appButtonContainers.buttonContainer40}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => SigninAction(navigation, email, password)}
+          onPress={() => SigninQuery(navigation, email, password)}
         >
           <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
@@ -77,7 +77,7 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.SigninQuery(navigation, email, password)}
+          onPress={() => Query.SigninGoogleQuery(navigation)}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
