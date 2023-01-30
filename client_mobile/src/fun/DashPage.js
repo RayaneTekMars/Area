@@ -1,7 +1,14 @@
 // DashPage.js - Libraries imports.
 
+import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 
 // DashPage.js - Ressources import.
 
@@ -16,6 +23,21 @@ export default function DashPage({ navigation }) {
     "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
   });
 
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const name = await AsyncStorage.getItem("name");
+        setName(name);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   if (!fontsLoaded) {
     return null;
   }
@@ -27,7 +49,7 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appContainers.titleContainer}>
-        <Text style={Style.appTexts.textTitle}>Hello Neex 💫</Text>
+        <Text style={Style.appTexts.textTitle}>Hello {name} 💫</Text>
         <Text style={Style.appTexts.textSubTitle}>Nice to see you again</Text>
       </View>
 

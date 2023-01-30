@@ -1,7 +1,13 @@
 // ProfilePage.js - Libraries imports.
 
 import { useFonts } from "expo-font";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 
 // ProfilePage.js - Ressources import.
 
@@ -9,12 +15,20 @@ import * as Style from "../res/Style";
 
 // ProfilePage.js - Function.
 
-export default function ProfilePage() {
+export default function ProfilePage({ navigation }) {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
     "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
     "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
   });
+
+  const resetData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!fontsLoaded) {
     return null;
@@ -43,7 +57,11 @@ export default function ProfilePage() {
       <View style={Style.appButtonContainers.buttonContainer35}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => alert("Disconnect button !")}
+          onPress={async () => {
+            await resetData("name", "");
+            await resetData("token", "");
+            navigation.navigate("Home");
+          }}
         >
           <Text style={Style.appTexts.textButton}>Disconnect</Text>
         </TouchableOpacity>

@@ -77,7 +77,7 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.SigninGoogleQuery(navigation)}
+          onPress={() => Query.SigninGoogleQuery()}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
