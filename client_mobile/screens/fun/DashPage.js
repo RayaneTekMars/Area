@@ -1,7 +1,7 @@
 // DashPage.js - Libraries imports.
 
 import { useFonts } from "expo-font";
-import { View, Image } from "react-native";
+import { Text, View, Image } from "react-native";
 
 // DashPage.js - Ressources import.
 
@@ -25,6 +25,14 @@ export default function DashPage() {
       <View style={Style.appShapes.shapeRight}>
         <Image source={require("../../assets/images/amm_shape_right.png")} />
       </View>
+
+      <View style={Style.appContainers.titleContainer}>
+        <Text style={Style.appTexts.textHello}>Hello Neex 💫</Text>
+        <Text style={Style.appTexts.textWelcome}>Nice to see you again</Text>
+      </View>
+
+      <View style={Style.appContainers.cardContainer}></View>
+      <View style={Style.appContainers.cardContainer}></View>
 
       <View style={Style.appShapes.shapeLeft}>
         <Image source={require("../../assets/images/amm_shape_left.png")} />

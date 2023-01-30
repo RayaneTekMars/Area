@@ -32,6 +32,20 @@ export const appContainers = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  titleContainer: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    width: "100%",
+    height: "30%",
+  },
+  cardContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "35%",
+  }
 });
 
 export const appTexts = StyleSheet.create({
@@ -56,6 +70,17 @@ export const appTexts = StyleSheet.create({
     color: "#222222",
     fontSize: "20rem",
     fontFamily: "Inter-Bold",
+  },
+  textHello: {
+    color: "#FFFFFF",
+    fontSize: "30rem",
+    fontFamily: "Inter-Bold",
+    paddingLeft: "5%",
+  },
+  textWelcome: {
+    color: "#FFFFFF",
+    fontSize: "15rem",
+    paddingLeft: "5%",
   },
 });
 
