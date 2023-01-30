@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Query.js - Functions.
 
-export async function SigninAction(navigation, email, password) {
+export async function SigninQuery(navigation, email, password) {
   try {
     const data = {
       email: email,
@@ -18,21 +18,18 @@ export async function SigninAction(navigation, email, password) {
     );
 
     if (response.status === 200) {
-      navigation.navigate("homePage");
-      // à rediriger vers le dashboard
-      alert("Bienvenue sur votre compte !");
+      navigation.navigate("Dash");
+      alert("Welcome to your account !");
     } else {
-      // mettre en rouge les champs qui posent problème
-      navigation.navigate("homePage");
-      alert("Erreur lors de la connexion à votre compte.");
+      // TODO: Mettre en rouge les champs qui posent problème.
+      alert("Error while connecting to your account.");
     }
   } catch (error) {
-    navigation.navigate("homePage");
-    alert("Erreur lors de la connexion à votre compte.");
+    alert("Error while connecting to your account.");
   }
 }
 
-export async function SignupAction(navigation, username, email, password) {
+export async function SignupQuery(navigation, username, email, password) {
   try {
     const data = {
       email: email,
@@ -47,16 +44,13 @@ export async function SignupAction(navigation, username, email, password) {
     );
 
     if (response.status === 200) {
-      // à rediriger vers le dashboard
-      navigation.navigate("homePage");
-      alert("Félicitations, votre compte a été créé ! 🎉");
+      navigation.navigate("Dash");
+      alert("Congratulations, your account has been created ! 🎉");
     } else {
-      // mettre en rouge les champs qui posent problème
-      navigation.navigate("homePage");
-      alert("Erreur lors de la création de votre compte.");
+      // TODO: Mettre en rouge les champs qui posent problème.
+      alert("Error while creating your account.");
     }
   } catch (error) {
-    navigation.navigate("homePage");
-    alert("Erreur lors de la création de votre compte.");
+    alert("Error while creating your account.");
   }
 }

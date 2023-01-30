@@ -12,7 +12,7 @@ import * as Style from "../res/Style";
 
 // SigninPage.js - Function.
 
-export default function SignupPage({ navigation }) {
+export default function SigninPage({ navigation }) {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
     "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
@@ -44,9 +44,8 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="email" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Adresse E-mail"
+            placeholder="E-mail address"
             onChangeText={(userInput) => setEmail(userInput)}
-            keyboardType="email-address"
             value={email}
             autoCorrect={false}
             autoComplete={false}
@@ -58,7 +57,7 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="lock" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Mot de passe"
+            placeholder="Password"
             onChangeText={(userInput) => setPassword(userInput)}
             value={password}
             secureTextEntry={true}
@@ -78,7 +77,7 @@ export default function SignupPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.SigninAction(navigation, email, password)}
+          onPress={() => Query.SigninQuery(navigation, email, password)}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons

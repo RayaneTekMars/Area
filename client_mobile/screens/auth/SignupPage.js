@@ -10,7 +10,15 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 import * as Query from "../res/Query";
 import * as Style from "../res/Style";
 
-// SignupPage.js - Function.
+// SignupPage.js - Functions.
+
+function ComparePassword(password, confirm) {
+  if (password !== confirm) {
+    alert("Passwords do not match.");
+    return false;
+  }
+  return true;
+}
 
 export default function SignupPage({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -22,7 +30,7 @@ export default function SignupPage({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPasswordValue, setConfirmPassword] = useState("");
+  const [confirm, setConfirmPassword] = useState("");
 
   if (!fontsLoaded) {
     return null;
@@ -46,7 +54,7 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="account" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Nom d'utilisateur"
+            placeholder="Username"
             onChangeText={(userInput) => setUsername(userInput)}
             value={username}
           />
@@ -56,9 +64,8 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="email" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Adresse E-mail"
+            placeholder="E-mail address"
             onChangeText={(userInput) => setEmail(userInput)}
-            keyboardType="email-address"
             value={email}
             autoCorrect={false}
             autoComplete={false}
@@ -70,7 +77,7 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="lock" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Mot de passe"
+            placeholder="Password"
             onChangeText={(userInput) => setPassword(userInput)}
             value={password}
             secureTextEntry={true}
@@ -81,9 +88,9 @@ export default function SignupPage({ navigation }) {
           <MaterialCommunityIcons name="key" size={24} color="#ccc" />
           <TextInput
             style={Style.appComponents.componentField}
-            placeholder="Confirmer mot de passe"
+            placeholder="Confirm password"
             onChangeText={(userInput) => setConfirmPassword(userInput)}
-            value={confirmPasswordValue}
+            value={confirm}
             secureTextEntry={true}
           />
         </View>
@@ -92,9 +99,11 @@ export default function SignupPage({ navigation }) {
       <View style={Style.appButtonContainers.buttonContainer30}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() =>
-            Query.SignupAction(navigation, username, email, password)
-          }
+          onPress={() => {
+            if (ComparePassword(password, confirm)) {
+              Query.SignupQuery(navigation, username, email, password);
+            }
+          }}
         >
           <Text style={Style.appTexts.textButton}>Sign Up</Text>
         </TouchableOpacity>
