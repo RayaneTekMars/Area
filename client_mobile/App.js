@@ -6,10 +6,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // App.js - Screens imports.
 
-import HomePage from "./screens/HomePage";
-import DashPage from "./screens/fun/DashPage";
-import SignupPage from "./screens/auth/SignupPage";
-import SigninPage from "./screens/auth/SigninPage";
+import HomePage from "./src/HomePage";
+import DashPage from "./src/fun/DashPage";
+import SignupPage from "./src/auth/SignupPage";
+import SigninPage from "./src/auth/SigninPage";
 
 // App.js - Function.
 
