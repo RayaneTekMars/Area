@@ -70,33 +70,21 @@ export default function HomePage() {
 
       <div
         style={{
-          fontFamily: "Inter",
+          fontFamily: 'Inter-ExtraBold',
           color: "white",
-          fontSize: "3rem",
+          fontSize: "2rem",
           width: "40%",
           margin: "0 auto",
           marginTop: "5%",
         }}
       >
-        Bienvenue sur ton profile
+        Bienvenue sur ton profil {username}
       </div>
       <div
         style={{
-          fontFamily: "Inter",
+          fontFamily: 'Inter-ExtraBold',
           color: "white",
-          fontSize: "3rem",
-          width: "10%",
-          margin: "0 auto",
-        }}
-      >
-        {username}
-      </div>
-      <div></div>
-      <div
-        style={{
-          fontFamily: "Inter",
-          color: "white",
-          fontSize: "2rem",
+          fontSize: "1rem",
           marginLeft: "28%",
           marginTop: "4%",
         }}
@@ -126,6 +114,7 @@ export default function HomePage() {
           borderRadius: "50px",
           marginTop: "10%",
           marginLeft: "45%",
+          fontFamily: 'Inter-ExtraBold',
         }}
         onClick={disconnect}
       >
