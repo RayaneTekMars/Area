@@ -1,15 +1,15 @@
-// DashPage.js - Libraries imports.
+// ProfilePage.js - Libraries imports.
 
 import { useFonts } from "expo-font";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 
-// DashPage.js - Ressources import.
+// ProfilePage.js - Ressources import.
 
 import * as Style from "../res/Style";
 
-// DashPage.js - Function.
+// ProfilePage.js - Function.
 
-export default function DashPage() {
+export default function ProfilePage() {
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
     "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
@@ -27,12 +27,27 @@ export default function DashPage() {
       </View>
 
       <View style={Style.appContainers.titleContainer}>
-        <Text style={Style.appTexts.textHello}>Hello Neex 💫</Text>
-        <Text style={Style.appTexts.textWelcome}>Nice to see you again</Text>
+        <Text style={Style.appTexts.textTitle}>Parameters ⚙️</Text>
+        <Text style={Style.appTexts.textSubTitle}>Connect your apps here</Text>
       </View>
 
-      <View style={Style.appContainers.cardContainer}></View>
-      <View style={Style.appContainers.cardContainer}></View>
+      <View style={Style.appContainers.cardContainer}>
+        <TouchableOpacity
+          style={Style.appComponents.componentBanner}
+          onPress={() => alert("Twitter button !")}
+        >
+          <Image source={require("../../assets/images/twitter_banner.png")} />
+        </TouchableOpacity>
+      </View>
+
+      <View style={Style.appButtonContainers.buttonContainer35}>
+        <TouchableOpacity
+          style={Style.appComponents.componentButton}
+          onPress={() => alert("Disconnect button !")}
+        >
+          <Text style={Style.appTexts.textButton}>Disconnect</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={Style.appShapes.shapeLeft}>
         <Image source={require("../../assets/images/amm_shape_left.png")} />

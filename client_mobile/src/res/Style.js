@@ -45,7 +45,7 @@ export const appContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "35%",
-  }
+  },
 });
 
 export const appTexts = StyleSheet.create({
@@ -71,13 +71,13 @@ export const appTexts = StyleSheet.create({
     fontSize: "20rem",
     fontFamily: "Inter-Bold",
   },
-  textHello: {
+  textTitle: {
     color: "#FFFFFF",
     fontSize: "30rem",
     fontFamily: "Inter-Bold",
     paddingLeft: "5%",
   },
-  textWelcome: {
+  textSubTitle: {
     color: "#FFFFFF",
     fontSize: "15rem",
     paddingLeft: "5%",
@@ -107,6 +107,11 @@ export const appComponents = StyleSheet.create({
     paddingHorizontal: 25,
     width: "60%",
   },
+  componentBanner: {
+    borderRadius: 30,
+    overflow: "hidden",
+    resizeMode: "contain",
+  },
 });
 
 export const appShapes = StyleSheet.create({
@@ -131,6 +136,13 @@ export const appButtonContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "40%",
+  },
+  buttonContainer35: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "35%",
   },
   buttonContainer30: {
     display: "flex",

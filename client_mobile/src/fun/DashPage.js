@@ -27,8 +27,8 @@ export default function DashPage() {
       </View>
 
       <View style={Style.appContainers.titleContainer}>
-        <Text style={Style.appTexts.textHello}>Hello Neex 💫</Text>
-        <Text style={Style.appTexts.textWelcome}>Nice to see you again</Text>
+        <Text style={Style.appTexts.textTitle}>Hello Neex 💫</Text>
+        <Text style={Style.appTexts.textSubTitle}>Nice to see you again</Text>
       </View>
 
       <View style={Style.appContainers.cardContainer}></View>
