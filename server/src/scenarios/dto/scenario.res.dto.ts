@@ -48,7 +48,7 @@ export class GetScenariosResDto {
     status: 'success'
 
     @ApiProperty({
-        type: ScenarioData
+        type: Array<ScenarioData>
     })
     data: ScenarioData[]
 

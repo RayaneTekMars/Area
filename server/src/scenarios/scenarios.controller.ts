@@ -10,7 +10,7 @@ import { Account } from '../accounts/entities/account.entity';
 
 
 @Controller('scenarios')
-@ApiTags('scenarios')
+@ApiTags('Scenarios')
 @ApiBearerAuth()
 export class ScenariosController {
 

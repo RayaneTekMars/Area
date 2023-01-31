@@ -4,38 +4,38 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    PrimaryColumn
+    PrimaryColumn,
+    Unique
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 import { Account } from '../../accounts/entities/account.entity'
-import { Reaction } from '../types/reaction.type'
-import { Trigger } from '../types/trigger.type'
 
 @Entity()
-export class Scenario {
+@Unique(['serviceName', 'account'])
+export class Subscription {
 
     @PrimaryColumn()
     id: string
 
     @Column()
-    name: string
+    serviceName: string
 
     @ManyToOne(() => Account)
     @JoinColumn()
     account: Account
 
-    @Column({
-        type: 'json',
-    })
-    trigger: Trigger
+    @Column()
+    accessToken: string
 
-    @Column({
-        type: 'json',
-    })
-    reaction: Reaction
+    @Column()
+    refreshToken: string
+
+    @Column()
+    expiresIn: number
 
     @BeforeInsert()
     beforeInsert() {
         this.id = getSecureRandomString(16)
     }
+
 }
