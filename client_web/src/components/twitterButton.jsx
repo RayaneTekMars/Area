@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Oauth.module.css";
 
 const TwitterButton = () => {
   const [url, setUrl] = useState("");
-  const token = localStorage.getItem("jwt");
 
-  const headers = new Headers();
-  headers.append("Accept", "application/json");
-  headers.append("Content-Type", "application/json");
-  headers.append("Authorization", `Bearer ${token}`);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
 
-  const requestOptions = {
-    method: "GET",
-    headers,
-  };
+    const headers = new Headers();
+    headers.append("Accept", "application/json");
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${token}`);
 
-  fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
-    .then((res) => res.json())
-    .then((res) => {
-      setUrl(res.data.data.url);
-    });
+    const requestOptions = {
+      method: "GET",
+      headers,
+    };
+
+    fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+        setUrl(res.data.data.url);
+      });
+
+      console.log(url);
+  }, []);
 
   return (
     <a href={url.href}>
