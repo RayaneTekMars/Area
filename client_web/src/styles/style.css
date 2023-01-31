@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Inter-Black';
+    src: url('../assets/fonts/Inter-Black.ttf') format('truetype');
+  }
+  
+  body {
+    font-family: 'Inter-Black', sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Inter-Bold';
+    src: url('../assets/fonts/Inter-Bold.ttf') format('truetype');
+  }
+  
+  body {
+    font-family: 'Inter-Bold', sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Inter-ExtraBold';
+    src: url('../assets/fonts/Inter-ExtraBold.ttf') format('truetype');
+  }
+  
+  body {
+    font-family: 'Inter-ExtraBold', sans-serif;
+  }

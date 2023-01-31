@@ -46,7 +46,10 @@ async function SignupAction() {
       data
     );
     if (response.status === 200) {
-      alert("Félicitations, votre compte a été créé ! ");
+      localStorage.setItem("jwt", response.data.data.bearerToken);
+      localStorage.setItem("username", response.data.data.account.username);
+      localStorage.setItem("email", response.data.data.account.email);
+      window.location.href = "/home";
     } else {
       alert("Erreur lors de la création de votre compte.");
     }
@@ -56,23 +59,20 @@ async function SignupAction() {
 }
 
 async function SigninAction() {
-  console.log(document.getElementById("emaillogin").value)
-  console.log(document.getElementById("passwordlogin").value)
+  console.log(document.getElementById("emaillogin").value);
+  console.log(document.getElementById("passwordlogin").value);
   const data = {
     email: document.getElementById("emaillogin").value,
     password: document.getElementById("passwordlogin").value,
     authTokenName: "",
   };
   try {
-    const response = await axios.post(
-      "http://localhost:8080/auth/login",
-      data
-    );
+    const response = await axios.post("http://localhost:8080/auth/login", data);
     if (response.status === 200) {
-    localStorage.setItem("jwt", response.data.data.bearerToken);
-    localStorage.setItem("username", response.data.data.account.username);
-    localStorage.setItem("email", response.data.data.account.email);
-    window.location.href = "/home";
+      localStorage.setItem("jwt", response.data.data.bearerToken);
+      localStorage.setItem("username", response.data.data.account.username);
+      localStorage.setItem("email", response.data.data.account.email);
+      window.location.href = "/home";
     } else {
       alert("Erreur lors de la connexion.");
     }
@@ -157,7 +157,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
-              type={"password"}
+                type={"password"}
                 id="passwordlogin"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Password"
@@ -244,7 +244,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
-              type={"password"}
+                type={"password"}
                 id="password"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Password"
@@ -256,7 +256,7 @@ export default function LandingPage() {
                 style={{ fontSize: 20, color: "#222222", marginTop: "4%" }}
               />
               <TextField
-              type={"password"}
+                type={"password"}
                 id="confirmPassword"
                 style={{ width: "40%", marginLeft: "2%" }}
                 label="Confirm Password"

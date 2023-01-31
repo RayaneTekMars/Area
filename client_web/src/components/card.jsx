@@ -3,6 +3,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {CardActionArea } from "@mui/material";
+import '../styles/style.css';
+
 
 export default function CardArea(props) {
   return (
@@ -14,7 +16,7 @@ export default function CardArea(props) {
     >
       <CardActionArea>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" style={{fontFamily: 'Inter-ExtraBold'}}>
             {props.name}
           </Typography>
           <Typography variant="body4" color="text.secondary">
