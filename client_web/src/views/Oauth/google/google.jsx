@@ -34,7 +34,7 @@ function GooglePage() {
         localStorage.setItem("jwt", res.data.bearerToken);
         window.location.href = "/home";
       });
-  }, []);
+  });
 
   return (
       <head>

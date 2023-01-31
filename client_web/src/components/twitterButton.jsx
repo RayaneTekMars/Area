@@ -20,15 +20,13 @@ const TwitterButton = () => {
     fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.data);
-        setUrl(res.data.data.url);
+        setUrl(res.data.url);
+        console.log(res.data.url);
       });
-
-      console.log(url);
   }, []);
 
   return (
-    <a href={url.href}>
+    <a href={url}>
       <button className={styles.button}>
         <svg
           viewBox="0 0 24 24"

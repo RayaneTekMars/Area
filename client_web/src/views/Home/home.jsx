@@ -109,7 +109,6 @@ export default function HomePage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("data");
         let areas = data.data.map(item => [item.account, item.id, item.name]);
         setAreas(areas);
       });

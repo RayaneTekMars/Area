@@ -4,16 +4,17 @@ import { useLocation } from "react-router-dom";
 function TwitterPage() {
   const location = useLocation();
   const [, setCode] = useState("");
-  const locationSearch = location.search;
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    const params = new URLSearchParams(locationSearch);
+    const params = new URLSearchParams(location.search);
     const queryCode = params.get("code");
 
     if (!queryCode) return;
 
     setCode(queryCode.toString());
+
+    console.log(queryCode);
 
     const headers = new Headers();
     headers.append("Accept", "application/json");
@@ -32,7 +33,6 @@ function TwitterPage() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res.data);
-        window.location.href = "/home";
       });
   }, []);
 
