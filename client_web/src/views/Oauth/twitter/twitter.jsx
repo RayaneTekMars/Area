@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 function TwitterPage() {
   const location = useLocation();
-  const [, setCode] = useState("");
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -33,6 +33,7 @@ function TwitterPage() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res.data);
+        window.location.href = "/home";
       });
   }, []);
 
