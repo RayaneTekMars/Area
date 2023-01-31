@@ -6,14 +6,14 @@ import { TwitterApi } from 'twitter-api-v2';
 export class TwitterSubscribeService {
 
     twitterApi: TwitterApi;
-    codeVerifierStateArray: Array<{ accountId: string, codeVerifier: string, state: string }>
+    codeVerifierStateArray: Map<string, { codeVerifier: string, state: string }>
 
     constructor(private readonly configService: ConfigService) {
         this.twitterApi = new TwitterApi({
             clientId: this.configService.get<string>('TWITTER_OAUTH2_CLIENT_ID')!,
             clientSecret: this.configService.get<string>('TWITTER_OAUTH2_CLIENT_SECRET'),
         });
-        this.codeVerifierStateArray = [];
+        this.codeVerifierStateArray = new Map();
     }
 
     async getAuthorizeUrl(accountId: string) {
@@ -22,20 +22,20 @@ export class TwitterSubscribeService {
             { scope: ['tweet.read', 'tweet.write', 'users.read', 'follows.read', 'offline.access'] }
         );
 
-        this.codeVerifierStateArray.push({ accountId, codeVerifier, state });
+        this.codeVerifierStateArray.set(accountId, { codeVerifier, state });
 
         return url;
     }
 
     async authorize(accountId: string, code: string) {
-        const { codeVerifier } = this.codeVerifierStateArray.find(x => x.accountId === accountId)!;
+        const { codeVerifier } = this.codeVerifierStateArray.get(accountId)!;
         const { accessToken, refreshToken, expiresIn } = await this.twitterApi.loginWithOAuth2({
             code,
             redirectUri: this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL')!,
             codeVerifier,
         });
 
-        this.codeVerifierStateArray = this.codeVerifierStateArray.filter(x => x.accountId !== accountId);
+        this.codeVerifierStateArray.delete(accountId);
 
         return { accessToken, refreshToken, expiresIn };
     }
