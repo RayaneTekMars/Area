@@ -7,6 +7,8 @@ import { AccountsModule } from './accounts/accounts.module'
 import { AuthModule } from './auth/auth.module'
 import { TokenModule } from './token/token.module'
 import { ScenariosModule } from './scenarios/scenarios.module'
+import { SubscriptionsService } from './subscriptions/subscriptions.service';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
     imports: [
@@ -38,7 +40,8 @@ import { ScenariosModule } from './scenarios/scenarios.module'
         AuthModule,
         TokenModule,
         AboutModule,
-        ScenariosModule
+        ScenariosModule,
+        SubscriptionsModule
     ],
     providers: [
         {

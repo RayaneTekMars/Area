@@ -3,13 +3,13 @@ FROM node:lts as builder
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json yarn.lock ./
-
-RUN yarn install
-
+# Copy app files
 COPY . .
 
+# Install app dependencies
+RUN yarn install
+
+# Build the app
 RUN yarn build
 
 FROM node:lts-slim
@@ -17,15 +17,20 @@ FROM node:lts-slim
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
+# Copy production dependencies
 COPY package.json yarn.lock ./
 
+# Set environment to production
 ENV NODE_ENV production
 
+# Install production dependencies
 RUN yarn install --production
 
+# Copy built app
 COPY --from=builder /usr/src/app/dist ./dist
 
+# Expose port 8080
 EXPOSE 8080
 
+# Run the app
 CMD [ "node", "dist/main.js" ]
