@@ -4,7 +4,8 @@ import LandingPage from "./views/Landing";
 import SigninPage from "./views/Signin";
 import HomePage from "./views/Home";
 import ProfilePage from "./views/Profile";
-import OauthGoogle from "./views/Oauth";
+import OauthGoogle from "./views/Oauth/google";
+import OauthTwitter from "./views/Oauth/twitter";
 import * as ROUTES from './constants/routes';
 
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
       <Route path={ROUTES.HOME} element={< HomePage />} />
       <Route path={ROUTES.PROFILE} element={< ProfilePage />} />
       <Route path={ROUTES.OAUTH_GOOGLE} element={< OauthGoogle />} />
+      <Route path={ROUTES.OAUTH_TWITTER} element={< OauthTwitter />} />
       </Routes>
     </div>
   </BrowserRouter>

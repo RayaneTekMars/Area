@@ -3,10 +3,11 @@ import { useLocation } from "react-router-dom";
 
 function GooglePage() {
   const location = useLocation();
-  const [code, setCode] = useState("");
+  const [, setCode] = useState("");
+  const locationSearch = location.search;
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(locationSearch);
     const queryCode = params.get("code");
 
     if (!queryCode) return;
@@ -33,7 +34,7 @@ function GooglePage() {
         localStorage.setItem("jwt", res.data.bearerToken);
         window.location.href = "/home";
       });
-  }, [location.search]);
+  });
 
   return (
       <head>
