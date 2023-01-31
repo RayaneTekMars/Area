@@ -50,6 +50,12 @@ export class TwitterService {
             return;
         }
 
+        reaction.params = reaction.params.concat([
+            { name: 'id', value: follower.id, required: false },
+            { name: 'name', value: follower.name, required: false },
+            { name: 'username', value: follower.username, required: false },
+        ]);
+
         this.scenariosService.emit(accountId, trigger, reaction);
     }
 

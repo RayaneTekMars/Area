@@ -92,10 +92,20 @@ export class ScenariosService {
                 switch (reaction.name) {
                     case 'PostTweet':
                         // this.twitterService.postTweet(accountId, subscription.accessToken, "Hello World");
-                        const twitterApi = new TwitterApi(subscription.accessToken);
-                        const { data: { id: userId } } = await twitterApi.v2.me();
-
-                        const { data: { id: tweetId } } = await twitterApi.v2.tweet("Hello World");
+                        try {
+                            const twitterApi = new TwitterApi(subscription.accessToken);
+                            const { data: { id: userId } } = await twitterApi.v2.me();
+                            const text = reaction.params.find(x => x.name === 'text')?.value;
+                            const username = reaction.params.find(x => x.name === 'username')?.value;
+                            if (username && text) {
+                                await twitterApi.v2.tweet(`New Follower ${username} at ${Date.now().toString()}\n` + text);
+                            } else {
+                                await twitterApi.v2.tweet(`New Follower at ${Date.now().toString()}`);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        break;
                 }
         }
 

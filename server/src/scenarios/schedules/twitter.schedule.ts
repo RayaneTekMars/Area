@@ -4,6 +4,7 @@ import { TwitterService } from '../services/twitter.service'
 import { ScenariosService } from '../../scenarios/scenarios.service'
 import { SubscriptionsService } from '../../subscriptions/subscriptions.service'
 import { ServiceName } from '../../common/enums/service-name.enum'
+import { TwitterSubscribeService } from '../../subscriptions/services/twitter.sub.service'
 
 @Injectable()
 export class TwitterSchedule {
@@ -12,9 +13,22 @@ export class TwitterSchedule {
         private readonly twitterService: TwitterService,
         private readonly scenariosService: ScenariosService,
         private readonly subscriptionsService: SubscriptionsService,
-    ) { }
+        private readonly twitterSubscribeService: TwitterSubscribeService,
+    ) {
+        this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitter).
+            then((subs) => {
+                for (const sub of subs) {
+                    this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewFollower')
+                        .then((scenarios) => {
+                            for (const scenario of scenarios) {
+                                this.twitterService.getNewFollowers(sub.account.id, sub.accessToken);
+                            }
+                        })
+                }
+            })
+    }
 
-    @Interval(10000)
+    @Interval(60000)
     async handleNewFollowers() {
 
         console.log('Checking for new followers...');
@@ -43,6 +57,27 @@ export class TwitterSchedule {
                 }
 
             }
+
+        }
+
+    }
+
+    @Interval(3600000)
+    async refreshTwitterTokens() {
+
+        console.log('Refreshing Twitter tokens...');
+
+        const subscriptions = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitter);
+
+        console.log('Found ' + subscriptions.length + ' subscriptions');
+
+        for (const sub of subscriptions) {
+
+            const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(sub.refreshToken!);
+
+            console.log('New access token: ' + accessToken);
+
+            await this.subscriptionsService.updateSubscription('Twitter', sub.account.id, accessToken, refreshToken!, expiresIn);
 
         }
 

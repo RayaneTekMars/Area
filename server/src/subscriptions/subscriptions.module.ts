@@ -10,6 +10,6 @@ import { TwitterSubscribeService } from './services/twitter.sub.service';
   imports: [TypeOrmModule.forFeature([Subscription, Account])],
   controllers: [SubscriptionsController],
   providers: [SubscriptionsService, TwitterSubscribeService],
-  exports: [SubscriptionsService]
+  exports: [SubscriptionsService, TwitterSubscribeService]
 })
 export class SubscriptionsModule { }
