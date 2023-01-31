@@ -3,11 +3,12 @@ import { useLocation } from "react-router-dom";
 
 function TwitterPage() {
   const location = useLocation();
-  const [code, setCode] = useState("");
+  const [, setCode] = useState("");
+  const locationSearch = location.search;
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(locationSearch);
     const queryCode = params.get("code");
 
     if (!queryCode) return;
@@ -33,7 +34,7 @@ function TwitterPage() {
         console.log(res.data);
         window.location.href = "/home";
       });
-  });
+  }, []);
 
   return (
     <head>
