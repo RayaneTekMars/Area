@@ -42,8 +42,22 @@ const style = {
 async function CreateScenario() {
   const data = {
     name: document.getElementById("scenarioname").value,
-    trigger: {},
-    reaction: {}
+    trigger: {
+      name: "NewFollower",
+      serviceName: "Twitter",
+      params: [],
+    },
+    reaction: {
+      name: "PostTweet",
+      serviceName: "Twitter",
+      params: [
+        {
+          name: "text",
+          value: document.getElementById("scenariotext").value,
+          required: true,
+        },
+      ],
+    },
   };
   fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
@@ -114,7 +128,6 @@ export default function HomePage() {
   };
   let services = [
     ["Twitter", "#00acee"],
-    ["Youtube", "#c4302b"],
   ];
 
   let actions = [
