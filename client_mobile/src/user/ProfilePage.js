@@ -6,7 +6,7 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 // ProfilePage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { FontContext } from "../tools/Utils";
+import { FontContext, resetStorageData } from "../tools/Utils";
 
 // ProfilePage.js - Function.
 
@@ -41,8 +41,8 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={async () => {
-            await Utils.resetStorageData("name", "");
-            await Utils.resetStorageData("token", "");
+            await resetStorageData("name", "");
+            await resetStorageData("token", "");
             navigation.navigate("Home");
           }}
         >
