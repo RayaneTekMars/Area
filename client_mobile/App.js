@@ -14,7 +14,7 @@ import ProfilePage from "./src/user/ProfilePage";
 
 // App.js - Tool import.
 
-import LoadFonts from "./src/tools/Utils";
+import { LoadFonts } from "./src/tools/Utils";
 
 // App.js - Function.
 

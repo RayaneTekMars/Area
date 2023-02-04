@@ -34,8 +34,6 @@ export const LoadFonts = ({ children }) => {
   );
 };
 
-export default LoadFonts;
-
 // Utils.js - Storage variable.
 
 export const resetStorageData = async (key, value) => {
