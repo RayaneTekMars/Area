@@ -1,8 +1,7 @@
 // DashPage.js - Libraries imports.
 
-import { useFonts } from "expo-font";
-import React, { useState, useEffect } from "react";
 import SelectDropdown from "react-native-select-dropdown";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -12,19 +11,20 @@ import {
   AsyncStorage,
 } from "react-native";
 
-// DashPage.js - Ressources import.
+// DashPage.js - Tools imports.
 
-import * as Query from "../res/Query";
-import * as Style from "../res/Style";
+import * as Style from "../tools/Style";
+import { FontContext } from "../tools/Utils";
+import { AddScenarioQuery } from "../tools/Query";
 
-// DashPage.js - Function.
+// DashPage.js - Core function.
 
 export default function DashPage({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
-    "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
-    "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
-  });
+  const fontsLoaded = useContext(FontContext);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const services = ["Twitter"];
   const triggers = ["NewFollower"];
@@ -44,10 +44,6 @@ export default function DashPage({ navigation }) {
     };
     fetchData();
   }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -135,7 +131,7 @@ export default function DashPage({ navigation }) {
         {/* TODO: Changer la taille du container car bouton presque pas clickable. */}
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.AddScenarioQuery()}
+          onPress={() => AddScenarioQuery()}
         >
           <Text style={Style.appTexts.textButton}>Add scenario</Text>
         </TouchableOpacity>
