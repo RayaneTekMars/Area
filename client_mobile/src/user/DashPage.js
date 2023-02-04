@@ -1,7 +1,7 @@
 // DashPage.js - Libraries imports.
 
+import { useState, useEffect, useContext } from "react";
 import SelectDropdown from "react-native-select-dropdown";
-import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
