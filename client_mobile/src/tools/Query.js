@@ -23,7 +23,6 @@ export async function SigninQuery(navigation, email, password) {
       await AsyncStorage.setItem("name", response.data.data.account.username);
       navigation.navigate("Dash");
     } else {
-      // TODO: Mettre en rouge les champs qui posent problème.
       alert("Error while connecting to your account.");
     }
   } catch (error) {
@@ -50,7 +49,6 @@ export async function SignupQuery(navigation, username, email, password) {
       await AsyncStorage.setItem("name", response.data.data.account.username);
       navigation.navigate("Dash");
     } else {
-      // TODO: Mettre en rouge les champs qui posent problème.
       alert("Error while creating your account.");
     }
   } catch (error) {

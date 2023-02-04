@@ -1,34 +1,17 @@
 // ProfilePage.js - Libraries imports.
 
-import { useFonts } from "expo-font";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-} from "react-native";
+import { useContext } from "react";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 
-// ProfilePage.js - Ressources import.
+// ProfilePage.js - Tools imports.
 
-import * as Style from "../res/Style";
+import * as Style from "../tools/Style";
+import { FontContext, resetStorageData } from "../tools/Utils";
 
 // ProfilePage.js - Function.
 
 export default function ProfilePage({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
-    "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
-    "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
-  });
-
-  const resetData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const fontsLoaded = useContext(FontContext);
 
   if (!fontsLoaded) {
     return null;
@@ -58,8 +41,8 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={async () => {
-            await resetData("name", "");
-            await resetData("token", "");
+            await resetStorageData("name", "");
+            await resetStorageData("token", "");
             navigation.navigate("Home");
           }}
         >

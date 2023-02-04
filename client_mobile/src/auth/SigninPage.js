@@ -1,30 +1,26 @@
 // SigninPage.js - Libraries imports.
 
-import { useState } from "react";
-import { useFonts } from "expo-font";
+import { useState, useContext } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
-// SigninPage.js - Ressources imports.
+// SigninPage.js - Tools imports.
 
-import * as Query from "../res/Query";
-import * as Style from "../res/Style";
+import * as Style from "../tools/Style";
+import { FontContext } from "../tools/Utils";
+import { SigninQuery, SigninGoogleQuery } from "../tools/Query";
 
-// SigninPage.js - Function.
+// SigninPage.js - Core function.
 
 export default function SigninPage({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
-    "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
-    "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
-  });
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const fontsLoaded = useContext(FontContext);
 
   if (!fontsLoaded) {
     return null;
   }
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -68,7 +64,7 @@ export default function SigninPage({ navigation }) {
       <View style={Style.appButtonContainers.buttonContainer40}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.SigninQuery(navigation, email, password)}
+          onPress={() => SigninQuery(navigation, email, password)}
         >
           <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
@@ -77,7 +73,7 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => Query.SigninGoogleQuery()}
+          onPress={() => SigninGoogleQuery()}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons

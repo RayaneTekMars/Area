@@ -1,20 +1,17 @@
 // HomePage.js - Libraries imports.
 
-import { useFonts } from "expo-font";
+import { useContext } from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 
-// HomePage.js - Ressources import.
+// HomePage.js - Tools imports.
 
-import * as Style from "./res/Style";
+import * as Style from "./tools/Style";
+import { FontContext } from "./tools/Utils";
 
-// HomePage.js - Function.
+// HomePage.js - Core function.
 
 export default function HomePage({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
-    "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
-    "Inter-ExtraBold": require("../assets/fonts/Inter-ExtraBold.ttf"),
-  });
+  const fontsLoaded = useContext(FontContext);
 
   if (!fontsLoaded) {
     return null;

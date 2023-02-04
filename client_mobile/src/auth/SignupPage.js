@@ -1,16 +1,16 @@
 // SignupPage.js - Libraries imports.
 
-import { useState } from "react";
-import { useFonts } from "expo-font";
+import { useState, useContext } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
-// SignupPage.js - Ressources imports.
+// SignupPage.js - Tools imports.
 
-import * as Query from "../res/Query";
-import * as Style from "../res/Style";
+import * as Style from "../tools/Style";
+import { SignupQuery } from "../tools/Query";
+import { FontContext } from "../tools/Utils";
 
-// SignupPage.js - Functions.
+// SignupPage.js - Additional function.
 
 function ComparePassword(password, confirm) {
   if (password !== confirm) {
@@ -20,21 +20,19 @@ function ComparePassword(password, confirm) {
   return true;
 }
 
-export default function SignupPage({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../../assets/fonts/Inter-Black.ttf"),
-    "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
-    "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
-  });
+// SignupPage.js - Core function.
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirmPassword] = useState("");
+export default function SignupPage({ navigation }) {
+  const fontsLoaded = useContext(FontContext);
 
   if (!fontsLoaded) {
     return null;
   }
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -57,6 +55,8 @@ export default function SignupPage({ navigation }) {
             placeholder="Username"
             onChangeText={(userInput) => setUsername(userInput)}
             value={username}
+            autoCorrect={false}
+            autoComplete={false}
           />
         </View>
 
@@ -89,7 +89,7 @@ export default function SignupPage({ navigation }) {
           <TextInput
             style={Style.appComponents.componentField}
             placeholder="Confirm password"
-            onChangeText={(userInput) => setConfirmPassword(userInput)}
+            onChangeText={(userInput) => setConfirm(userInput)}
             value={confirm}
             secureTextEntry={true}
           />
@@ -101,7 +101,7 @@ export default function SignupPage({ navigation }) {
           style={Style.appComponents.componentButton}
           onPress={() => {
             if (ComparePassword(password, confirm)) {
-              Query.SignupQuery(navigation, username, email, password);
+              SignupQuery(navigation, username, email, password);
             }
           }}
         >
