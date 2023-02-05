@@ -2,14 +2,8 @@
 
 import { useState, useEffect, useContext } from "react";
 import SelectDropdown from "react-native-select-dropdown";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  AsyncStorage,
-} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 // DashPage.js - Tools imports.
 

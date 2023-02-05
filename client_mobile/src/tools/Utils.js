@@ -1,8 +1,8 @@
 // Utils.js - Libraries imports.
 
 import * as Font from "expo-font";
-import { AsyncStorage } from "react-native";
 import { useState, useEffect, createContext } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Utils.js - Font variables.
 

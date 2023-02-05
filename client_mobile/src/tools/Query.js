@@ -1,7 +1,7 @@
 // Query.js - Libraries imports.
 
 import axios from "axios";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Query.js - Functions.
 
