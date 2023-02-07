@@ -1,4 +1,4 @@
-.divDiscordLogo {
+.divTwitchLogo {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -6,7 +6,7 @@
     margin-top: 8%;
 }
 
-.divDiscordTitle {
+.divTwitchTitle {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -14,7 +14,7 @@
     color: white;
 }
 
-.divDiscordDescription {
+.divTwitchDescription {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -22,7 +22,7 @@
     color: white;
 }
 
-.divDiscordConnectionButton {
+.divTwitchConnectionButton {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -35,7 +35,7 @@
     margin: auto;
 }
 
-.divDiscordActionText{
+.divTwitchActionText{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -44,7 +44,7 @@
     margin-top: 2%;
 }
 
-.divDiscordActionCards{
+.divTwitchActionCards{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -52,7 +52,7 @@
     margin-top: 2%;
 }
 
-.divDiscordReactionCards{
+.divTwitchReactionCards{
     display: flex;
     flex-direction: row;
     justify-content: center;

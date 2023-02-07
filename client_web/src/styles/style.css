@@ -1,26 +1,35 @@
 @font-face {
-    font-family: 'Inter-Black';
-    src: url('../assets/fonts/Inter-Black.ttf') format('truetype');
-  }
-  
-  body {
-    font-family: 'Inter-Black', sans-serif;
-  }
+  font-family: "Inter-Black";
+  src: url("../assets/fonts/Inter-Black.ttf") format("truetype");
+}
 
-  @font-face {
-    font-family: 'Inter-Bold';
-    src: url('../assets/fonts/Inter-Bold.ttf') format('truetype');
-  }
-  
-  body {
-    font-family: 'Inter-Bold', sans-serif;
-  }
+body {
+  font-family: "Inter-Black", sans-serif;
+}
 
-  @font-face {
-    font-family: 'Inter-ExtraBold';
-    src: url('../assets/fonts/Inter-ExtraBold.ttf') format('truetype');
-  }
-  
-  body {
-    font-family: 'Inter-ExtraBold', sans-serif;
-  }
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("../assets/fonts/Inter-Bold.ttf") format("truetype");
+}
+
+body {
+  font-family: "Inter-Bold", sans-serif;
+}
+
+@font-face {
+  font-family: "Inter-ExtraBold";
+  src: url("../assets/fonts/Inter-ExtraBold.ttf") format("truetype");
+}
+
+body {
+  font-family: "Inter-ExtraBold", sans-serif;
+}
+
+.divServicesCards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6%;
+  padding-bottom: 5%;
+}

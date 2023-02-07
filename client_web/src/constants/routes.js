@@ -8,3 +8,4 @@ export const OAUTH_GOOGLE = '/oauth/google';
 export const OAUTH_TWITTER = '/oauth/twitter';
 export const SERVICE_SPOTIFY = '/services/spotify';
 export const SERVICE_DISCORD = '/services/discord';
+export const SERVICE_TWITCH = '/services/twitch';
