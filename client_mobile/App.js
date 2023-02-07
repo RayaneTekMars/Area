@@ -56,11 +56,11 @@ export default function App() {
   return (
     <LoadFonts>
       <NavigationContainer>
-        <Core.Navigator>
+        <Core.Navigator screenOptions={{ gestureEnabled: false }}>
           <Core.Screen
             name="LoginStack"
             component={LoginStack}
-            options={{ headerShown: false, gestureEnabled: false }}
+            options={{ headerShown: false }}
           />
           <Core.Screen
             name="UserStack"
