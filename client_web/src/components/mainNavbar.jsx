@@ -8,21 +8,27 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MainNavbar = () => {
   return (
-    <AppBar position="static" style={{ backgroundColor: "#222222" }}>
+    <AppBar position="fixed" style={{ backgroundColor: "#222222" }}>
       <Toolbar>
-        <Logo />
+        <Link to="/home" style={{ textDecoration: "none" }}>
+          <Logo />
+        </Link>
         <div style={{ fontFamily: "Solid" }}>
           <Text />
         </div>
         <Grid container justify="flex-end">
-        <Link to="/scenario" style={{ textDecoration: 'none' }}>
-          <Button
-            style={{ color: "white", borderRadius: "50px", marginRight: "2%" }}
-          >
-            Scenarios
-          </Button>
-        </Link>
-          <Link to="/profile" style={{ textDecoration: 'none' }}>
+          <Link to="/scenario" style={{ textDecoration: "none" }}>
+            <Button
+              style={{
+                color: "white",
+                borderRadius: "50px",
+                marginRight: "2%",
+              }}
+            >
+              Scenarios
+            </Button>
+          </Link>
+          <Link to="/profile" style={{ textDecoration: "none" }}>
             <Button
               style={{
                 color: "black",
