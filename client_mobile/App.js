@@ -37,7 +37,6 @@ function LoginStack() {
   );
 }
 
-
 function UserStack() {
   return (
     <User.Navigator
