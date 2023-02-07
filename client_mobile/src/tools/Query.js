@@ -14,7 +14,7 @@ export async function SigninQuery(navigation, email, password) {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/login",
+      "https://www.automateme.fr/auth/login",
       data
     );
 
@@ -40,7 +40,7 @@ export async function SignupQuery(navigation, username, email, password) {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/signup",
+      "https://www.automateme.fr/auth/signup",
       data
     );
 
@@ -91,7 +91,7 @@ export async function AddScenarioQuery() {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/scenarios/create",
+      "https://www.automateme.fr/scenarios/create",
       data,
       config
     );
