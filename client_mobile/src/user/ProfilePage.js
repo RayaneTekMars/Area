@@ -43,7 +43,7 @@ export default function ProfilePage({ navigation }) {
           onPress={async () => {
             await resetStorageData("name", "");
             await resetStorageData("token", "");
-            navigation.navigate("Home");
+            navigation.navigate("LoginStack", { screen: "Home" });
           }}
         >
           <Text style={Style.appTexts.textButton}>Disconnect</Text>

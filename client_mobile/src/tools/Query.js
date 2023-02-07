@@ -21,7 +21,7 @@ export async function SigninQuery(navigation, email, password) {
     if (response.status === 200) {
       await AsyncStorage.setItem("token", response.data.data.bearerToken);
       await AsyncStorage.setItem("name", response.data.data.account.username);
-      navigation.navigate("Dash");
+      navigation.navigate("UserStack", { screen: "Dash" });
     } else {
       alert("Error while connecting to your account.");
     }
@@ -47,7 +47,7 @@ export async function SignupQuery(navigation, username, email, password) {
     if (response.status === 200) {
       await AsyncStorage.setItem("token", response.data.data.bearerToken);
       await AsyncStorage.setItem("name", response.data.data.account.username);
-      navigation.navigate("Dash");
+      navigation.navigate("UserStack", { screen: "Dash" });
     } else {
       alert("Error while creating your account.");
     }

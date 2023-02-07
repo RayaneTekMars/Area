@@ -15,25 +15,60 @@ import ProfilePage from "./src/user/ProfilePage";
 
 import { LoadFonts } from "./src/tools/Utils";
 
-// App.js - Function.
+// App.js - Stack variables.
 
-const Stack = createNativeStackNavigator();
+const Login = createNativeStackNavigator();
+const User = createNativeStackNavigator();
+const Core = createNativeStackNavigator();
+
+// App.js - Stack functions.
+
+function LoginStack() {
+  return (
+    <Login.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Login.Screen name="Home" component={HomePage} />
+      <Login.Screen name="SignUp" component={SignupPage} />
+      <Login.Screen name="SignIn" component={SigninPage} />
+    </Login.Navigator>
+  );
+}
+
+
+function UserStack() {
+  return (
+    <User.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <User.Screen name="Dash" component={DashPage} />
+      <User.Screen name="Profile" component={ProfilePage} />
+    </User.Navigator>
+  );
+}
+
+// App.js - Core function.
 
 export default function App() {
   return (
     <LoadFonts>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Home" component={HomePage} />
-          <Stack.Screen name="SignUp" component={SignupPage} />
-          <Stack.Screen name="SignIn" component={SigninPage} />
-          <Stack.Screen name="Dash" component={DashPage} />
-          <Stack.Screen name="Profile" component={ProfilePage} />
-        </Stack.Navigator>
+        <Core.Navigator>
+          <Core.Screen
+            name="LoginStack"
+            component={LoginStack}
+            options={{ headerShown: false, gestureEnabled: false }}
+          />
+          <Core.Screen
+            name="UserStack"
+            component={UserStack}
+            options={{ headerShown: false }}
+          />
+        </Core.Navigator>
       </NavigationContainer>
     </LoadFonts>
   );
