@@ -122,7 +122,6 @@ export default function DashPage({ navigation }) {
           }}
         />
 
-        {/* TODO: Changer la taille du container car bouton presque pas clickable. */}
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={() => AddScenarioQuery()}

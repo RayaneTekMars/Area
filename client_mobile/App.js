@@ -10,6 +10,7 @@ import DashPage from "./src/user/DashPage";
 import SignupPage from "./src/auth/SignupPage";
 import SigninPage from "./src/auth/SigninPage";
 import ProfilePage from "./src/user/ProfilePage";
+import GooglePage from "./src/external/GooglePage";
 
 // App.js - Tool import.
 
@@ -17,36 +18,36 @@ import { LoadFonts } from "./src/tools/Utils";
 
 // App.js - Stack variables.
 
-const Login = createNativeStackNavigator();
-const User = createNativeStackNavigator();
+const Sub = createNativeStackNavigator();
 const Core = createNativeStackNavigator();
 
 // App.js - Stack functions.
 
 function LoginStack() {
   return (
-    <Login.Navigator
+    <Sub.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Login.Screen name="Home" component={HomePage} />
-      <Login.Screen name="SignUp" component={SignupPage} />
-      <Login.Screen name="SignIn" component={SigninPage} />
-    </Login.Navigator>
+      <Sub.Screen name="Home" component={HomePage} />
+      <Sub.Screen name="SignUp" component={SignupPage} />
+      <Sub.Screen name="SignIn" component={SigninPage} />
+      <Sub.Screen name="Google" component={GooglePage} />
+    </Sub.Navigator>
   );
 }
 
 function UserStack() {
   return (
-    <User.Navigator
+    <Sub.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <User.Screen name="Dash" component={DashPage} />
-      <User.Screen name="Profile" component={ProfilePage} />
-    </User.Navigator>
+      <Sub.Screen name="Dash" component={DashPage} />
+      <Sub.Screen name="Profile" component={ProfilePage} />
+    </Sub.Navigator>
   );
 }
 
