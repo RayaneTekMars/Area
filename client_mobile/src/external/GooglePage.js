@@ -1,30 +1,35 @@
 // GooglePage.js - Libraries imports.
 
+import { useContext } from "react";
 import { WebView } from "react-native-webview";
 import { View, Text, TouchableOpacity } from "react-native";
+
+// GooglePage.js - Tools imports.
+
+import * as Style from "../tools/Style";
+import { FontContext } from "../tools/Utils";
 
 // GooglePage.js - Core function.
 
 export default function GooglePage({ navigation }) {
-    return (
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            height: 100,
-            backgroundColor: "#333",
-            justifyContent: "center",
-            alignItems: "flex-end",
-          }}
+  const fontsLoaded = useContext(FontContext);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <View style={Style.appContainers.fullContainer}>
+      <View style={Style.appContainers.topBannerContainer}>
+        <TouchableOpacity
+          style={Style.appComponents.componentButton}
+          onPress={() => navigation.navigate("SignIn")}
         >
-          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-            <Text style={{ color: "#fff", padding: 10 }}>Close</Text>
-          </TouchableOpacity>
-        </View>
-        <WebView
-          source={{ uri: "https://google.com/" }}
-          style={{ flex: 1 }}
-        />
+          <Text style={Style.appTexts.textButton}>Close</Text>
+        </TouchableOpacity>
       </View>
-    );
-  };
-  
+
+      <WebView source={{ uri: "https://google.com/" }} />
+    </View>
+  );
+}
