@@ -1,7 +1,7 @@
 // Query.js - Libraries imports.
 
 import axios from "axios";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Query.js - Functions.
 
@@ -14,14 +14,14 @@ export async function SigninQuery(navigation, email, password) {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/login",
+      "https://api.automateme.fr/auth/login",
       data
     );
 
     if (response.status === 200) {
       await AsyncStorage.setItem("token", response.data.data.bearerToken);
       await AsyncStorage.setItem("name", response.data.data.account.username);
-      navigation.navigate("Dash");
+      navigation.navigate("UserStack", { screen: "Dash" });
     } else {
       alert("Error while connecting to your account.");
     }
@@ -40,14 +40,14 @@ export async function SignupQuery(navigation, username, email, password) {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/auth/signup",
+      "https://api.automateme.fr/auth/signup",
       data
     );
 
     if (response.status === 200) {
       await AsyncStorage.setItem("token", response.data.data.bearerToken);
       await AsyncStorage.setItem("name", response.data.data.account.username);
-      navigation.navigate("Dash");
+      navigation.navigate("UserStack", { screen: "Dash" });
     } else {
       alert("Error while creating your account.");
     }
@@ -91,7 +91,7 @@ export async function AddScenarioQuery() {
     };
 
     const response = await axios.post(
-      "http://10.20.85.249:8080/scenarios/create",
+      "https://api.automateme.fr/scenarios/create",
       data,
       config
     );

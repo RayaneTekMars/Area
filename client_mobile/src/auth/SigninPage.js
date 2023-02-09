@@ -7,8 +7,8 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 // SigninPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { SigninQuery } from "../tools/Query";
 import { FontContext } from "../tools/Utils";
-import { SigninQuery, SigninGoogleQuery } from "../tools/Query";
 
 // SigninPage.js - Core function.
 
@@ -73,7 +73,7 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => SigninGoogleQuery()}
+          onPress={() => navigation.navigate("Google")}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons

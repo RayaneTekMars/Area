@@ -5,6 +5,11 @@ import { StyleSheet } from "react-native";
 // Style.js - CSS variables.
 
 export const appContainers = StyleSheet.create({
+  fullContainer: {
+    display: "flex",
+    width: "100%",
+    height: "100%",
+  },
   globalContainer: {
     display: "flex",
     alignItems: "center",
@@ -45,6 +50,14 @@ export const appContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "35%",
+  },
+  topBannerContainer: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    backgroundColor: "#222222",
+    width: "100%",
+    height: "10%",
   },
 });
 
