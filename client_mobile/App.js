@@ -7,9 +7,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomePage from "./src/HomePage";
 import DashPage from "./src/user/DashPage";
-import SignupPage from "./src/auth/SignupPage";
+import ViewPage from "./src/user/ViewPage";
+import CreatePage from "./src/user/CreatePage";
 import SigninPage from "./src/auth/SigninPage";
+import SignupPage from "./src/auth/SignupPage";
 import ProfilePage from "./src/user/ProfilePage";
+
+// App.js - WebView import.
+
 import GooglePage from "./src/external/GooglePage";
 
 // App.js - Tool import.
@@ -47,6 +52,8 @@ function UserStack() {
     >
       <Sub.Screen name="Dash" component={DashPage} />
       <Sub.Screen name="Profile" component={ProfilePage} />
+      <Sub.Screen name="Create" component={CreatePage} />
+      <Sub.Screen name="View" component={ViewPage} />
     </Sub.Navigator>
   );
 }
