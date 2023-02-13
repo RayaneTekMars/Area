@@ -20,7 +20,7 @@ export default function GooglePage({ navigation }) {
 
   return (
     <View style={Style.appContainers.fullContainer}>
-      <View style={Style.appContainers.topBannerContainer}>
+      <View style={Style.appContainers.navigationContainer}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={() => navigation.navigate("SignIn")}

@@ -51,7 +51,7 @@ export const appContainers = StyleSheet.create({
     width: "100%",
     height: "35%",
   },
-  topBannerContainer: {
+  navigationContainer: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "center",
@@ -95,10 +95,6 @@ export const appTexts = StyleSheet.create({
     fontSize: "15rem",
     paddingLeft: "5%",
   },
-  textDropdown: {
-    color: "#222222",
-    fontSize: "20rem",
-  },
 });
 
 export const appComponents = StyleSheet.create({
@@ -125,8 +121,9 @@ export const appComponents = StyleSheet.create({
     width: "60%",
   },
   componentBanner: {
-    borderRadius: 30,
-    overflow: "hidden",
+    alignItems: "center",
+    width: 50,
+    height: 50,
     resizeMode: "contain",
   },
   componentDropdown: {

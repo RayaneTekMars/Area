@@ -43,3 +43,11 @@ export const resetStorageData = async (key, value) => {
     console.log(error);
   }
 };
+
+// Utils.js - Dropdown variables.
+
+export const Services = ["Twitter 🐦", "Discord 🎮", "Sporify 🎵", "Github 🐙"];
+
+export const Triggers = ["New Follower"];
+
+export const Reactions = ["Post Tweet"];

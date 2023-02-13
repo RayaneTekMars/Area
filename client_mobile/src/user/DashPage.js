@@ -8,8 +8,8 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 // DashPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { FontContext } from "../tools/Utils";
 import { AddScenarioQuery } from "../tools/Query";
+import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
 
 // DashPage.js - Core function.
 
@@ -19,10 +19,6 @@ export default function DashPage({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
-
-  const services = ["Twitter"];
-  const triggers = ["NewFollower"];
-  const reactions = ["PostTweet"];
 
   const [name, setName] = useState("");
   const [scenario, setScenario] = useState("");
@@ -59,10 +55,10 @@ export default function DashPage({ navigation }) {
         />
 
         <SelectDropdown
-          data={services}
+          data={Services}
           defaultButtonText={"First service"}
           buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
+          buttonTextStyle={Style.appTexts.textButton}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
           }}
@@ -75,10 +71,10 @@ export default function DashPage({ navigation }) {
         />
 
         <SelectDropdown
-          data={triggers}
+          data={Triggers}
           defaultButtonText={"Trigger"}
           buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
+          buttonTextStyle={Style.appTexts.textButton}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
           }}
@@ -91,10 +87,10 @@ export default function DashPage({ navigation }) {
         />
 
         <SelectDropdown
-          data={services}
+          data={Services}
           defaultButtonText={"Second service"}
           buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
+          buttonTextStyle={Style.appTexts.textButton}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
           }}
@@ -107,10 +103,10 @@ export default function DashPage({ navigation }) {
         />
 
         <SelectDropdown
-          data={reactions}
+          data={Reactions}
           defaultButtonText={"Reaction"}
           buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
+          buttonTextStyle={Style.appTexts.textButton}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
           }}
