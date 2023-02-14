@@ -65,12 +65,10 @@ export const appTexts = StyleSheet.create({
   textBasic15: {
     color: "#FFFFFF",
     fontSize: "15rem",
-    fontFamiy: "Inter-Bold",
   },
   textBasic20: {
     color: "#FFFFFF",
     fontSize: "20rem",
-    fontFamiy: "Inter-Bold",
   },
   textSlogan: {
     color: "#FFFFFF",
@@ -129,7 +127,7 @@ export const appComponents = StyleSheet.create({
   componentDropdown: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    margin: 5,
+    margin: 10,
     borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 15,

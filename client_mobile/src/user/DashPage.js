@@ -1,15 +1,13 @@
 // DashPage.js - Libraries imports.
 
 import { useState, useEffect, useContext } from "react";
-import SelectDropdown from "react-native-select-dropdown";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 // DashPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { AddScenarioQuery } from "../tools/Query";
-import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
+import { FontContext } from "../tools/Utils";
 
 // DashPage.js - Core function.
 
@@ -21,7 +19,6 @@ export default function DashPage({ navigation }) {
   }
 
   const [name, setName] = useState("");
-  const [scenario, setScenario] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,82 +44,18 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appContainers.cardContainer}>
-        <TextInput
-          style={Style.appComponents.componentField}
-          placeholder="Scenario name"
-          onChangeText={(userInput) => setScenario(userInput)}
-          value={scenario}
-        />
-
-        <SelectDropdown
-          data={Services}
-          defaultButtonText={"First service"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={Triggers}
-          defaultButtonText={"Trigger"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={Services}
-          defaultButtonText={"Second service"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={Reactions}
-          defaultButtonText={"Reaction"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
+        <TouchableOpacity
+          style={Style.appComponents.componentButton}
+          onPress={() => navigation.navigate("Create")}
+        >
+          <Text style={Style.appTexts.textButton}>Create a scenario</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => AddScenarioQuery()}
+          onPress={() => navigation.navigate("View")}
         >
-          <Text style={Style.appTexts.textButton}>Add scenario</Text>
+          <Text style={Style.appTexts.textButton}>View your scenario</Text>
         </TouchableOpacity>
       </View>
 

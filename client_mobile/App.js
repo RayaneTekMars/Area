@@ -6,11 +6,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // App.js - Screens imports.
 
 import HomePage from "./src/HomePage";
+import SigninPage from "./src/auth/SigninPage";
+import SignupPage from "./src/auth/SignupPage";
+
 import DashPage from "./src/user/DashPage";
 import ViewPage from "./src/user/ViewPage";
 import CreatePage from "./src/user/CreatePage";
-import SigninPage from "./src/auth/SigninPage";
-import SignupPage from "./src/auth/SignupPage";
 import ProfilePage from "./src/user/ProfilePage";
 
 // App.js - WebView import.
@@ -36,8 +37,8 @@ function LoginStack() {
       }}
     >
       <Sub.Screen name="Home" component={HomePage} />
-      <Sub.Screen name="SignUp" component={SignupPage} />
       <Sub.Screen name="SignIn" component={SigninPage} />
+      <Sub.Screen name="SignUp" component={SignupPage} />
       <Sub.Screen name="Google" component={GooglePage} />
     </Sub.Navigator>
   );
