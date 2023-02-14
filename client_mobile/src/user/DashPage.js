@@ -44,7 +44,7 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appContainers.cardContainer}>
-        <Text style={Style.appTexts.textCard}>
+        <Text style={Style.appTexts.textBasic15}>
           What do you want to do today ? 📍
         </Text>
 
@@ -55,7 +55,9 @@ export default function DashPage({ navigation }) {
           <Image source={require("../../assets/images/create_button.png")} />
         </TouchableOpacity>
 
-        <Text style={Style.appTexts.textCard}>Handle your existing apps</Text>
+        <View style={Style.appShapes.shapeMiddle}>
+          <Image source={require("../../assets/images/grey_bar.png")} />
+        </View>
 
         <TouchableOpacity
           style={Style.appComponents.componentLargeButton}

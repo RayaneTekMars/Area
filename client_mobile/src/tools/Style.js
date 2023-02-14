@@ -93,11 +93,6 @@ export const appTexts = StyleSheet.create({
     fontSize: "15rem",
     paddingLeft: "5%",
   },
-  textCard: {
-    color: "#FFFFFF",
-    fontSize: "15rem",
-    marginTop: "5%",
-  },
 });
 
 export const appComponents = StyleSheet.create({
@@ -139,7 +134,7 @@ export const appComponents = StyleSheet.create({
     width: "60%",
   },
   componentLargeButton: {
-    margin: 20,
+    margin: 40,
     borderRadius: 30,
     overflow: "hidden",
     resizeMode: "contain",
@@ -151,6 +146,10 @@ export const appShapes = StyleSheet.create({
     position: "absolute",
     bottom: "0%",
     left: "0%",
+    zIndex: -1,
+  },
+  shapeMiddle: {
+    position: "absolute",
     zIndex: -1,
   },
   shapeRight: {
