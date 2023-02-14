@@ -46,7 +46,7 @@ export const resetStorageData = async (key, value) => {
 
 // Utils.js - Dropdown variables.
 
-export const Services = ["Twitter 🐦", "Discord 🎮", "Sporify 🎵", "Github 🐙"];
+export const Services = ["Twitter 🐦", "Discord 🎮", "Spotify 🎵", "Github 🐙"];
 
 export const Triggers = ["New Follower"];
 

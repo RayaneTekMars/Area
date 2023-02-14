@@ -49,6 +49,7 @@ export default function DashPage({ navigation }) {
         </Text>
 
         <TouchableOpacity
+          activeOpacity={1}
           style={Style.appComponents.componentLargeButton}
           onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
         >
@@ -60,6 +61,7 @@ export default function DashPage({ navigation }) {
         </View>
 
         <TouchableOpacity
+          activeOpacity={1}
           style={Style.appComponents.componentLargeButton}
           onPress={() => navigation.navigate("UserStack", { screen: "View" })}
         >
