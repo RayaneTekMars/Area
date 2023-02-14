@@ -44,18 +44,24 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appContainers.cardContainer}>
-        <TouchableOpacity
-          style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
-        >
-          <Text style={Style.appTexts.textButton}>Create a scenario</Text>
-        </TouchableOpacity>
+        <Text style={Style.appTexts.textCard}>
+          What do you want to do today ? 📍
+        </Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appComponents.componentLargeButton}
+          onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
+        >
+          <Image source={require("../../assets/images/create_button.png")} />
+        </TouchableOpacity>
+
+        <Text style={Style.appTexts.textCard}>Handle your existing apps</Text>
+
+        <TouchableOpacity
+          style={Style.appComponents.componentLargeButton}
           onPress={() => navigation.navigate("UserStack", { screen: "View" })}
         >
-          <Text style={Style.appTexts.textButton}>Manage your scenario</Text>
+          <Image source={require("../../assets/images/manage_button.png")} />
         </TouchableOpacity>
       </View>
 
