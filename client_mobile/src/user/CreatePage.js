@@ -29,7 +29,7 @@ export default function CreatePage() {
 
       <View style={Style.appContainers.titleContainer}>
         <Text style={Style.appTexts.textTitle}>Customize 🧩</Text>
-        <Text style={Style.appTexts.textSubTitle}>Your own scenario</Text>
+        <Text style={Style.appTexts.textSubTitle}>Your unique scenario</Text>
       </View>
 
       <View style={Style.appContainers.cardContainer}>
