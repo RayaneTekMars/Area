@@ -55,7 +55,7 @@ export default function DashPage({ navigation }) {
           style={Style.appComponents.componentButton}
           onPress={() => navigation.navigate("UserStack", { screen: "View" })}
         >
-          <Text style={Style.appTexts.textButton}>View your scenario</Text>
+          <Text style={Style.appTexts.textButton}>Manage your scenario</Text>
         </TouchableOpacity>
       </View>
 
