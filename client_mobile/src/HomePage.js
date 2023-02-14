@@ -43,14 +43,18 @@ export default function HomePage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() =>
+            navigation.navigate("LoginStack", { screen: "SignUp" })
+          }
         >
           <Text style={Style.appTexts.textButton}>Sign Up</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("SignIn")}
+          onPress={() =>
+            navigation.navigate("LoginStack", { screen: "SignIn" })
+          }
         >
           <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>

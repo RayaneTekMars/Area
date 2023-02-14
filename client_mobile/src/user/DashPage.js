@@ -46,14 +46,14 @@ export default function DashPage({ navigation }) {
       <View style={Style.appContainers.cardContainer}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("Create")}
+          onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
         >
           <Text style={Style.appTexts.textButton}>Create a scenario</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("View")}
+          onPress={() => navigation.navigate("UserStack", { screen: "View" })}
         >
           <Text style={Style.appTexts.textButton}>View your scenario</Text>
         </TouchableOpacity>
@@ -66,7 +66,9 @@ export default function DashPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("Profile")}
+          onPress={() =>
+            navigation.navigate("UserStack", { screen: "Profile" })
+          }
         >
           <Text style={Style.appTexts.textButton}>Parameters</Text>
         </TouchableOpacity>

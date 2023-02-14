@@ -23,7 +23,9 @@ export default function GooglePage({ navigation }) {
       <View style={Style.appContainers.navigationContainer}>
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("SignIn")}
+          onPress={() =>
+            navigation.navigate("LoginStack", { screen: "SignIn" })
+          }
         >
           <Text style={Style.appTexts.textButton}>Close</Text>
         </TouchableOpacity>

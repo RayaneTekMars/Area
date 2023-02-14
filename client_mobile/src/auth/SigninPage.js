@@ -73,7 +73,9 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("Google")}
+          onPress={() =>
+            navigation.navigate("LoginStack", { screen: "Google" })
+          }
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
