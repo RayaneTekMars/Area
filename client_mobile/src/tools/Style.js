@@ -51,7 +51,7 @@ export const appContainers = StyleSheet.create({
     width: "100%",
     height: "35%",
   },
-  topBannerContainer: {
+  navigationContainer: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "center",
@@ -65,12 +65,10 @@ export const appTexts = StyleSheet.create({
   textBasic15: {
     color: "#FFFFFF",
     fontSize: "15rem",
-    fontFamiy: "Inter-Bold",
   },
   textBasic20: {
     color: "#FFFFFF",
     fontSize: "20rem",
-    fontFamiy: "Inter-Bold",
   },
   textSlogan: {
     color: "#FFFFFF",
@@ -94,10 +92,6 @@ export const appTexts = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: "15rem",
     paddingLeft: "5%",
-  },
-  textDropdown: {
-    color: "#222222",
-    fontSize: "20rem",
   },
 });
 
@@ -125,18 +119,25 @@ export const appComponents = StyleSheet.create({
     width: "60%",
   },
   componentBanner: {
-    borderRadius: 30,
-    overflow: "hidden",
+    alignItems: "center",
+    width: 50,
+    height: 50,
     resizeMode: "contain",
   },
   componentDropdown: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    margin: 5,
+    margin: 10,
     borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 15,
     width: "60%",
+  },
+  componentLargeButton: {
+    margin: 40,
+    borderRadius: 30,
+    overflow: "hidden",
+    resizeMode: "contain",
   },
 });
 
@@ -145,6 +146,10 @@ export const appShapes = StyleSheet.create({
     position: "absolute",
     bottom: "0%",
     left: "0%",
+    zIndex: -1,
+  },
+  shapeMiddle: {
+    position: "absolute",
     zIndex: -1,
   },
   shapeRight: {
