@@ -1,7 +1,6 @@
 import { URLSearchParams } from "url";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import fetch from 'node-fetch'
 import axios from "axios";
 
 @Injectable()
@@ -17,58 +16,47 @@ export class GithubSubscribeService {
     const redirectUri: string = this.configService.get(
       "GITHUB_OAUTH2_CALLBACK_URL"
     )!;
-    const scopes: string[] = ["repo", "repo:status", "user:follow"];
     return `${
       this.githubOAuthUrl
-    }/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-      " "
-    )}`;
+    }/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`;
   }
 
   async authorize(code: string): Promise<{
     accessToken: string;
     refreshToken: string;
-    expiresIn: number;
   }> {
     const clientId = this.configService.get("GITHUB_OAUTH2_CLIENT_ID");
     const clientSecret = this.configService.get("GITHUB_OAUTH2_CLIENT_SECRET");
     const redirectUri = this.configService.get("GITHUB_OAUTH2_CALLBACK_URL");
 
-    const identity = Buffer.from(clientId + ":" + clientSecret).toString('base64')
-
-    const data = new URLSearchParams();
-    data.append("code", code);
-    data.append("redirectUri", redirectUri);
-    data.append("grant_type", "authorization_code");
-
-    let res = await fetch(`${this.githubOAuthUrl}/access_token`, {
-      method: "POST",
-      body: data.toString(),
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": `Basic ${identity}`,
-      },
-    });
-
-    let response = {
-      accessToken: "",
-      refreshToken: "",
-      expiresIn: 0,
-    };
-
-    if (res.status !== 200) {
-      throw new Error("Error while getting access token");
-    } else {
-
-      res = await res.json();
-
-      response.accessToken = res.access_token;
-      response.refreshToken = res.refresh_token;
-      response.expiresIn = res.expires_in;
+    const data = {
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uri: redirectUri,
+      code,
     }
 
-    return response;
+    try {
+      const response = await axios.post(
+        `${this.githubOAuthUrl}/access_token`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      return {
+        accessToken: response.data.access_token,
+        refreshToken: response.data.refresh_token
+      };
+    } catch (error) {
+      throw new Error("Error while getting access token");
+    }
   }
 
   async refreshAccessToken(refreshToken: string): Promise<string> {

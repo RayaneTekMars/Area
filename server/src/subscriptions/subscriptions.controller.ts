@@ -140,8 +140,8 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createGithubSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.authorize(user.id, body.code)
-        const subscription = await this.subscriptionsService.createSubscription('Github', user, accessToken, refreshToken!, expiresIn)
+        const { accessToken, refreshToken } = await this.githubSubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription('Github', user, accessToken, refreshToken!, 10000)
 
         return {
             status: 'success',
