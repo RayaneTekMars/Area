@@ -6,6 +6,7 @@ import CardAreaConnect from "../../components/cardConnect";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import TwitterButton from "../../components/twitterButton";
+import GithubButton from "../../components/githubButton";
 
 
 function disconnect() {
@@ -109,6 +110,7 @@ export default function HomePage() {
         </div>
       </div>
       <TwitterButton />
+      <GithubButton />
       <Button
         style={{
           backgroundColor: "white",

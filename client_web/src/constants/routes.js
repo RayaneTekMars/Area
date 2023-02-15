@@ -6,5 +6,6 @@ export const PROFILE = '/profile';
 export const SCENARIO = '/scenario';
 export const OAUTH_GOOGLE = '/oauth/google';
 export const OAUTH_TWITTER = '/oauth/twitter';
+export const OAUTH_GITHUB = '/oauth/github';
 export const SERVICE_SPOTIFY = '/services/spotify';
 export const SERVICE_DISCORD = '/services/discord';
