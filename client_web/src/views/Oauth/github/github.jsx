@@ -1,49 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function GithubPage() {
-  const location = useLocation();
-  const [code, setCode] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    const params = new URLSearchParams(location.search);
-    const queryCode = params.get("code");
+    // Récupération du token JWT dans le local storage
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      throw new Error('Le token JWT est manquant');
+    }
 
-    if (!queryCode) return;
+    // Récupération du code dans l'URL
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const code = urlSearchParams.get('code');
+    if (!code) {
+      throw new Error('Le code est manquant dans l\'URL');
+    }
 
-    setCode(queryCode.toString());
-
-    console.log(queryCode);
-
-    const headers = new Headers();
-    headers.append("Accept", "application/json");
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", `Bearer ${token}`);
-
-    const requestOptions = {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        code: queryCode,
-      }),
-    };
-
-    fetch("http://localhost:8080/subscriptions/github", requestOptions)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res.data);
-        window.location.href = "/home";
+    // Envoie de la requête POST
+    fetch('http://localhost:8080/subscriptions/github', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ code }),
+    })
+      .then(response => {
+        // Vérification de la réponse
+        if (!response.ok) {
+          throw new Error('La requête a échoué');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Traitement de la réponse
+        console.log(data);
+        // Redirection vers la route /home
+        navigate('/home');
+      })
+      .catch(error => {
+        // Gestion des erreurs
+        console.error(error);
       });
-  }, []);
+  }, [navigate]);
 
-  return (
-    <head>
-      <title>AREA</title>
-      <meta name="description" content="AREA" />
-      <link rel="icon" href="/favicon.ico" />
-    </head>
-  );
+  return <div>En attente de la réponse...</div>;
 }
 
 export default GithubPage;
