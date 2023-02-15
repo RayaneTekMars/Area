@@ -1,21 +1,13 @@
 // DashPage.js - Libraries imports.
 
-import SelectDropdown from "react-native-select-dropdown";
-import React, { useState, useEffect, useContext } from "react";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  AsyncStorage,
-} from "react-native";
+import { useState, useEffect, useContext } from "react";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // DashPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
 import { FontContext } from "../tools/Utils";
-import { AddScenarioQuery } from "../tools/Query";
 
 // DashPage.js - Core function.
 
@@ -26,12 +18,7 @@ export default function DashPage({ navigation }) {
     return null;
   }
 
-  const services = ["Twitter"];
-  const triggers = ["NewFollower"];
-  const reactions = ["PostTweet"];
-
   const [name, setName] = useState("");
-  const [scenario, setScenario] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,83 +44,28 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appContainers.cardContainer}>
-        <TextInput
-          style={Style.appComponents.componentField}
-          placeholder="Scenario name"
-          onChangeText={(userInput) => setScenario(userInput)}
-          value={scenario}
-        />
+        <Text style={Style.appTexts.textBasic15}>
+          What do you want to do today ? 📍
+        </Text>
 
-        <SelectDropdown
-          data={services}
-          defaultButtonText={"First service"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={triggers}
-          defaultButtonText={"Trigger"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={services}
-          defaultButtonText={"Second service"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        <SelectDropdown
-          data={reactions}
-          defaultButtonText={"Reaction"}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textDropdown}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-
-        {/* TODO: Changer la taille du container car bouton presque pas clickable. */}
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
-          onPress={() => AddScenarioQuery()}
+          activeOpacity={1}
+          style={Style.appComponents.componentLargeButton}
+          onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
         >
-          <Text style={Style.appTexts.textButton}>Add scenario</Text>
+          <Image source={require("../../assets/images/create_button.png")} />
+        </TouchableOpacity>
+
+        <View style={Style.appShapes.shapeMiddle}>
+          <Image source={require("../../assets/images/grey_bar.png")} />
+        </View>
+
+        <TouchableOpacity
+          activeOpacity={1}
+          style={Style.appComponents.componentLargeButton}
+          onPress={() => navigation.navigate("UserStack", { screen: "View" })}
+        >
+          <Image source={require("../../assets/images/manage_button.png")} />
         </TouchableOpacity>
       </View>
 
@@ -144,7 +76,9 @@ export default function DashPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => navigation.navigate("Profile")}
+          onPress={() =>
+            navigation.navigate("UserStack", { screen: "Profile" })
+          }
         >
           <Text style={Style.appTexts.textButton}>Parameters</Text>
         </TouchableOpacity>

@@ -33,7 +33,28 @@ export default function ProfilePage({ navigation }) {
           style={Style.appComponents.componentBanner}
           onPress={() => alert("Twitter button !")}
         >
-          <Image source={require("../../assets/images/twitter_banner.png")} />
+          <Image source={require("../../assets/images/twitter_logo.png")} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={Style.appComponents.componentBanner}
+          onPress={() => alert("Github button !")}
+        >
+          <Image source={require("../../assets/images/github_logo.png")} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={Style.appComponents.componentBanner}
+          onPress={() => alert("Discord button !")}
+        >
+          <Image source={require("../../assets/images/discord_logo.png")} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={Style.appComponents.componentBanner}
+          onPress={() => alert("Spotify button !")}
+        >
+          <Image source={require("../../assets/images/spotify_logo.png")} />
         </TouchableOpacity>
       </View>
 
@@ -43,7 +64,7 @@ export default function ProfilePage({ navigation }) {
           onPress={async () => {
             await resetStorageData("name", "");
             await resetStorageData("token", "");
-            navigation.navigate("Home");
+            navigation.navigate("LoginStack", { screen: "Home" });
           }}
         >
           <Text style={Style.appTexts.textButton}>Disconnect</Text>

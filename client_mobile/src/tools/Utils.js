@@ -1,8 +1,8 @@
 // Utils.js - Libraries imports.
 
 import * as Font from "expo-font";
-import { AsyncStorage } from "react-native";
 import { useState, useEffect, createContext } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Utils.js - Font variables.
 
@@ -43,3 +43,11 @@ export const resetStorageData = async (key, value) => {
     console.log(error);
   }
 };
+
+// Utils.js - Dropdown variables.
+
+export const Services = ["Twitter 🐦", "Discord 🎮", "Spotify 🎵", "Github 🐙"];
+
+export const Triggers = ["New Follower"];
+
+export const Reactions = ["Post Tweet"];
