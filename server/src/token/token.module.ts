@@ -11,7 +11,7 @@ import { AuthToken } from './entities/auth-token.entity'
         TypeOrmModule.forFeature([AuthToken]),
         JwtModule.registerAsync({
             useFactory: (configService: ConfigService) => ({
-                secret: configService.get<string>('JWT_SECRET'),
+                secret: configService.get<string>('JWT_SECRET') ?? 'secret',
                 signOptions: {
                     expiresIn: configService.get<string>('JWT_OPTION_EXPIRES_IN')
                 }
