@@ -281,18 +281,7 @@ export default function ScenarioPage() {
               />
             );
           })}
-          <Card
-            sx={{ maxWidth: 140, maxHeight: 100 }}
-            style={{ backgroundColor: "white" }}
-          >
-            <CardActionArea onClick={handleOpenNewScenario}>
-              <CardContent>
-                <Typography component="div" style={{fontFamily: 'Inter-ExtraBold'}}>
-                  Créer un nouveau scénario
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          
         </div>
       </div>
     </div>
