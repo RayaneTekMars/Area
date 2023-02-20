@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import { AppBar, Toolbar, Grid, Button } from "@mui/material";
-import { ReactComponent as Logo } from "../../components/logo.svg";
-import { ReactComponent as Text } from "../../components/text3.svg";
+import { Button } from "@mui/material";
 import CardAreaConnect from "../../components/cardConnect";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
 import TwitterButton from "../../components/twitterButton";
+import MainNavbar from "../../components/mainNavbar";
 
 
 function disconnect() {
@@ -18,8 +15,7 @@ export default function HomePage() {
   const [username, setUsername] = React.useState("");
 
   useEffect(() => {
-    // call /me to get user info
-    fetch("http://localhost:8080/me", {
+    fetch("https://api.automateme.fr/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -40,35 +36,7 @@ export default function HomePage() {
   }, []);
   return (
     <div>
-      <AppBar position="static" style={{ backgroundColor: "#222222" }}>
-        <Toolbar>
-          <Logo />
-          <Link to="/home" style={{}}>
-            <div style={{ fontFamily: "Solid" }}>
-              <Text />
-            </div>
-          </Link>
-          <Link
-            to="/profile"
-            style={{
-              marginLeft: "80%",
-            }}
-          >
-            <Button
-              style={{
-                color: "black",
-                borderRadius: "50px",
-                backgroundColor: "white",
-                width: "20px",
-              }}
-              startIcon={<AccountCircleIcon />}
-            ></Button>
-          </Link>
-
-          <Grid container justifyContent="flex-end"></Grid>
-        </Toolbar>
-      </AppBar>
-
+      <MainNavbar />
       <div
         style={{
           fontFamily: 'Inter-ExtraBold',

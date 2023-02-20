@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
-import "../../styles/style.css";
-import MainNavbar from "../../components/mainNavbar";
+import React, { useEffect} from "react";
+import "../../../styles/style.css";
+import "../../../styles/scenariocreate.css";
+import MainNavbar from "../../../components/mainNavbar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Link } from "react-router-dom";
+import Box from '@mui/material/Box';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function HomePage() {
+export default function ScenarioPage() {
   let services = [
     [
       "Spotify",
@@ -46,30 +51,50 @@ export default function HomePage() {
       "discord",
     ],
   ];
+
+  let listActions = [
+    "Changer de musique",
+    "Ajouter à la Playlist",
+    "Ajouter à la file d'attente",
+    "Like",
+  ];
+
+  let listReactions = [
+    "Lancer une musique",
+    "Lancer une playlist",
+    "Lancer une file d'attente",
+  ];
+
+  const [actionState, setActionState] = React.useState(listActions[0]);
+  const handleChangeAction = (event: SelectChangeEvent) => {
+    setActionState(event.target.value);
+  };
+  const [reactionState, setReactionState] = React.useState(listReactions[0]);
+  const handleChangeReaction = (event: SelectChangeEvent) => {
+    setReactionState(event.target.value);
+  };
   useEffect(() => {
     document.body.style.backgroundColor = "#222222";
   }, []);
   return (
-    <div>
+    <div className="PageStyle">
       <MainNavbar />
-      <div className="divServicesCardsHome">
+      <div className="ScenarioTitle">Scénario</div>
+      <div className="divServicesCardsCreate">
         {services.map((service, index) => (
-          <Link
-            to={`/services/${service[3]}`}
-            style={{ textDecoration: "none", marginLeft: "1%" }}
-          >
+          <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
             <Card
               sx={{
-                width: 160,
-                marginLeft: "2%",
-                height: 160,
+                width: 120,
+                marginLeft: "4%",
+                height: 120,
                 backgroundColor: service[1],
                 borderRadius: "39px",
               }}
             >
               <CardMedia
                 sx={{
-                  height: 50,
+                  height: 20,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -86,13 +111,78 @@ export default function HomePage() {
                 }}
               >
                 <div dangerouslySetInnerHTML={{ __html: service[2] }} />
-                <h1 style={{ textAlign: "center", color: "#FFFFFF" }}>
-                  {service[0]}
-                </h1>
               </CardContent>
             </Card>
           </Link>
         ))}
+      </div>
+      <div>
+        <Box sx={{ minWidth: 120, backgroundColor : "white" }}>
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={actionState}
+              onChange={handleChangeAction}
+            >
+              {listActions.map((action, index) => (
+                <MenuItem value={action}> {action}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </div>
+      <div className="divServicesCardsCreate">
+        {services.map((service, index) => (
+          <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
+            <Card
+              sx={{
+                width: 120,
+                marginLeft: "4%",
+                height: 120,
+                backgroundColor: service[1],
+                borderRadius: "39px",
+              }}
+            >
+              <CardMedia
+                sx={{
+                  height: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                title="service media"
+              />
+              <CardContent
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "40%",
+                }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: service[2] }} />
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
+      <div>
+        <Box sx={{ minWidth: 120, backgroundColor : "white" }}>
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={reactionState}
+              onChange={handleChangeReaction}
+            >
+              {listReactions.map((reaction, index) => (
+                <MenuItem value={reaction}> {reaction}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ async function SignupAction() {
   };
   try {
     const response = await axios.post(
-      "http://localhost:8080/auth/signup",
+      "https://api.automateme.fr/auth/signup",
       data
     );
     if (response.status === 200) {
@@ -67,7 +67,7 @@ async function SigninAction() {
     authTokenName: "",
   };
   try {
-    const response = await axios.post("http://localhost:8080/auth/login", data);
+    const response = await axios.post("https://api.automateme.fr/auth/login", data);
     if (response.status === 200) {
       localStorage.setItem("jwt", response.data.data.bearerToken);
       localStorage.setItem("username", response.data.data.account.username);
