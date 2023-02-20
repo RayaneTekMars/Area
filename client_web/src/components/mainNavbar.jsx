@@ -28,6 +28,17 @@ const MainNavbar = () => {
               Scenarios
             </Button>
           </Link>
+          <Link to="/scenario/create" style={{ textDecoration: "none", marginRight: "1%" }}>
+            <Button
+              style={{
+                color: "black",
+                borderRadius: "50px",
+                backgroundColor: "white",
+              }}
+            >
+              Créer
+            </Button>
+          </Link>
           <Link to="/profile" style={{ textDecoration: "none" }}>
             <Button
               style={{
