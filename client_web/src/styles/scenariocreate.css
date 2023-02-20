@@ -12,22 +12,13 @@
     color: white;
 }
 
-.ServiceTitle{
-    font-size: 2em;
-    font-weight: bold;
-    margin-top: 6%;
-    color: white;
-    align-self: flex-start;
-    margin-left: 10%;
-}
-
 .divServicesCardsCreate {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-bottom: 5%;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 .selectActions{

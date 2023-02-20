@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import "../../../styles/style.css";
 import "../../../styles/scenariocreate.css";
 import MainNavbar from "../../../components/mainNavbar";
@@ -6,10 +6,58 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Link } from "react-router-dom";
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { TextField } from "@material-ui/core";
+
+
+function CreateScenario(actionState, reactionState)
+{;
+    const data = {
+        name: document.getElementById("scenarioName").value,
+        trigger: {
+            name: actionState.actionState,
+            serviceName: "Twitter",
+            params: [
+              {
+                  name: "text",
+                  value: document.getElementById("scenarioActionParameters").value,
+                  required: true,
+              },
+          ],
+        },
+        reaction: {
+            name: reactionState.reactionState,
+            serviceName: "Twitter",
+            params: [
+                {
+                    name: "text",
+                    value: document.getElementById("scenarioReactionParameters").value,
+                    required: true,
+                },
+            ],
+        },
+    };
+    fetch("https://api.automateme.fr/scenarios/create", {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("jwt"),
+    },
+    body: JSON.stringify(data)
+  })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Success:", data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
 export default function ScenarioPage() {
   let services = [
@@ -80,6 +128,19 @@ export default function ScenarioPage() {
     <div className="PageStyle">
       <MainNavbar />
       <div className="ScenarioTitle">Scénario</div>
+      <div>
+        <TextField
+          id="scenarioName"
+          label="Name"
+          style={{
+            width: "100%",
+            marginTop: "4%",
+            backgroundColor: "white",
+            borderRadius: "4px",
+            border: "1px solid #ced4da",
+          }}
+        />
+      </div>
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
           <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
@@ -117,11 +178,10 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-        <Box sx={{ minWidth: 120, backgroundColor : "white" }}>
+        <Box sx={{ minWidth: 120, backgroundColor: "white" }}>
           <FormControl fullWidth>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="scenarioAction"
               value={actionState}
               onChange={handleChangeAction}
             >
@@ -132,6 +192,19 @@ export default function ScenarioPage() {
           </FormControl>
         </Box>
       </div>
+      <div>
+        <TextField
+          id="scenarioActionParameters"
+          label="Parameters"
+          style={{
+            width: "100%",
+            marginTop: "4%",
+            backgroundColor: "white",
+            borderRadius: "4px",
+            border: "1px solid #ced4da",
+          }}
+        />
+      </div>
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
           <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
@@ -169,11 +242,11 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-        <Box sx={{ minWidth: 120, backgroundColor : "white" }}>
+        <Box sx={{ minWidth: 120, backgroundColor: "white" }}>
           <FormControl fullWidth>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="scenarioReaction"
               value={reactionState}
               onChange={handleChangeReaction}
             >
@@ -183,6 +256,32 @@ export default function ScenarioPage() {
             </Select>
           </FormControl>
         </Box>
+      </div>
+      <div>
+        <TextField
+          id="scenarioReactionParameters"
+          label="Parameters"
+          style={{
+            width: "100%",
+            marginTop: "4%",
+            backgroundColor: "white",
+            borderRadius: "4px",
+            border: "1px solid #ced4da",
+          }}
+        />
+      </div>
+      <div>
+        <Button
+          style={{
+            color: "black",
+            borderRadius: "50px",
+            backgroundColor: "white",
+            marginTop: "15%",
+          }}
+          onClick={() => CreateScenario({actionState}, {reactionState})}
+        >
+          Créer
+        </Button>
       </div>
     </div>
   );
