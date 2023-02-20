@@ -62,6 +62,7 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={async () => {
+            await resetStorageData("id", "");
             await resetStorageData("name", "");
             await resetStorageData("token", "");
             navigation.navigate("LoginStack", { screen: "Home" });
