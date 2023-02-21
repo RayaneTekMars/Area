@@ -52,7 +52,7 @@ export default function HomePage() {
   return (
     <div>
       <MainNavbar />
-      <div className="divServicesCards">
+      <div className="divServicesCardsHome">
         {services.map((service, index) => (
           <Link
             to={`/services/${service[3]}`}

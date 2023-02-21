@@ -1,0 +1,36 @@
+.PageStyle{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ScenarioTitle{
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 8%;
+    color: white;
+}
+
+.divServicesCardsCreate {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5%;
+    margin-top: 2%;
+}
+
+.selectActions{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.selectReaction{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
