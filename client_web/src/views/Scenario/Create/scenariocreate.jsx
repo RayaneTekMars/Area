@@ -41,7 +41,7 @@ function CreateScenario(actionState, reactionState)
             ],
         },
     };
-    fetch("https://api.automateme.fr/scenarios/create", {
+    fetch("https://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
       "Accept": "application/json",

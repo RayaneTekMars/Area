@@ -8,6 +8,7 @@ import { GithubSubscribeService } from './services/github.sub.service'
 import { Account } from '../accounts/entities/account.entity'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+import { DiscordSubscribeService } from './services/discord.sub.service'
 
 @Controller('subscriptions')
 @ApiTags('Subscriptions')
@@ -17,7 +18,8 @@ export class SubscriptionsController {
     constructor(
         public readonly subscriptionsService: SubscriptionsService,
         public readonly twitterSubscribeService: TwitterSubscribeService,
-        public readonly githubSubscribeService: GithubSubscribeService
+        public readonly githubSubscribeService: GithubSubscribeService,
+        public readonly discordSubscribeService: DiscordSubscribeService
     ) {}
 
     @Get('')
@@ -150,4 +152,40 @@ export class SubscriptionsController {
             }
         }
     }
+
+    @Get('discord')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Get an AuthLink for Discord' })
+    @ApiOkResponse({ type: SubscriptionUrlResDto })
+    @ApiBadRequestResponse()
+    async getDiscordSubscription(): Promise<SubscriptionUrlResDto> {
+        const url = await this.discordSubscribeService.getAuthorizeUrl()
+
+        return {
+            status: 'success',
+            data: {
+                url
+            }
+        }
+    }
+
+    @Post('discord')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Create a subscription to Discord' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async createDiscordSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
+        const { accessToken, refreshToken } = await this.discordSubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription('Discord', user, accessToken, refreshToken!, 10000)
+
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
 }

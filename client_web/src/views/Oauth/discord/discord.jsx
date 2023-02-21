@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function TwitterPage() {
+function DiscordPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function TwitterPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('https://localhost:8080/subscriptions/twitter', {
+    fetch('http://localhost:8080/subscriptions/discord', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -39,4 +39,4 @@ function TwitterPage() {
   return <div>En attente de la réponse...</div>;
 }
 
-export default TwitterPage;
+export default DiscordPage;

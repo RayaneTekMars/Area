@@ -1,4 +1,3 @@
-import { URLSearchParams } from "url";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
@@ -80,11 +79,6 @@ export class GithubSubscribeService {
 
     const accessToken = response.data.access_token;
 
-    /*
-     * Update the access token in the database or somewhere else
-     * ...
-     */
-
     return accessToken;
   }
 
@@ -105,10 +99,5 @@ export class GithubSubscribeService {
         },
       }
     );
-
-    /*
-     * Delete the tokens from the database or somewhere else
-     * ...
-     */
   }
 }

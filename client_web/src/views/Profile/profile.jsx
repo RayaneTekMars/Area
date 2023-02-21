@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import CardAreaConnect from "../../components/cardConnect";
 import TwitterButton from "../../components/twitterButton";
 import GithubButton from "../../components/githubButton";
+import DiscordButton from "../../components/discordButton";
 import MainNavbar from "../../components/mainNavbar";
 
 function disconnect() {
@@ -15,7 +16,7 @@ export default function HomePage() {
   const [username, setUsername] = React.useState("");
 
   useEffect(() => {
-    fetch("https://api.automateme.fr/me", {
+    fetch("https://localhost:8080/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -78,6 +79,7 @@ export default function HomePage() {
       </div>
       <TwitterButton />
       <GithubButton />
+      <DiscordButton />
       <Button
         style={{
           backgroundColor: "white",

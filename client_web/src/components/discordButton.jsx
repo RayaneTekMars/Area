@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Oauth.module.css";
 
-const TwitterButton = () => {
+const DiscordButton = () => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const TwitterButton = () => {
       headers,
     };
 
-    fetch("https://localhost:8080/subscriptions/twitter", requestOptions)
+    fetch("http://localhost:8080/subscriptions/discord", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
@@ -53,10 +53,10 @@ const TwitterButton = () => {
             />
           </g>
         </svg>
-        Signin with Google
+        Signin with Discord
       </button>
     </a>
   );
 };
 
-export default TwitterButton;
+export default DiscordButton;
