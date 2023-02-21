@@ -6,6 +6,7 @@ import HomePage from "./views/Home";
 import ProfilePage from "./views/Profile";
 import OauthGoogle from "./views/Oauth/google";
 import OauthTwitter from "./views/Oauth/twitter";
+import OauthGithub from "./views/Oauth/github";
 import ServiceSpotify from "./views/Services/Spotify";
 import Twitch from "./views/Services/Twitch";
 import Discord from "./views/Services/Discord";
@@ -23,6 +24,7 @@ const App = () => (
       <Route path={ROUTES.PROFILE} element={< ProfilePage />} />
       <Route path={ROUTES.OAUTH_GOOGLE} element={< OauthGoogle />} />
       <Route path={ROUTES.OAUTH_TWITTER} element={< OauthTwitter />} />
+      <Route path={ROUTES.OAUTH_GITHUB} element={< OauthGithub />} />
       <Route path={ROUTES.SERVICE_SPOTIFY} element={< ServiceSpotify />} />
       <Route path={ROUTES.SCENARIO} element={< Scenario />} />
       <Route path={ROUTES.SERVICE_DISCORD} element={< Discord />} />

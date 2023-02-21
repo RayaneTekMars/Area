@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Subscription } from './entities/subscription.entity';
-import { Account } from '../accounts/entities/account.entity';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { Subscription } from './entities/subscription.entity'
+import type { Account } from '../accounts/entities/account.entity'
 
 
 @Injectable()
@@ -11,7 +11,7 @@ export class SubscriptionsService {
     constructor(
         @InjectRepository(Subscription)
         private readonly subscriptionRepository: Repository<Subscription>
-    ) { }
+    ) {}
 
     async getSubscription(serviceName: string, accountId: string): Promise<Subscription | null> {
         return this.subscriptionRepository.findOne({
@@ -23,7 +23,7 @@ export class SubscriptionsService {
                     id: accountId
                 }
             }
-        });
+        })
     }
 
     async getSubscriptions(accountId: string): Promise<Subscription[]> {
@@ -35,7 +35,7 @@ export class SubscriptionsService {
                     id: accountId
                 }
             }
-        });
+        })
     }
 
     async getSubscriptionsByServiceName(serviceName: string): Promise<Subscription[]> {
@@ -45,7 +45,7 @@ export class SubscriptionsService {
             where: {
                 serviceName
             }
-        });
+        })
     }
 
     async getSubscriptionsByAccountIdAndServiceName(accountId: string, serviceName: string): Promise<Subscription | null> {
@@ -58,18 +58,18 @@ export class SubscriptionsService {
                     id: accountId
                 }
             }
-        });
+        })
     }
 
     async createSubscription(serviceName: string, account: Account, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription> {
-        const subscription = new Subscription();
-        subscription.serviceName = serviceName;
-        subscription.account = account;
-        subscription.accessToken = accessToken;
-        subscription.refreshToken = refreshToken;
-        subscription.expiresIn = expiresIn;
+        const subscription = new Subscription()
+        subscription.serviceName = serviceName
+        subscription.account = account
+        subscription.accessToken = accessToken
+        subscription.refreshToken = refreshToken
+        subscription.expiresIn = expiresIn
 
-        return this.subscriptionRepository.save(subscription);
+        return this.subscriptionRepository.save(subscription)
     }
 
     async updateSubscription(serviceName: string, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | null> {
@@ -82,17 +82,17 @@ export class SubscriptionsService {
                     id: accountId
                 }
             }
-        });
+        })
 
-        if (!subscription) {
-            return null;
-        }
+        if (!subscription)
+            return null
 
-        subscription.accessToken = accessToken;
-        subscription.refreshToken = refreshToken;
-        subscription.expiresIn = expiresIn;
 
-        return this.subscriptionRepository.save(subscription);
+        subscription.accessToken = accessToken
+        subscription.refreshToken = refreshToken
+        subscription.expiresIn = expiresIn
+
+        return this.subscriptionRepository.save(subscription)
     }
 
     async deleteSubscription(serviceName: string, accountId: string): Promise<Subscription | null> {
@@ -105,13 +105,13 @@ export class SubscriptionsService {
                     id: accountId
                 }
             }
-        });
+        })
 
-        if (!subscription) {
-            return null;
-        }
+        if (!subscription)
+            return null
 
-        return this.subscriptionRepository.remove(subscription);
+
+        return this.subscriptionRepository.remove(subscription)
     }
 
 }

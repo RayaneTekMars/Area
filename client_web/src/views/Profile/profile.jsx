@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Button } from "@mui/material";
 import CardAreaConnect from "../../components/cardConnect";
 import TwitterButton from "../../components/twitterButton";
+import GithubButton from "../../components/githubButton";
 import MainNavbar from "../../components/mainNavbar";
-
 
 function disconnect() {
   localStorage.removeItem("username");
@@ -77,6 +77,7 @@ export default function HomePage() {
         </div>
       </div>
       <TwitterButton />
+      <GithubButton />
       <Button
         style={{
           backgroundColor: "white",
