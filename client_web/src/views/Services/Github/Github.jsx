@@ -1,52 +1,50 @@
 import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
-import SpotifyLogo from "../../../assets/logo_spotify.png";
-import "../../../styles/spotify.css";
+import GithubLogo from "../../../assets/logo_github.png";
+import "../../../styles/github.css";
 import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
-export default function SpotifyPage() {
+export default function GithubPage() {
   let actions = [
-    "Play a song",
-    "Play a playlist",
-    "Play a podcast",
-    "List a song",
+    "Pull request",
+    "Commit",
+    "Push",
+    "Delete branch"
   ];
   let reactions = [
-    "Play a song",
-    "Play a playlist",
-    "Play a podcast",
-    "List a song",
+    "Pull request",
+    "Commit",
+    "Push",
+    "Delete branch"
   ];
   useEffect(() => {
-    document.body.style.backgroundColor = "#1ED760";
+    document.body.style.backgroundColor = "#000000";
   }, []);
   return (
     <div>
       <MainNavbar />
-      <div className="divSpotifyLogo">
-        <img src={SpotifyLogo} alt="Spotify Logo" />
+      <div className="divGithubLogo">
+        <img src={GithubLogo} alt="Github Logo" />
       </div>
-      <div className="divSpotifyTitle">
-        <h1>Spotify</h1>
+      <div className="divGithubTitle">
+        <h1>Github</h1>
       </div>
-      <div className="divSpotifyDescription">
+      <div className="divGithubDescription">
         <p>
-          Spotify is a digital music, podcast and video service that gives you
-          instant access to millions of songs and other content from creators
-          around the world.
+        Github is a web hosting and software development management service
         </p>
       </div>
-      <div className="divSpotifyConnectionButton">
+      <div className="divGithubConnectionButton">
         <Button style={{ color: "black" }}>Déconnexion</Button>
       </div>
-      <div className="divSpotifyActionText">
+      <div className="divGithubActionText">
         <h2>Actions </h2>
       </div>
-      <div className="divSpotifyActionCards">
+      <div className="divGithubActionCards">
         {actions.map((action, index) => (
-          <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px" }}>
             <CardContent
               style={{
                 display: "flex",
@@ -60,10 +58,10 @@ export default function SpotifyPage() {
           </Card>
         ))}
       </div>
-      <div className="divSpotifyActionText">
+      <div className="divGithubActionText">
         <h2>Reactions </h2>
       </div>
-      <div className="divSpotifyReactionCards">
+      <div className="divGithubReactionCards">
         {reactions.map((reaction, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
             <CardContent
