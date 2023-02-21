@@ -1,0 +1,62 @@
+.divGithubLogo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+}
+
+.divGithubTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.divGithubDescription {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.divGithubConnectionButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    background-color : white;
+    color: black;
+    width: 120px;
+    border-radius: 40px;
+    margin: auto;
+}
+
+.divGithubActionText{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-top: 2%;
+}
+
+.divGithubActionCards{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.divGithubReactionCards{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    padding-bottom: 5%;
+}

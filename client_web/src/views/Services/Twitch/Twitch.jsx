@@ -44,7 +44,7 @@ export default function TwitchPage() {
       </div>
       <div className="divTwitchActionCards">
         {actions.map((action, index) => (
-          <Card sx={{ width: 180, marginLeft: "1%", height: 180 }}>
+          <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
             <CardContent
               style={{
                 display: "flex",
@@ -63,7 +63,7 @@ export default function TwitchPage() {
       </div>
       <div className="divTwitchReactionCards">
         {reactions.map((reaction, index) => (
-          <Card sx={{ width: 180, marginLeft: "1%", height: 180}}>
+          <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
             <CardContent
               style={{
                 display: "flex",
