@@ -53,7 +53,7 @@ async function CreateScenario() {
       ],
     },
   };
-  fetch("https://localhost:8080/scenarios/create", {
+  fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
       "Accept": "application/json",
@@ -80,7 +80,7 @@ export default function ScenarioPage() {
 
   useEffect(() => {
     // call /me to get user info
-    fetch("https://localhost:8080/me", {
+    fetch("http://localhost:8080/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -94,7 +94,7 @@ export default function ScenarioPage() {
   }, []);
 
   useEffect(() => {
-    fetch("https://localhost:8080/scenarios", {
+    fetch("http://localhost:8080/scenarios", {
       method: "GET",
       headers: {
         "Accept": "application/json",

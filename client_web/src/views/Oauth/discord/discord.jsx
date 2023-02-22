@@ -25,7 +25,6 @@ function DiscordPage() {
       .then(response => {
         if (!response.ok)
           throw new Error('La requête a échoué');
-        return response.json();
       })
       .then(data => {
         console.log(data);

@@ -13,7 +13,7 @@ function TwitterPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('https://localhost:8080/subscriptions/twitter', {
+    fetch('http://localhost:8080/subscriptions/twitter', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
