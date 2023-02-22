@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function TwitterPage() {
+function SpotifyPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function TwitterPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('http://localhost:8080/subscriptions/twitter', {
+    fetch('http://localhost:8080/subscriptions/spotify', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -25,7 +25,6 @@ function TwitterPage() {
       .then(response => {
         if (!response.ok)
           throw new Error('La requête a échoué');
-        return response.json();
       })
       .then(data => {
         console.log(data);
@@ -39,4 +38,4 @@ function TwitterPage() {
   return <div>En attente de la réponse...</div>;
 }
 
-export default TwitterPage;
+export default SpotifyPage;

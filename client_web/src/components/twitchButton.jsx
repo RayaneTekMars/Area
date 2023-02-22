@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Oauth.module.css";
 
-const TwitterButton = () => {
+const TwitchButton = () => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -17,11 +17,10 @@ const TwitterButton = () => {
       headers,
     };
 
-    fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
+    fetch("http://localhost:8080/subscriptions/twitch", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
-        console.log(res.data.url);
       });
   }, []);
 
@@ -53,10 +52,10 @@ const TwitterButton = () => {
             />
           </g>
         </svg>
-        Signin with Google
+        Signin with Twitch
       </button>
     </a>
   );
 };
 
-export default TwitterButton;
+export default TwitchButton;

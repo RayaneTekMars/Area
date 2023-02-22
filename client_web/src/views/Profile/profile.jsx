@@ -3,7 +3,10 @@ import { Button } from "@mui/material";
 import CardAreaConnect from "../../components/cardConnect";
 import TwitterButton from "../../components/twitterButton";
 import GithubButton from "../../components/githubButton";
+import DiscordButton from "../../components/discordButton";
 import MainNavbar from "../../components/mainNavbar";
+import SpotifyButton from "../../components/spotifyButton";
+import TwitchButton from "../../components/twitchButton";
 
 function disconnect() {
   localStorage.removeItem("username");
@@ -15,7 +18,7 @@ export default function HomePage() {
   const [username, setUsername] = React.useState("");
 
   useEffect(() => {
-    fetch("https://api.automateme.fr/me", {
+    fetch("http://localhost:8080/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -78,6 +81,9 @@ export default function HomePage() {
       </div>
       <TwitterButton />
       <GithubButton />
+      <DiscordButton />
+      <SpotifyButton />
+      <TwitchButton />
       <Button
         style={{
           backgroundColor: "white",
