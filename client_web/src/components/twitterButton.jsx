@@ -17,7 +17,7 @@ const TwitterButton = () => {
       headers,
     };
 
-    fetch("https://localhost:8080/subscriptions/twitter", requestOptions)
+    fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);

@@ -21,7 +21,6 @@ const DiscordButton = () => {
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
-        console.log(res.data.url);
       });
   }, []);
 
