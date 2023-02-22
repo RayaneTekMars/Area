@@ -35,7 +35,7 @@ export class DiscordSubscribeService {
 
     try {
       const response = await axios.post(
-        `${this.discordOAuthUrl}/token`,
+        'https://discord.com/api/v10/oauth2/token',
         data,
         {
           headers: {

@@ -23,6 +23,7 @@ export class GithubSubscribeService {
   async authorize(code: string): Promise<{
     accessToken: string;
     refreshToken: string;
+    expiresIn : number;
   }> {
     const clientId = this.configService.get("GITHUB_OAUTH2_CLIENT_ID");
     const clientSecret = this.configService.get("GITHUB_OAUTH2_CLIENT_SECRET");
@@ -51,14 +52,19 @@ export class GithubSubscribeService {
 
       return {
         accessToken: response.data.access_token,
-        refreshToken: response.data.refresh_token
+        refreshToken: response.data.refresh_token,
+        expiresIn: response.data.expires_in
       };
     } catch (error) {
       throw new Error("Error while getting access token");
     }
   }
 
-  async refreshAccessToken(refreshToken: string): Promise<string> {
+  async refreshAccessToken(refreshToken: string): Promise<{
+    accessToken: string;
+    newRefreshToken: string;
+    expiresIn : number;
+  }> {
     const clientId = this.configService.get("GITHUB_OAUTH2_CLIENT_ID");
     const clientSecret = this.configService.get("GITHUB_OAUTH2_CLIENT_SECRET");
 
@@ -78,8 +84,10 @@ export class GithubSubscribeService {
     );
 
     const accessToken = response.data.access_token;
+    const newRefreshToken = response.data.refresh_token;
+    const expiresIn = response.data.expires_in;
 
-    return accessToken;
+    return { accessToken, newRefreshToken, expiresIn};
   }
 
   async revokeAccessToken(refreshToken: string): Promise<void> {
