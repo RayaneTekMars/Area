@@ -9,6 +9,8 @@ import { Account } from '../accounts/entities/account.entity'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { DiscordSubscribeService } from './services/discord.sub.service'
+import { SpotifySubscribeService } from './services/spotify.sub.service'
+import { TwitchSubscribeService } from './services/twitch.sub.service'
 
 @Controller('subscriptions')
 @ApiTags('Subscriptions')
@@ -19,7 +21,9 @@ export class SubscriptionsController {
         public readonly subscriptionsService: SubscriptionsService,
         public readonly twitterSubscribeService: TwitterSubscribeService,
         public readonly githubSubscribeService: GithubSubscribeService,
-        public readonly discordSubscribeService: DiscordSubscribeService
+        public readonly discordSubscribeService: DiscordSubscribeService,
+        public readonly spotifySubscribeService: SpotifySubscribeService,
+        public readonly twitchSubscribeService: TwitchSubscribeService,
     ) {}
 
     @Get('')
@@ -142,9 +146,52 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createGithubSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken } = await this.githubSubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription('Github', user, accessToken, refreshToken!, 10000)
+        const { accessToken, refreshToken, expiresIn } = await this.githubSubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription('Github', user, accessToken, refreshToken!, expiresIn)
 
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Put('github')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Update a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async updateGithubSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        const subscription = await this.subscriptionsService.getSubscription('Github', user.id)
+
+        if (!subscription)
+            throw new Error('Subscription not found')
+        
+        const { accessToken, newRefreshToken, expiresIn } = await this.githubSubscribeService.refreshAccessToken(subscription.refreshToken)
+        await this.subscriptionsService.updateSubscription('Github', user.id, accessToken, newRefreshToken!, expiresIn)
+
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Delete('github')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Delete a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async deleteGithubSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        const subscription = await this.subscriptionsService.deleteSubscription('Github', user.id)
+
+        if (!subscription)
+            throw new Error('Subscription not found')
+        
         return {
             status: 'success',
             data: {
@@ -179,6 +226,76 @@ export class SubscriptionsController {
     async createDiscordSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
         const { accessToken, refreshToken } = await this.discordSubscribeService.authorize(body.code)
         const subscription = await this.subscriptionsService.createSubscription('Discord', user, accessToken, refreshToken!, 10000)
+
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Get('spotify')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Get an AuthLink for Spotify' })
+    @ApiOkResponse({ type: SubscriptionUrlResDto })
+    @ApiBadRequestResponse()
+    async getSpotifySubscription(): Promise<SubscriptionUrlResDto> {
+        const url = await this.spotifySubscribeService.getAuthorizeUrl()
+
+        return {
+            status: 'success',
+            data: {
+                url
+            }
+        }
+    }
+
+    @Post('spotify')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Create a subscription to Spotify' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async createSpotifySubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
+        const { accessToken, refreshToken } = await this.spotifySubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription('Spotify', user, accessToken, refreshToken!, 10000)
+
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Get('twitch')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Get an AuthLink for Twitch' })
+    @ApiOkResponse({ type: SubscriptionUrlResDto })
+    @ApiBadRequestResponse()
+    async getTwitchSubscription(): Promise<SubscriptionUrlResDto> {
+        const url = await this.twitchSubscribeService.getAuthorizeUrl()
+
+        return {
+            status: 'success',
+            data: {
+                url
+            }
+        }
+    }
+
+    @Post('twitch')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Create a subscription to Twitch' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async createTwitchSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
+        const { accessToken, refreshToken } = await this.twitchSubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription('Twitch', user, accessToken, refreshToken!, 10000)
 
         return {
             status: 'success',
