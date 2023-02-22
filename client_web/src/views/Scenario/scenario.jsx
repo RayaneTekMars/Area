@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  CardActionArea,
-  Card,
   TextField,
 } from "@mui/material";
 import CardArea from "../../components/card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
@@ -70,12 +66,10 @@ async function CreateScenario() {
 
 export default function ScenarioPage() {
   const [open, setOpen] = React.useState(false);
-  const handleOpenNewScenario = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [scenario, setScenario] = React.useState("");
   const [action, setAction] = React.useState("");
   const [reaction, setReaction] = React.useState("");
-  const [username, setUsername] = React.useState("");
   const [areas, setAreas] = useState([]);
 
   useEffect(() => {
@@ -89,7 +83,6 @@ export default function ScenarioPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUsername(data.data.username);
       });
   }, []);
 
@@ -104,6 +97,7 @@ export default function ScenarioPage() {
       .then((res) => res.json())
       .then((data) => {
         let areas = data.data.map(item => [item.account, item.id, item.name]);
+        console.log(areas);
         setAreas(areas);
       });
   }, []);
@@ -247,18 +241,6 @@ export default function ScenarioPage() {
       <MainNavbar />
       <div
         style={{
-          fontFamily: "Inter-Black",
-          color: "white",
-          fontSize: "2rem",
-          width: "15%",
-          margin: "0 auto",
-          marginTop: "5%",
-        }}
-      >
-        Bonjour {username}
-      </div>
-      <div
-        style={{
           fontFamily: "Inter-ExtraBold",
           color: "white",
           fontSize: "2rem",
@@ -274,10 +256,7 @@ export default function ScenarioPage() {
             return (
               <CardArea
                 name={items[2]}
-                maxW={200}
-                minW={200}
-                maxH={200}
-                minH={200}
+                id={items[1]}
               />
             );
           })}
