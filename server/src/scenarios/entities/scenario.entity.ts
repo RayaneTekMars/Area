@@ -25,12 +25,12 @@ export class Scenario {
     account: Account
 
     @Column({
-        type: 'json',
+        type: 'json'
     })
     trigger: Trigger
 
     @Column({
-        type: 'json',
+        type: 'json'
     })
     reaction: Reaction
 
