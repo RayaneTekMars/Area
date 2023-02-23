@@ -1,8 +1,17 @@
-import { Reaction } from "./reaction.type";
-import { Trigger } from "./trigger.type";
+import type { Reaction } from './reaction.type'
+import type { Trigger } from './trigger.type'
 
-type Service = {
-    id: string;
-    triggers: Trigger[];
-    reactions: Reaction[];
-};
+enum ServiceName {
+    Twitter = 'Twitter',
+    Github = 'Github'
+}
+
+interface Service {
+    name: ServiceName
+    description: string
+    triggers: Trigger[]
+    reactions: Reaction[]
+}
+
+export type { Service }
+export { ServiceName }

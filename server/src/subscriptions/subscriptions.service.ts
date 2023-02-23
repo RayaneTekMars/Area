@@ -72,7 +72,8 @@ export class SubscriptionsService {
         return this.subscriptionRepository.save(subscription)
     }
 
-    async updateSubscription(serviceName: string, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | null> {
+    async updateSubscription(serviceName: string, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | undefined> {
+
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,
@@ -85,8 +86,7 @@ export class SubscriptionsService {
         })
 
         if (!subscription)
-            return null
-
+            return
 
         subscription.accessToken = accessToken
         subscription.refreshToken = refreshToken
@@ -95,7 +95,7 @@ export class SubscriptionsService {
         return this.subscriptionRepository.save(subscription)
     }
 
-    async deleteSubscription(serviceName: string, accountId: string): Promise<Subscription | null> {
+    async deleteSubscription(serviceName: string, accountId: string): Promise<Subscription | undefined> {
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,
@@ -108,8 +108,7 @@ export class SubscriptionsService {
         })
 
         if (!subscription)
-            return null
-
+            return
 
         return this.subscriptionRepository.remove(subscription)
     }

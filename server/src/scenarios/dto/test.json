@@ -1,19 +1,34 @@
 {
-  "name": "NewPostForNewFollower",
+  "name": "Twitter New Follower",
   "trigger": {
-    "name": "NewFollower",
-    "serviceName": "Twitter",
-    "params": []
+      "name": "NewFollower",
+      "serviceName": "Twitter",
+      "description": "Trigger when a new person follows you on Twitter",
+      "fields": [],
+      "ingredients": [
+          {
+              "name": "id",
+              "value": ""
+          },
+          {
+              "name": "name",
+              "value": ""
+          },
+          {
+              "name": "username",
+              "value": ""
+          }
+      ]
   },
   "reaction": {
-    "name": "PostTweet",
-    "serviceName": "Twitter",
-    "params": [
-      {
-        "name": "text",
-        "value": "Hello World",
-        "required": true
-      }
-    ]
+      "name": "PostTweet",
+      "serviceName": "Twitter",
+      "description": "Post a tweet on your Twitter account",
+      "fields": [
+          {
+              "name": "tweet",
+              "value": "Hello {{username}}! Thanks for following me!"
+          }
+      ]
   }
 }
