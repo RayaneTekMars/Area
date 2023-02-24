@@ -6,6 +6,7 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 // ProfilePage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { Logos, Shapes } from "../tools/Image";
 import { FontContext, resetStorageData } from "../tools/Utils";
 
 // ProfilePage.js - Function.
@@ -20,7 +21,7 @@ export default function ProfilePage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appTitleContainers.titleContainer30}>
@@ -33,28 +34,28 @@ export default function ProfilePage({ navigation }) {
           style={Style.appComponents.componentBanner}
           onPress={() => alert("Twitter button !")}
         >
-          <Image source={require("../../assets/images/twitter_logo.png")} />
+          <Image source={Logos.TwitterLogo} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentBanner}
           onPress={() => alert("Github button !")}
         >
-          <Image source={require("../../assets/images/github_logo.png")} />
+          <Image source={Logos.GithubLogo} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentBanner}
           onPress={() => alert("Discord button !")}
         >
-          <Image source={require("../../assets/images/discord_logo.png")} />
+          <Image source={Logos.DiscordLogo} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={Style.appComponents.componentBanner}
           onPress={() => alert("Spotify button !")}
         >
-          <Image source={require("../../assets/images/spotify_logo.png")} />
+          <Image source={Logos.SpotifyLogo} />
         </TouchableOpacity>
       </View>
 
@@ -73,7 +74,7 @@ export default function ProfilePage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

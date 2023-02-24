@@ -9,6 +9,7 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 import * as Style from "../tools/Style";
 import { SignupQuery } from "../tools/Query";
 import { FontContext } from "../tools/Utils";
+import { Logos, Shapes } from "../tools/Image";
 
 // SignupPage.js - Additional function.
 
@@ -37,12 +38,12 @@ export default function SignupPage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appContainers.logoContainer}>
         <Image
-          source={require("../../assets/images/amm_logo_full.png")}
+          source={Logos.AmmLogoFull}
           style={Style.appComponents.componentLogo}
         />
       </View>
@@ -110,7 +111,7 @@ export default function SignupPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

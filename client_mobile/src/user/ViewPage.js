@@ -7,10 +7,11 @@ import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 // ViewPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { Shapes } from "../tools/Image";
 import { FontContext } from "../tools/Utils";
 import { GetScenariosQuery, DeleteScenarioQuery } from "../tools/Query";
 
-// ViewPage.js - Custom component.
+// ViewPage.js - Additional function.
 
 function CustomScrollView(props) {
   const { data, handleEmptyScenario } = props;
@@ -88,7 +89,7 @@ export default function ViewPage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appTitleContainers.titleContainer15}>
@@ -121,7 +122,7 @@ export default function ViewPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

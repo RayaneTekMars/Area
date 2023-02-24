@@ -7,6 +7,7 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 // CreatePage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { Shapes } from "../tools/Image";
 import { AddScenarioQuery } from "../tools/Query";
 import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
 
@@ -24,7 +25,7 @@ export default function CreatePage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appTitleContainers.titleContainer30}>
@@ -121,7 +122,7 @@ export default function CreatePage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );
