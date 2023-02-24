@@ -1,11 +1,11 @@
 // Image.js - Images variables.
 
 export const Logos = {
+  AmmLogo: require("../../assets/images/logos/amm_logo.png"),
   GithubLogo: require("../../assets/images/logos/github_logo.png"),
   DiscordLogo: require("../../assets/images/logos/discord_logo.png"),
   SpotifyLogo: require("../../assets/images/logos/spotify_logo.png"),
   TwitterLogo: require("../../assets/images/logos/twitter_logo.png"),
-  AmmLogoFull: require("../../assets/images/logos/amm_logo_full.png"),
 };
 
 export const Shapes = {
