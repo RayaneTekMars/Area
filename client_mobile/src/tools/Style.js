@@ -59,6 +59,13 @@ export const appContainers = StyleSheet.create({
     width: "100%",
     height: "70%",
   },
+  emptyContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "30%",
+  },
 });
 
 export const appTexts = StyleSheet.create({

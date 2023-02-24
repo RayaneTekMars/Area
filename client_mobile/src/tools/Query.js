@@ -155,7 +155,7 @@ export async function DeleteScenarioQuery(id) {
     );
 
     if (response.status === 200) {
-      alert("Congratulations, scenario deleted.");
+      return null;
     } else {
       alert("Error while deleting your scenario.");
     }

@@ -64,7 +64,7 @@ export default function ViewPage({ navigation }) {
     return null;
   }
 
-  const [scenario, setScenario] = useState("");
+  const [scenario, setScenario] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,9 +93,9 @@ export default function ViewPage({ navigation }) {
         {scenario.length > 0 ? (
           <CustomScrollView data={scenario} />
         ) : (
-          <View>
+          <View style={Style.appContainers.emptyContainer}>
             <Text style={Style.appTexts.textBasic15}>
-              It seems to be empty here... 👻
+              It seems to be empty here 👻
             </Text>
 
             <TouchableOpacity
