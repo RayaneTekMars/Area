@@ -31,7 +31,7 @@ export default function SigninPage({ navigation }) {
 
       <View style={Style.appContainers.logoContainer}>
         <Image
-          source={Logos.AmmLogoFull}
+          source={Logos.AmmLogo}
           style={Style.appComponents.componentLogo}
         />
       </View>
