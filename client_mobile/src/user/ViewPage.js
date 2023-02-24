@@ -13,8 +13,8 @@ import { GetScenariosQuery, DeleteScenarioQuery } from "../tools/Query";
 // ViewPage.js - Custom component.
 
 function CustomScrollView(props) {
-  const { data } = props;
-  const [items, setItems] = useState(data);
+  const { data, handleEmptyScenario } = props;
+  const [items, setItems] = useState(data || []);
 
   const handleDelete = async (index) => {
     const newItems = [...items];
@@ -24,6 +24,9 @@ function CustomScrollView(props) {
       await DeleteScenarioQuery(scenarioToDelete);
       newItems.splice(index, 1);
       setItems(newItems);
+      if (newItems.length === 0) {
+        handleEmptyScenario();
+      }
     } catch (error) {
       console.error("[LOG] - Error deleting scenario: ", error);
     }
@@ -78,6 +81,10 @@ export default function ViewPage({ navigation }) {
     fetchData();
   }, []);
 
+  const handleEmptyScenario = () => {
+    setScenario([]);
+  };
+
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
@@ -91,7 +98,10 @@ export default function ViewPage({ navigation }) {
 
       <View style={Style.appContainers.scrollViewContainer}>
         {scenario.length > 0 ? (
-          <CustomScrollView data={scenario} />
+          <CustomScrollView
+            data={scenario}
+            handleEmptyScenario={handleEmptyScenario}
+          />
         ) : (
           <View style={Style.appContainers.emptyContainer}>
             <Text style={Style.appTexts.textBasic15}>
