@@ -3,7 +3,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Query.js - Functions.
+// Query.js - Login queries.
 
 export async function SigninQuery(navigation, email, password) {
   try {
@@ -60,7 +60,9 @@ export async function SignupQuery(navigation, username, email, password) {
 
 export async function SigninGoogleQuery() {}
 
-export async function AddScenarioQuery() {
+// Query.js - Services queries.
+
+export async function AddScenarioQuery(navigation) {
   try {
     const bearerToken = await AsyncStorage.getItem("token");
 
@@ -99,11 +101,65 @@ export async function AddScenarioQuery() {
     );
 
     if (response.status === 200) {
-      alert("Congratulations, scenario created.");
+      navigation.navigate("UserStack", { screen: "Dash" });
     } else {
       alert("Error while creating your scenario.");
     }
   } catch (error) {
     alert("Error while creating your scenario.");
+  }
+}
+
+export async function GetScenariosQuery() {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/scenarios",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data.data;
+    } else {
+      alert("Error while fetching your scenarios.");
+    }
+  } catch (error) {
+    alert("Error while fetching your scenarios.");
+  }
+}
+
+export async function DeleteScenarioQuery(id) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.delete(
+      "https://api.automateme.fr/scenarios/delete/" + id,
+      config
+    );
+
+    if (response.status === 200) {
+      alert("Congratulations, scenario deleted.");
+    } else {
+      alert("Error while deleting your scenario.");
+    }
+  } catch (error) {
+    alert("Error while deleting your scenario.");
   }
 }

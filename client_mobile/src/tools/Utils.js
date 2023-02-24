@@ -40,7 +40,7 @@ export const resetStorageData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (error) {
-    console.log(error);
+    console.log("[LOG] - Error resetting data: ", error);
   }
 };
 

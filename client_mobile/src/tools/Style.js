@@ -37,13 +37,6 @@ export const appContainers = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  titleContainer: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    width: "100%",
-    height: "30%",
-  },
   cardContainer: {
     display: "flex",
     alignItems: "center",
@@ -58,6 +51,13 @@ export const appContainers = StyleSheet.create({
     backgroundColor: "#222222",
     width: "100%",
     height: "10%",
+  },
+  scrollViewContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "70%",
   },
 });
 
@@ -92,6 +92,18 @@ export const appTexts = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: "15rem",
     paddingLeft: "5%",
+  },
+  textCardQuery15: {
+    color: "#222222",
+    fontSize: "15rem",
+    fontFamily: "Inter-Bold",
+    margin: "3%",
+  },
+  textCardQuery20: {
+    color: "#222222",
+    fontSize: "20rem",
+    fontFamily: "Inter-Bold",
+    margin: "5%",
   },
 });
 
@@ -138,6 +150,25 @@ export const appComponents = StyleSheet.create({
     borderRadius: 30,
     overflow: "hidden",
     resizeMode: "contain",
+  },
+  componentCardQuery: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: "90%",
+  },
+  componentDeleteButton: {
+    alignItems: "center",
+    backgroundColor: "#424242",
+    marginTop: 20,
+    marginBottom: 5,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: "25%",
   },
 });
 
@@ -198,5 +229,22 @@ export const appFormContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "20%",
+  },
+});
+
+export const appTitleContainers = StyleSheet.create({
+  titleContainer30: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    width: "100%",
+    height: "30%",
+  },
+  titleContainer15: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    width: "100%",
+    height: "15%",
   },
 });

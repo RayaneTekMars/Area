@@ -12,7 +12,7 @@ import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
 
 // CreatePage.js - Core function.
 
-export default function CreatePage() {
+export default function CreatePage({ navigation }) {
   const fontsLoaded = useContext(FontContext);
 
   if (!fontsLoaded) {
@@ -27,7 +27,7 @@ export default function CreatePage() {
         <Image source={require("../../assets/images/amm_shape_right.png")} />
       </View>
 
-      <View style={Style.appContainers.titleContainer}>
+      <View style={Style.appTitleContainers.titleContainer30}>
         <Text style={Style.appTexts.textTitle}>Customize 🧩</Text>
         <Text style={Style.appTexts.textSubTitle}>Your unique scenario</Text>
       </View>
@@ -114,7 +114,7 @@ export default function CreatePage() {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => AddScenarioQuery()}
+          onPress={() => AddScenarioQuery(navigation)}
         >
           <Text style={Style.appTexts.textButton}>Add scenario</Text>
         </TouchableOpacity>

@@ -26,7 +26,7 @@ export default function DashPage({ navigation }) {
         const name = await AsyncStorage.getItem("name");
         setName(name);
       } catch (error) {
-        console.log(error);
+        console.log("[LOG] - Error fetching name: ", error);
       }
     };
     fetchData();
@@ -38,7 +38,7 @@ export default function DashPage({ navigation }) {
         <Image source={require("../../assets/images/amm_shape_right.png")} />
       </View>
 
-      <View style={Style.appContainers.titleContainer}>
+      <View style={Style.appTitleContainers.titleContainer30}>
         <Text style={Style.appTexts.textTitle}>Hello {name} 💫</Text>
         <Text style={Style.appTexts.textSubTitle}>Nice to see you again</Text>
       </View>
