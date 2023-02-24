@@ -23,7 +23,7 @@ export default function ProfilePage({ navigation }) {
         <Image source={require("../../assets/images/amm_shape_right.png")} />
       </View>
 
-      <View style={Style.appContainers.titleContainer}>
+      <View style={Style.appTitleContainers.titleContainer30}>
         <Text style={Style.appTexts.textTitle}>Parameters ⚙️</Text>
         <Text style={Style.appTexts.textSubTitle}>Connect your apps here</Text>
       </View>
@@ -62,6 +62,7 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={Style.appComponents.componentButton}
           onPress={async () => {
+            await resetStorageData("id", "");
             await resetStorageData("name", "");
             await resetStorageData("token", "");
             navigation.navigate("LoginStack", { screen: "Home" });
