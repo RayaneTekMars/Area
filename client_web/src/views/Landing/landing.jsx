@@ -58,7 +58,8 @@ async function SignupAction() {
   }
 }
 
-async function SigninAction() {
+async function 
+SigninAction() {
   console.log(document.getElementById("emaillogin").value);
   console.log(document.getElementById("passwordlogin").value);
   const data = {
