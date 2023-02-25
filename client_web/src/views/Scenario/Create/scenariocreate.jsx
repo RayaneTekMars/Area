@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../styles/style.css";
 import "../../../styles/scenariocreate.css";
 import MainNavbar from "../../../components/mainNavbar";
@@ -13,50 +13,36 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TextField } from "@material-ui/core";
 
-
-function CreateScenario(actionState, reactionState)
-{;
-    const data = {
-        name: document.getElementById("scenarioName").value,
-        trigger: {
-            name: actionState.actionState,
-            serviceName: "Twitter",
-            params: [
-              {
-                  name: "text",
-                  value: document.getElementById("scenarioActionParameters").value,
-                  required: true,
-              },
-          ],
-        },
-        reaction: {
-            name: reactionState.reactionState,
-            serviceName: "Twitter",
-            params: [
-                {
-                    name: "text",
-                    value: document.getElementById("scenarioReactionParameters").value,
-                    required: true,
-                },
-            ],
-        },
-    };
-    fetch("http://localhost:8080/scenarios/create", {
+function CreateScenario(actionState, reactionState, paramAction, paramReaction) {
+  const data = {
+    name: document.getElementById("scenarioName").value,
+    trigger: {
+      name: actionState.actionState,
+      serviceName: "Twitter",
+      params:paramAction,
+    },
+    reaction: {
+      name: reactionState.reactionState,
+      serviceName: "Twitter",
+      params:paramReaction,
+    },
+  };
+  fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Success:", data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 
 export default function ScenarioPage() {
@@ -112,6 +98,44 @@ export default function ScenarioPage() {
     "Lancer une playlist",
     "Lancer une file d'attente",
   ];
+
+  const [paramAction, setParamAction] = useState([
+    { name: "textAction", value: "" },
+    { name: "textAction2", value: "" }
+  ]);
+
+  const [paramReaction, setParamReaction] = useState([
+    { name: "textReaction", value: "" },
+    { name: "textReaction2", value: "" }
+  ]);
+
+  const handleTextFieldChangeParamAction = (index, value) => {
+    const newParamAction = [...paramAction];
+    newParamAction[index].value = value;
+    setParamAction(newParamAction);
+  };
+
+  const handleTextFieldChangeParamReaction = (index, value) => {
+    const newParamReaction = [...paramReaction];
+    newParamReaction[index].value = value;
+    setParamReaction(newParamReaction);
+  };
+
+  const changeParamAction = () => {
+    let paramActionstmp = [
+      { name: "aaa", value: "" },
+      { name: "bbbb", value: "" },
+      { name: "aaa", value: "" },
+      { name: "zd", value: "" }
+    ];
+    setParamAction(paramActionstmp);
+  };
+
+
+
+  const handleSubmit = () => {
+    console.log(paramAction); // do something with the completed form data
+  };
 
   const [actionState, setActionState] = React.useState(listActions[0]);
   const handleChangeAction = (event: SelectChangeEvent) => {
@@ -193,9 +217,12 @@ export default function ScenarioPage() {
         </Box>
       </div>
       <div>
+      {paramAction.map((param, index) => (
         <TextField
-          id="scenarioActionParameters"
-          label="Parameters"
+          key={index}
+          label={param.name}
+          value={param.value}
+          onChange={(event) => handleTextFieldChangeParamAction(index, event.target.value)}
           style={{
             width: "100%",
             marginTop: "4%",
@@ -204,6 +231,9 @@ export default function ScenarioPage() {
             border: "1px solid #ced4da",
           }}
         />
+      ))}
+      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={changeParamAction}> chaange</button>
       </div>
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
@@ -258,9 +288,12 @@ export default function ScenarioPage() {
         </Box>
       </div>
       <div>
+      {paramReaction.map((param, index) => (
         <TextField
-          id="scenarioReactionParameters"
-          label="Parameters"
+          key={index}
+          label={param.name}
+          value={param.value}
+          onChange={(event) => handleTextFieldChangeParamReaction(index, event.target.value)}
           style={{
             width: "100%",
             marginTop: "4%",
@@ -269,6 +302,7 @@ export default function ScenarioPage() {
             border: "1px solid #ced4da",
           }}
         />
+      ))}
       </div>
       <div>
         <Button
@@ -278,7 +312,7 @@ export default function ScenarioPage() {
             backgroundColor: "white",
             marginTop: "15%",
           }}
-          onClick={() => CreateScenario({actionState}, {reactionState})}
+          onClick={() => CreateScenario({ actionState }, { reactionState }, paramAction, paramReaction)}
         >
           Créer
         </Button>
