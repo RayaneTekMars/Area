@@ -62,20 +62,27 @@ export async function SigninGoogleQuery() {}
 
 // Query.js - Services queries.
 
-export async function AddScenarioQuery(navigation) {
+export async function CreateScenarioQuery(
+  navigation,
+  scenario,
+  firstService,
+  trigger,
+  secondService,
+  reaction
+) {
   try {
     const bearerToken = await AsyncStorage.getItem("token");
 
     const data = {
-      name: "NewPostForNewFollower",
+      name: scenario,
       trigger: {
-        name: "NewFollower",
-        serviceName: "Twitter",
+        name: trigger,
+        serviceName: firstService,
         params: [],
       },
       reaction: {
-        name: "PostTweet",
-        serviceName: "Twitter",
+        name: reaction,
+        serviceName: secondService,
         params: [
           {
             name: "text",

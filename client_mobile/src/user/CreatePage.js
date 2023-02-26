@@ -8,7 +8,7 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 import * as Style from "../tools/Style";
 import { Shapes } from "../tools/Image";
-import { AddScenarioQuery } from "../tools/Query";
+import { CreateScenarioQuery } from "../tools/Query";
 import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
 
 // CreatePage.js - Core function.
@@ -21,6 +21,10 @@ export default function CreatePage({ navigation }) {
   }
 
   const [scenario, setScenario] = useState("");
+  const [firstService, setFirstService] = useState("");
+  const [trigger, setTrigger] = useState("");
+  const [secondService, setSecondService] = useState("");
+  const [reaction, setReaction] = useState("");
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -47,8 +51,8 @@ export default function CreatePage({ navigation }) {
           dropdownStyle={{ borderRadius: 20 }}
           buttonStyle={Style.appComponents.componentDropdown}
           buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+          onSelect={(selectedItem) => {
+            setFirstService(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem) => {
             return selectedItem;
@@ -64,8 +68,8 @@ export default function CreatePage({ navigation }) {
           dropdownStyle={{ borderRadius: 20 }}
           buttonStyle={Style.appComponents.componentDropdown}
           buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+          onSelect={(selectedItem) => {
+            setTrigger(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem) => {
             return selectedItem;
@@ -81,8 +85,8 @@ export default function CreatePage({ navigation }) {
           dropdownStyle={{ borderRadius: 20 }}
           buttonStyle={Style.appComponents.componentDropdown}
           buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+          onSelect={(selectedItem) => {
+            setSecondService(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem) => {
             return selectedItem;
@@ -98,8 +102,8 @@ export default function CreatePage({ navigation }) {
           dropdownStyle={{ borderRadius: 20 }}
           buttonStyle={Style.appComponents.componentDropdown}
           buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
+          onSelect={(selectedItem) => {
+            setReaction(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem) => {
             return selectedItem;
@@ -115,7 +119,16 @@ export default function CreatePage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appComponents.componentButton}
-          onPress={() => AddScenarioQuery(navigation)}
+          onPress={() =>
+            CreateScenarioQuery(
+              navigation,
+              scenario,
+              firstService,
+              trigger,
+              secondService,
+              reaction
+            )
+          }
         >
           <Text style={Style.appTexts.textButton}>Add scenario</Text>
         </TouchableOpacity>
