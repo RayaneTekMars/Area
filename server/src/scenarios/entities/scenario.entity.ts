@@ -20,7 +20,7 @@ export class Scenario {
     @Column()
     name: string
 
-    @ManyToOne(() => Account)
+    @ManyToOne(() => Account, (account) => account.id, { eager: true })
     @JoinColumn()
     account: Account
 

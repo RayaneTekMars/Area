@@ -40,7 +40,6 @@ export class ScenariosService {
     async getScenario(accountId: string, id: string): Promise<Scenario | null> {
         return this.scenarioRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 id,
                 account: {
@@ -53,7 +52,6 @@ export class ScenariosService {
     async getScenarios(accountId: string): Promise<Scenario[]> {
         return this.scenarioRepository.find({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 account: {
                     id: accountId
@@ -65,7 +63,6 @@ export class ScenariosService {
     async getScenariosByTrigger(accountId: string, serviceName: string, triggerName: string): Promise<Scenario[]> {
         const scenarios = await this.scenarioRepository.find({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 account: {
                     id: accountId
@@ -82,7 +79,6 @@ export class ScenariosService {
     async getReaction(accountId: string, serviceName: string, triggerName: string): Promise<Reaction | undefined> {
         const scenarios = await this.scenarioRepository.find({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 account: {
                     id: accountId
@@ -145,7 +141,6 @@ export class ScenariosService {
     async updateScenario(accountId: string, id: string, updatedScenario: ScenarioReqDto): Promise<Scenario | undefined> {
         const scenario = await this.scenarioRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 id,
                 account: {
@@ -167,7 +162,6 @@ export class ScenariosService {
     async deleteScenario(accountId: string, id: string): Promise<Scenario | undefined> {
         const scenario = await this.scenarioRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 id,
                 account: {

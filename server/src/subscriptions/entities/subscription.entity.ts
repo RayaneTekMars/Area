@@ -21,7 +21,7 @@ export class Subscription {
     @Column()
     serviceName: ServiceName
 
-    @ManyToOne(() => Account)
+    @ManyToOne(() => Account, (account) => account.id, { eager: true })
     @JoinColumn()
     account: Account
 

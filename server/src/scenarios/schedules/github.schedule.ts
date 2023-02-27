@@ -26,7 +26,8 @@ export class GithubSchedule {
         await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github).then((subs) => {
             console.log(`Github: Found ${subs.length} subscriptions`)
             this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
-            for (const sub of subs)
+            for (const sub of subs) {
+                console.log(sub)
                 void this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
                     .then((scenarios) => {
                         console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
@@ -45,6 +46,7 @@ export class GithubSchedule {
                                 })
 
                     })
+            }
         })
     }
 }

@@ -17,7 +17,6 @@ export class SubscriptionsService {
     async getSubscription(serviceName: ServiceName, accountId: string): Promise<Subscription | null> {
         return this.subscriptionRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 serviceName,
                 account: {
@@ -30,7 +29,6 @@ export class SubscriptionsService {
     async getSubscriptions(accountId: string): Promise<Subscription[]> {
         return this.subscriptionRepository.find({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 account: {
                     id: accountId
@@ -42,7 +40,6 @@ export class SubscriptionsService {
     async getSubscriptionsByServiceName(serviceName: ServiceName): Promise<Subscription[]> {
         return this.subscriptionRepository.find({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 serviceName
             }
@@ -52,7 +49,6 @@ export class SubscriptionsService {
     async getSubscriptionsByAccountIdAndServiceName(accountId: string, serviceName: ServiceName): Promise<Subscription | null> {
         return this.subscriptionRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 serviceName,
                 account: {
@@ -77,7 +73,6 @@ export class SubscriptionsService {
 
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 serviceName,
                 account: {
@@ -99,7 +94,6 @@ export class SubscriptionsService {
     async deleteSubscription(serviceName: ServiceName, accountId: string): Promise<Subscription | undefined> {
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
-            loadRelationIds: true,
             where: {
                 serviceName,
                 account: {
