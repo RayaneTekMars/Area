@@ -20,6 +20,7 @@ export class DiscordSubscribeService {
   async authorize(code: string): Promise<{
     accessToken: string;
     refreshToken: string;
+    expiresIn: string;
   }> {
     const clientId = this.configService.get("DISCORD_OAUTH2_CLIENT_ID");
     const clientSecret = this.configService.get("DISCORD_OAUTH2_CLIENT_SECRET");
@@ -49,8 +50,49 @@ export class DiscordSubscribeService {
 
       return {
         accessToken: response.data.access_token,
-        refreshToken: response.data.refresh_token
+        refreshToken: response.data.refresh_token,
+        expiresIn: response.data.expires_in
       };
+    } catch (error) {
+      throw new Error("Error while getting access token");
+    }
+  }
+
+  async refreshAccessToken(refreshToken: string): Promise<{
+    accessToken: string;
+    newRefreshToken: string;
+    expiresIn : number;
+  }> {
+    const clientId = this.configService.get("DISCORD_OAUTH2_CLIENT_ID");
+    const clientSecret = this.configService.get("DISCORD_OAUTH2_CLIENT_SECRET");
+
+    const data = {
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: "refresh_token",
+      refresh_token: refreshToken
+    }
+
+    try {
+      const response = await axios.post(
+        'https://discord.com/api/v10/oauth2/token',
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      const accessToken = response.data.access_token;
+      const newRefreshToken = response.data.refresh_token;
+      const expiresIn = response.data.expires_in;
+
+      return {accessToken, newRefreshToken, expiresIn}
+
     } catch (error) {
       throw new Error("Error while getting access token");
     }

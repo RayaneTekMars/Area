@@ -235,6 +235,49 @@ export class SubscriptionsController {
         }
     }
 
+    @Put('discord')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Update a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async updateDiscordSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        const subscription = await this.subscriptionsService.getSubscription('Discord', user.id)
+
+        if (!subscription)
+            throw new Error('Subscription not found')
+        
+        const { accessToken, newRefreshToken, expiresIn } = await this.githubSubscribeService.refreshAccessToken(subscription.refreshToken)
+        await this.subscriptionsService.updateSubscription('Github', user.id, accessToken, newRefreshToken!, expiresIn)
+
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Delete('discord')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Delete a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async deleteDiscordSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        const subscription = await this.subscriptionsService.deleteSubscription('Discord', user.id)
+
+        if (!subscription)
+            throw new Error('Subscription not found')
+        
+        return {
+            status: 'success',
+            data: {
+                id: subscription.id
+            }
+        }
+    }
+
     @Get('spotify')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
