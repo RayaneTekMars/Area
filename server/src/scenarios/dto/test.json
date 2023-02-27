@@ -1,34 +1,71 @@
 {
-  "name": "Twitter New Follower",
-  "trigger": {
-      "name": "NewFollower",
-      "serviceName": "Twitter",
-      "description": "Trigger when a new person follows you on Twitter",
-      "fields": [],
-      "ingredients": [
-          {
-              "name": "id",
-              "value": ""
-          },
-          {
-              "name": "name",
-              "value": ""
-          },
-          {
-              "name": "username",
-              "value": ""
-          }
-      ]
-  },
-  "reaction": {
-      "name": "PostTweet",
-      "serviceName": "Twitter",
-      "description": "Post a tweet on your Twitter account",
-      "fields": [
-          {
-              "name": "tweet",
-              "value": "Hello {{username}}! Thanks for following me!"
-          }
-      ]
-  }
+    "name": "Tweet New Commit",
+    "trigger": {
+        "name": "NewCommit",
+        "serviceName": "Github",
+        "description": "Triggers when a new commit is pushed to a repository",
+        "fields": [
+            {
+                "name": "repository_url",
+                "value": "https://github.com/kbitoune/befunge-hello-world"
+            },
+            {
+                "name": "branch",
+                "value": "main"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "sha",
+                "value": ""
+            },
+            {
+                "name": "branch",
+                "value": ""
+            },
+            {
+                "name": "message",
+                "value": ""
+            },
+            {
+                "name": "html_url",
+                "value": ""
+            },
+            {
+                "name": "repository_url",
+                "value": ""
+            },
+            {
+                "name": "date",
+                "value": ""
+            },
+            {
+                "name": "authorName",
+                "value": ""
+            },
+            {
+                "name": "authorEmail",
+                "value": ""
+            },
+            {
+                "name": "committerName",
+                "value": ""
+            },
+            {
+                "name": "committerEmail",
+                "value": ""
+            }
+        ]
+    },
+    "reaction": {
+        "name": "PostTweet",
+        "serviceName": "Twitter",
+        "description": "Post a tweet on your Twitter account",
+        "fields": [
+            {
+                "name": "tweet",
+                "value": "New commit ({{sha}}) on {{branch}} of {{repository_url}} (author: {{authorName}} / {{authorEmail}}) at {{date}} by {{committerName}} ({{committerEmail}}) : {{message}}. See it on {{html_url}}"
+            }
+        ]
+    }
 }

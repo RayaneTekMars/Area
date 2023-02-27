@@ -1,16 +1,19 @@
-import type { Reaction } from './reaction.type'
-import type { Trigger } from './trigger.type'
+import type { ReactionDefinition } from './reaction.type'
+import type { TriggerDefinition } from './trigger.type'
 
 enum ServiceName {
     Twitter = 'Twitter',
-    Github = 'Github'
+    Github = 'Github',
+    Spotify = 'Spotify',
+    Discord = 'Discord',
+    Twitch = 'Twitch'
 }
 
 interface Service {
     name: ServiceName
     description: string
-    triggers: Trigger[]
-    reactions: Reaction[]
+    triggers: TriggerDefinition[]
+    reactions: ReactionDefinition[]
 }
 
 export type { Service }

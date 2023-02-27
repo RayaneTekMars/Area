@@ -40,7 +40,7 @@ export class TwitterSubscribeService {
         const { codeVerifier } = this.codeVerifierStateArray.get(accountId) ?? {
             codeVerifier: ''
         }
-        const { accessToken, refreshToken, expiresIn }
+        let { accessToken, refreshToken, expiresIn }
             = await this.twitterApi.loginWithOAuth2({
                 code,
                 redirectUri:
@@ -49,6 +49,8 @@ export class TwitterSubscribeService {
             })
 
         this.codeVerifierStateArray.delete(accountId)
+
+        refreshToken ??= ''
 
         return { accessToken, refreshToken, expiresIn }
     }

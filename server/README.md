@@ -1,4 +1,4 @@
-Buddies API
+AutoMateMe API
 ===
 
 Environment Variables

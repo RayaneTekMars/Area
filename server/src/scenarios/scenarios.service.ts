@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Scenario } from './entities/scenario.entity'
-import TwitterIntegration from './integrations/twitter.integration'
 import { SubscriptionsService } from '../subscriptions/subscriptions.service'
 import type Integration from './integrations/intergration'
 import type { ScenarioReqDto } from './dto/scenario.req.dto'
@@ -14,22 +13,28 @@ import type { ServiceName } from './types/service.type'
 @Injectable()
 export class ScenariosService {
 
-    private integrations = [
-        new TwitterIntegration()
-    ]
+    private integrations: Integration[]
 
     constructor(
         @InjectRepository(Scenario)
         private readonly scenarioRepository: Repository<Scenario>,
         private readonly subscriptionsService: SubscriptionsService
-    ) {}
+    ) {
+        this.integrations = []
+    }
+
+    setIntegration(integration: Integration) {
+        this.integrations = [...this.integrations, integration]
+    }
 
     getIntegrations(): Integration[] {
         return this.integrations
     }
 
     getIntegrationByName(name: ServiceName): Integration | undefined {
-        return this.getIntegrations().find(integration => integration.getName() === name)
+        return this.getIntegrations().find(
+            (integration) => integration.getName() === name
+        )
     }
 
     async getScenario(accountId: string, id: string): Promise<Scenario | null> {
@@ -58,7 +63,6 @@ export class ScenariosService {
     }
 
     async getScenariosByTrigger(accountId: string, serviceName: string, triggerName: string): Promise<Scenario[]> {
-
         const scenarios = await this.scenarioRepository.find({
             relations: ['account'],
             loadRelationIds: true,
@@ -69,11 +73,13 @@ export class ScenariosService {
             }
         })
 
-        return scenarios.filter(x => x.trigger.serviceName === serviceName && x.trigger.name === triggerName)
+        return scenarios.filter(
+            (x) =>
+                x.trigger.serviceName === serviceName && x.trigger.name === triggerName
+        )
     }
 
     async getReaction(accountId: string, serviceName: string, triggerName: string): Promise<Reaction | undefined> {
-
         const scenarios = await this.scenarioRepository.find({
             relations: ['account'],
             loadRelationIds: true,
@@ -84,7 +90,10 @@ export class ScenariosService {
             }
         })
 
-        const scenario = scenarios.find(x => x.trigger.serviceName === serviceName && x.trigger.name === triggerName)
+        const scenario = scenarios.find(
+            (x) =>
+                x.trigger.serviceName === serviceName && x.trigger.name === triggerName
+        )
 
         if (!scenario)
             return
@@ -93,12 +102,15 @@ export class ScenariosService {
     }
 
     async emit(accountId: string, trigger: Trigger, reaction: Reaction): Promise<void> {
-
         const service = this.getIntegrationByName(reaction.serviceName)
         if (!service)
             return
 
-        const subscription = await this.subscriptionsService.getSubscriptionsByAccountIdAndServiceName(accountId, reaction.serviceName)
+        const subscription
+            = await this.subscriptionsService.getSubscriptionsByAccountIdAndServiceName(
+                accountId,
+                reaction.serviceName
+            )
         if (!subscription)
             return
 
@@ -109,17 +121,17 @@ export class ScenariosService {
         const fields = new Map<string, string>()
 
         for (let { name, value } of reaction.fields) {
-            value = value.replace(/{{(.*?)}}/g, (_, p1) => trigger.ingredients.find(x => x.name === p1)?.value ?? '')
+            value = value.replace(
+                /{{(.*?)}}/g,
+                (_, p1: string) => trigger.ingredients.find((x) => x.name === p1)?.value ?? `{{${p1}}}`
+            )
             fields.set(name, value)
         }
 
         reactionIntegration.run(fields, subscription.accessToken)
-
     }
 
-
     async createScenario(account: Account, createdScenario: ScenarioReqDto): Promise<Scenario> {
-
         const scenario = new Scenario()
 
         scenario.name = createdScenario.name
@@ -131,7 +143,6 @@ export class ScenariosService {
     }
 
     async updateScenario(accountId: string, id: string, updatedScenario: ScenarioReqDto): Promise<Scenario | undefined> {
-
         const scenario = await this.scenarioRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,
@@ -154,7 +165,6 @@ export class ScenariosService {
     }
 
     async deleteScenario(accountId: string, id: string): Promise<Scenario | undefined> {
-
         const scenario = await this.scenarioRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,

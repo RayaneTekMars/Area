@@ -2,11 +2,15 @@ import Integration from './intergration'
 import { ServiceName } from '../types/service.type'
 import NewFollower from '../triggers/twitter/new-follower.trigger'
 import PostTweet from '../reactions/twitter/post-tweet.reaction'
+import type { TwitterService } from '../services/twitter.service'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
 
 class TwitterIntegration extends Integration {
 
+    constructor(private readonly twitterService: TwitterService) {
+        super()
+    }
 
     getName(): ServiceName {
         return ServiceName.Twitter
@@ -24,7 +28,7 @@ class TwitterIntegration extends Integration {
 
     getReactions(): ReactionIntegration[] {
         return [
-            new PostTweet()
+            new PostTweet(this.twitterService)
         ]
     }
 
