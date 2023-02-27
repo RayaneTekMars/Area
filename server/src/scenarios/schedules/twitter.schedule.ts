@@ -22,24 +22,24 @@ export class TwitterSchedule {
 
     @Interval(60_000)
     async handleNewFollowers() {
-        console.log('Checking for new followers...')
+        console.log('Twitter: Checking for new followers...')
         await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitter).then((subs) => {
-            console.log(`Found ${subs.length} subscriptions`)
+            console.log(`Twitter: Found ${subs.length} subscriptions`)
             this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
             for (const sub of subs)
                 void this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewFollower')
                     .then((scenarios) => {
-                        console.log(`Found ${scenarios.length} scenarios`)
+                        console.log(`Twitter: Found ${scenarios.length} scenarios for ${sub.account.id}`)
                         for (const scenario of scenarios)
                             void this.twitterService.getNewFollowers(sub.account.id, scenario, sub.accessToken)
                                 .then((followers) => {
-                                    console.log(`Found ${followers.length} new followers`)
+                                    console.log(`Twitter: Found ${followers.length} new followers`)
                                     console.log(followers)
                                     if (this.subscriptions.includes(sub.account.id)) {
                                         for (const follower of followers)
                                             void this.twitterService.triggerNewFollower(sub.account.id, scenario, follower)
                                     } else {
-                                        console.log('New Subscription')
+                                        console.log('Twitter: New Subscription')
                                         this.subscriptions.push(sub.account.id)
                                     }
                                 })
@@ -49,13 +49,13 @@ export class TwitterSchedule {
 
     @Interval(3_600_000)
     async refreshTwitterTokens() {
-        console.log('Refreshing Twitter tokens...')
+        console.log('Twitter: Refreshing Twitter tokens...')
         await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitter).then((subs) => {
-            console.log(`Found ${subs.length} subscriptions`)
+            console.log(`Twitter: Found ${subs.length} subscriptions`)
             for (const sub of subs)
                 void this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
                     .then(({ accessToken, refreshToken, expiresIn }) => {
-                        console.log(`New access token: ${accessToken}`)
+                        console.log(`Twitter: New access token: ${accessToken}`)
                         void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, refreshToken, expiresIn)
                     })
         })

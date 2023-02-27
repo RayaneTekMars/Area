@@ -22,24 +22,24 @@ export class GithubSchedule {
 
     @Interval(60_000)
     async handleNewCommits() {
-        console.log('Checking for new commits...')
+        console.log('Github: Checking for new commits...')
         await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github).then((subs) => {
-            console.log(`Found ${subs.length} subscriptions`)
+            console.log(`Github: Found ${subs.length} subscriptions`)
             this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
             for (const sub of subs)
                 void this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
                     .then((scenarios) => {
-                        console.log(`Found ${scenarios.length} scenarios`)
+                        console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
                         for (const scenario of scenarios)
                             void this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
                                 .then((commits) => {
-                                    console.log(`Found ${commits.length} new commits`)
+                                    console.log(`Github: Found ${commits.length} new commits`)
                                     console.log(commits)
                                     if (this.subscriptions.includes(sub.account.id)) {
                                         for (const commit of commits)
                                             void this.githubService.triggerNewCommit(sub.account.id, scenario, commit)
                                     } else {
-                                        console.log('New Subscription')
+                                        console.log('Github: New Subscription')
                                         this.subscriptions.push(sub.account.id)
                                     }
                                 })
