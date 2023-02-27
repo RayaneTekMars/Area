@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { TwitterApi } from 'twitter-api-v2'
 import { ScenariosService } from '../scenarios.service'
 import { ServiceName } from '../types/service.type'
+import TwitterIntegration from '../integrations/twitter.integration'
 import type { Scenario } from '../entities/scenario.entity'
 
 interface Follower {
@@ -14,6 +15,7 @@ interface Follower {
 export class TwitterService {
     Followers: {
         accountId: string
+        scenarioId: string
         userId: string
         followers: string[]
     }[]
@@ -22,15 +24,17 @@ export class TwitterService {
         private readonly scenariosService: ScenariosService
     ) {
         this.Followers = []
+        scenariosService.setIntegration(new TwitterIntegration(this))
     }
 
-    async getNewFollowers(accountId: string, accessToken: string): Promise<Follower[]> {
+    async getNewFollowers(accountId: string, scenario: Scenario, accessToken: string): Promise<Follower[]> {
         const twitterApi = new TwitterApi(accessToken)
         const {
             data: { id: userId }
         } = await twitterApi.v2.me()
+        const scenarioId = scenario.id
         const lastFollowers = this.Followers.find(
-            (x) => x.accountId === accountId
+            (x) => x.accountId === accountId && x.scenarioId === scenarioId
         )?.followers
         const { data: followers } = await twitterApi.v2.followers(userId)
 
@@ -38,8 +42,8 @@ export class TwitterService {
             (x) => !((lastFollowers?.includes(x.id)) ?? false)
         )
         this.Followers = [
-            ...this.Followers.filter((x) => x.accountId !== accountId),
-            { accountId, userId, followers: followers.map((x) => x.id) }
+            ...this.Followers.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+            { accountId, scenarioId, userId, followers: followers.map((x) => x.id) }
         ]
 
         return newFollowers.map(({ id, name, username }) => ({
@@ -77,13 +81,11 @@ export class TwitterService {
         await this.scenariosService.emit(accountId, trigger, scenario.reaction)
     }
 
-    async postTweet(accessToken: string, tweet: string) {
+    async postTweet(tweet: string, accessToken: string) {
+        // eslint-disable-next-line no-console
+        console.log('PostTweet', tweet, accessToken)
         const twitterApi = new TwitterApi(accessToken)
 
-        const {
-            data: { id: tweetId }
-        } = await twitterApi.v2.tweet(tweet)
-
-        return tweetId
+        await twitterApi.v2.tweet(tweet)
     }
 }

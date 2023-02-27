@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 import { Account } from '../../accounts/entities/account.entity'
+import { ServiceName } from '../../scenarios/types/service.type'
 
 @Entity()
 @Unique(['serviceName', 'account'])
@@ -18,7 +19,7 @@ export class Subscription {
     id: string
 
     @Column()
-    serviceName: string
+    serviceName: ServiceName
 
     @ManyToOne(() => Account)
     @JoinColumn()

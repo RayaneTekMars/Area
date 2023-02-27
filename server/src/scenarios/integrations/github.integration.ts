@@ -1,12 +1,16 @@
 import Integration from './intergration'
 import { ServiceName } from '../types/service.type'
-import NewFollower from '../triggers/twitter/new-follower.trigger'
-import PostTweet from '../reactions/twitter/post-tweet.reaction'
+import NewCommit from '../triggers/github/new-commit.trigger'
+import CreatePullRequest from '../reactions/github/create-pull-request.reaction'
+import type { GithubService } from '../services/github.service'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
 
 class GithubIntegration extends Integration {
 
+    constructor(private readonly githubService: GithubService) {
+        super()
+    }
 
     getName(): ServiceName {
         return ServiceName.Github
@@ -18,11 +22,13 @@ class GithubIntegration extends Integration {
 
     getTriggers(): TriggerIntegration[] {
         return [
+            new NewCommit()
         ]
     }
 
     getReactions(): ReactionIntegration[] {
         return [
+            new CreatePullRequest(this.githubService)
         ]
     }
 

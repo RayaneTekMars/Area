@@ -43,7 +43,6 @@ export class ScenariosController {
         if (!scenario)
             throw new Error('Scenario not found')
 
-
         return {
             status: 'success',
             data: scenario
@@ -78,7 +77,6 @@ export class ScenariosController {
         if (!scenario)
             throw new Error('Scenario not found')
 
-
         return {
             status: 'success',
             data: {
@@ -98,7 +96,6 @@ export class ScenariosController {
 
         if (!scenario)
             throw new Error('Scenario not found')
-
 
         return {
             status: 'success',

@@ -1,10 +1,14 @@
 /* eslint-disable no-console */
-import { TwitterApi } from 'twitter-api-v2'
 import { ServiceName } from '../../types/service.type'
 import ReactionIntegration from '../reaction'
+import type { TwitterService } from '../../services/twitter.service'
 import type { Field, FieldDefinition } from '../../types/field.type'
 
 class PostTweet extends ReactionIntegration {
+
+    constructor(private readonly twitterService: TwitterService) {
+        super()
+    }
 
     getName(): string {
         return 'PostTweet'
@@ -40,10 +44,7 @@ class PostTweet extends ReactionIntegration {
     }
 
     run(fields: Map<string, string>, accessToken: string): void {
-        console.log('PostTweet', fields, accessToken)
-        const twitterApi = new TwitterApi(accessToken)
-
-        void twitterApi.v2.tweet(fields.get('tweet') ?? '')
+        void this.twitterService.postTweet(fields.get('tweet') ?? '', accessToken)
     }
 
 }

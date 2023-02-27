@@ -27,7 +27,7 @@ class NewMessage extends TriggerIntegration {
 
     getIngredients(): Ingredient[] {
         return [
-            { 
+            {
                 name: 'id',
                 value: ''
             },

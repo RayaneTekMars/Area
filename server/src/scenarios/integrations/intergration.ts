@@ -22,8 +22,8 @@ abstract class Integration {
         return {
             name: this.getName(),
             description: this.getDescription(),
-            triggers: this.getTriggers().map((trigger) => trigger.getTrigger()),
-            reactions: this.getReactions().map((reaction) => reaction.getReaction())
+            triggers: this.getTriggers().map((trigger) => trigger.getTriggerDefinition()),
+            reactions: this.getReactions().map((reaction) => reaction.getReactionDefinition())
         }
     }
 }

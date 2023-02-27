@@ -4,6 +4,7 @@ import axios from "axios";
 
 @Injectable()
 export class TwitchSubscribeService {
+
   private readonly twitchOAuthUrl: string;
 
   constructor(private readonly configService: ConfigService) {

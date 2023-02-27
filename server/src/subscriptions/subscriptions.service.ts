@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Subscription } from './entities/subscription.entity'
+import type { ServiceName } from '../scenarios/types/service.type'
 import type { Account } from '../accounts/entities/account.entity'
 
 
@@ -13,7 +14,7 @@ export class SubscriptionsService {
         private readonly subscriptionRepository: Repository<Subscription>
     ) {}
 
-    async getSubscription(serviceName: string, accountId: string): Promise<Subscription | null> {
+    async getSubscription(serviceName: ServiceName, accountId: string): Promise<Subscription | null> {
         return this.subscriptionRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,
@@ -38,7 +39,7 @@ export class SubscriptionsService {
         })
     }
 
-    async getSubscriptionsByServiceName(serviceName: string): Promise<Subscription[]> {
+    async getSubscriptionsByServiceName(serviceName: ServiceName): Promise<Subscription[]> {
         return this.subscriptionRepository.find({
             relations: ['account'],
             loadRelationIds: true,
@@ -48,7 +49,7 @@ export class SubscriptionsService {
         })
     }
 
-    async getSubscriptionsByAccountIdAndServiceName(accountId: string, serviceName: string): Promise<Subscription | null> {
+    async getSubscriptionsByAccountIdAndServiceName(accountId: string, serviceName: ServiceName): Promise<Subscription | null> {
         return this.subscriptionRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,
@@ -61,7 +62,7 @@ export class SubscriptionsService {
         })
     }
 
-    async createSubscription(serviceName: string, account: Account, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription> {
+    async createSubscription(serviceName: ServiceName, account: Account, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription> {
         const subscription = new Subscription()
         subscription.serviceName = serviceName
         subscription.account = account
@@ -72,7 +73,7 @@ export class SubscriptionsService {
         return this.subscriptionRepository.save(subscription)
     }
 
-    async updateSubscription(serviceName: string, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | undefined> {
+    async updateSubscription(serviceName: ServiceName, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | undefined> {
 
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
@@ -95,7 +96,7 @@ export class SubscriptionsService {
         return this.subscriptionRepository.save(subscription)
     }
 
-    async deleteSubscription(serviceName: string, accountId: string): Promise<Subscription | undefined> {
+    async deleteSubscription(serviceName: ServiceName, accountId: string): Promise<Subscription | undefined> {
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
             loadRelationIds: true,

@@ -5,6 +5,10 @@ import type TriggerIntegration from '../triggers/trigger'
 
 class TwitchIntegration extends Integration {
 
+    // constructor(private readonly twitchService: TwitchService) {
+    //     super()
+    // }
+
     getName(): ServiceName {
         return ServiceName.Twitch
     }

@@ -61,7 +61,7 @@ export class SpotifySubscribeService {
   async refreshAccessToken(refreshToken: string): Promise<{
     accessToken: string;
     newRefreshToken: string;
-    expiresIn: string;
+    expiresIn: number;
   }> {
     const clientId = this.configService.get("SPOTIFY_OAUTH2_CLIENT_ID");
     const clientSecret = this.configService.get("SPOTIFY_OAUTH2_CLIENT_SECRET");

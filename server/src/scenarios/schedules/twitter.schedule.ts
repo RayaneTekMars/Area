@@ -4,7 +4,7 @@ import { Interval } from '@nestjs/schedule'
 import { TwitterService } from '../services/twitter.service'
 import { ScenariosService } from '../scenarios.service'
 import { SubscriptionsService } from '../../subscriptions/subscriptions.service'
-import { ServiceName } from '../../common/enums/service-name.enum'
+import { ServiceName } from '../types/service.type'
 import { TwitterSubscribeService } from '../../subscriptions/services/twitter.sub.service'
 
 @Injectable()
@@ -31,7 +31,7 @@ export class TwitterSchedule {
                     .then((scenarios) => {
                         console.log(`Found ${scenarios.length} scenarios`)
                         for (const scenario of scenarios)
-                            void this.twitterService.getNewFollowers(sub.account.id, sub.accessToken)
+                            void this.twitterService.getNewFollowers(sub.account.id, scenario, sub.accessToken)
                                 .then((followers) => {
                                     console.log(`Found ${followers.length} new followers`)
                                     console.log(followers)
@@ -56,7 +56,7 @@ export class TwitterSchedule {
                 void this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
                     .then(({ accessToken, refreshToken, expiresIn }) => {
                         console.log(`New access token: ${accessToken}`)
-                        void this.subscriptionsService.updateSubscription('Twitter', sub.account.id, accessToken, refreshToken, expiresIn)
+                        void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, refreshToken, expiresIn)
                     })
         })
     }

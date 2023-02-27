@@ -5,6 +5,10 @@ import type TriggerIntegration from '../triggers/trigger'
 
 class SpotifyIntegration extends Integration {
 
+    // constructor(private readonly spotifyService: SpotifyService) {
+    //     super()
+    // }
+
     getName(): ServiceName {
         return ServiceName.Spotify
     }
