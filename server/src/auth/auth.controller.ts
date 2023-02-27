@@ -11,7 +11,7 @@ import { Account } from '../accounts/entities/account.entity'
 import { TokenService } from '../token/token.service'
 
 @Controller('/auth')
-@ApiTags('auth')
+@ApiTags('Auth')
 class AuthController {
 
     constructor(

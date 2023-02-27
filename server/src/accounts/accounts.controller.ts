@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 
 @Controller('/')
-@ApiTags('accounts')
+@ApiTags('Accounts')
 @ApiBearerAuth()
 class AccountsController {
 
