@@ -172,3 +172,89 @@ export async function DeleteScenarioQuery(id) {
 }
 
 // Query.js - Services queries.
+
+export async function GetServiceAuthLinkQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/subscriptions/" + service,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data.data.url;
+    } else {
+      alert("Error while generating authlink.");
+    }
+  } catch (error) {
+    alert("Error while generating authlink.");
+  }
+}
+
+export async function PostServiceAuthLinkQuery(navigation, service, code) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const data = {
+      code: code,
+    };
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.post(
+      "https://api.automateme.fr/subscriptions/" + service,
+      data,
+      config
+    );
+
+    if (response.status === 200) {
+      navigation.navigate("UserStack", { screen: "Profile" });
+    } else {
+      alert("Error while validating authlink.");
+    }
+  } catch (error) {
+    alert("Error while validating authlink.");
+  }
+}
+
+export async function DeleteServiceAuthLinkQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.delete(
+      "https://api.automateme.fr/subscriptions/" + service,
+      config
+    );
+
+    if (response.status === 200) {
+      return null;
+    } else {
+      alert("Error while deleting service.");
+    }
+  } catch (error) {
+    alert("Error while deleting service.");
+  }
+}

@@ -1,4 +1,4 @@
-// Style.js - Library import.
+// Style.js - Library imports.
 
 import { StyleSheet, Dimensions } from "react-native";
 
@@ -109,6 +109,14 @@ export const appTexts = StyleSheet.create({
     fontFamily: "Inter-Bold",
     margin: "5%",
   },
+  textPtdr: {
+    color: "#77DD77",
+    fontSize: "20rem",
+  },
+  textPtdrD: {
+    color: "#FF6666",
+    fontSize: "20rem",
+  },
 });
 
 export const appComponents = StyleSheet.create({
@@ -176,6 +184,15 @@ export const appComponents = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     width: screenWidth * 0.8,
+  },
+  componentPtdrButton: {
+    alignItems: "center",
+    backgroundColor: "#424242",
+    marginTop: 20,
+    marginBottom: 5,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
 

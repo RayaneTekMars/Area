@@ -3,6 +3,7 @@
 export const Logos = {
   AmmLogo: require("../../assets/images/logos/amm_logo.png"),
   GithubLogo: require("../../assets/images/logos/github_logo.png"),
+  TwitchLogo: require("../../assets/images/logos/twitch_logo.png"),
   DiscordLogo: require("../../assets/images/logos/discord_logo.png"),
   SpotifyLogo: require("../../assets/images/logos/spotify_logo.png"),
   TwitterLogo: require("../../assets/images/logos/twitter_logo.png"),

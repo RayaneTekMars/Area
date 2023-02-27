@@ -8,29 +8,59 @@ import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
 import * as Style from "../tools/Style";
 import { Logos, Shapes } from "../tools/Image";
+import { DeleteServiceAuthLinkQuery } from "../tools/Query";
 import { FontContext, resetStorageData } from "../tools/Utils";
 
 // ProfilePage.js - Additional function.
 
-const logoDictionary = {
-  Twitter: Logos.TwitterLogo,
-  Discord: Logos.DiscordLogo,
-  Github: Logos.GithubLogo,
-  Spotify: Logos.SpotifyLogo,
+const serviceDictionary = {
+  github: Logos.GithubLogo,
+  twitch: Logos.TwitchLogo,
+  discord: Logos.DiscordLogo,
+  spotify: Logos.SpotifyLogo,
+  twitter: Logos.TwitterLogo,
 };
 
-function CustomCardService({ logo }) {
-  const logoImage = logoDictionary[logo];
+function CustomCardService({ navigation, service }) {
+  const serviceLogo = serviceDictionary[service];
 
   return (
     <View style={Style.appComponents.componentCardService}>
-      <Image source={logoImage} />
+      <Image source={serviceLogo} />
 
       <TouchableOpacity
-        style={Style.appComponents.componentDeleteButton}
-        onPress={() => alert("Delete button !")}
+        style={Style.appComponents.componentPtdrButton}
+        onPress={() =>
+          navigation.navigate("UserStack", {
+            screen: "Auth",
+            params: { service },
+          })
+        }
       >
-        <MaterialCommunityIcons name="delete" size={24} color="#FF6666" />
+        <View style={{ flexDirection: "row" }}>
+          <Text style={Style.appTexts.textPtdr}>Link</Text>
+          <MaterialCommunityIcons
+            name="check"
+            size={24}
+            color="#77DD77"
+            style={{ paddingLeft: 5 }}
+          />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={Style.appComponents.componentPtdrButton}
+        onPress={() => DeleteServiceAuthLinkQuery(service)}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <Text style={Style.appTexts.textPtdrD}>Revoke</Text>
+          <MaterialCommunityIcons
+            name="close"
+            size={24}
+            color="#FF6666"
+            style={{ paddingLeft: 5 }}
+          />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -61,10 +91,11 @@ export default function ProfilePage({ navigation }) {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ alignItems: "center" }}
         >
-          <CustomCardService logo={"Twitter"} />
-          <CustomCardService logo={"Discord"} />
-          <CustomCardService logo={"Github"} />
-          <CustomCardService logo={"Spotify"} />
+          <CustomCardService navigation={navigation} service={"twitter"} />
+          <CustomCardService navigation={navigation} service={"discord"} />
+          <CustomCardService navigation={navigation} service={"github"} />
+          <CustomCardService navigation={navigation} service={"spotify"} />
+          <CustomCardService navigation={navigation} service={"twitch"} />
         </ScrollView>
       </View>
 
