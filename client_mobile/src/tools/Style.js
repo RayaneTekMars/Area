@@ -1,6 +1,10 @@
 // Style.js - Library import.
 
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+// Style.js - Constant.
+
+const screenWidth = Dimensions.get("window").width;
 
 // Style.js - CSS variables.
 
@@ -51,13 +55,6 @@ export const appContainers = StyleSheet.create({
     backgroundColor: "#222222",
     width: "100%",
     height: "10%",
-  },
-  scrollViewContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "70%",
   },
   emptyContainer: {
     display: "flex",
@@ -137,12 +134,6 @@ export const appComponents = StyleSheet.create({
     paddingHorizontal: 25,
     width: "60%",
   },
-  componentBanner: {
-    alignItems: "center",
-    width: 50,
-    height: 50,
-    resizeMode: "contain",
-  },
   componentDropdown: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -177,6 +168,15 @@ export const appComponents = StyleSheet.create({
     paddingHorizontal: 20,
     width: "25%",
   },
+  componentCardService: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: screenWidth * 0.8,
+  },
 });
 
 export const appShapes = StyleSheet.create({
@@ -197,6 +197,8 @@ export const appShapes = StyleSheet.create({
     zIndex: -1,
   },
 });
+
+// Style.js - CSS specific containers.
 
 export const appButtonContainers = StyleSheet.create({
   buttonContainer40: {
@@ -219,6 +221,13 @@ export const appButtonContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "30%",
+  },
+  buttonContainer20: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "20%",
   },
 });
 
@@ -253,5 +262,22 @@ export const appTitleContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "15%",
+  },
+});
+
+export const appScrollViewContainers = StyleSheet.create({
+  scrollViewContainer70: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "70%",
+  },
+  scrollViewContainer50: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "50%",
   },
 });

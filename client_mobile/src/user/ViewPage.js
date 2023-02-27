@@ -41,12 +41,15 @@ function CustomScrollView(props) {
       {items.map((item, index) => (
         <View key={index} style={Style.appComponents.componentCardQuery}>
           <Text style={Style.appTexts.textCardQuery20}>{item.name}</Text>
+
           <Text style={Style.appTexts.textCardQuery15}>
             Trigger ➡️ {item.trigger.name}
           </Text>
+
           <Text style={Style.appTexts.textCardQuery15}>
             Reaction ⬅️ {item.reaction.name}
           </Text>
+
           <TouchableOpacity
             style={Style.appComponents.componentDeleteButton}
             onPress={() => handleDelete(index)}
@@ -97,7 +100,7 @@ export default function ViewPage({ navigation }) {
         <Text style={Style.appTexts.textSubTitle}>Your own scenarios</Text>
       </View>
 
-      <View style={Style.appContainers.scrollViewContainer}>
+      <View style={Style.appScrollViewContainers.scrollViewContainer70}>
         {scenario.length > 0 ? (
           <CustomScrollView
             data={scenario}

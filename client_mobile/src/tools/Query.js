@@ -60,7 +60,7 @@ export async function SignupQuery(navigation, username, email, password) {
 
 export async function SigninGoogleQuery() {}
 
-// Query.js - Services queries.
+// Query.js - Scenarios queries.
 
 export async function CreateScenarioQuery(
   navigation,
@@ -170,3 +170,5 @@ export async function DeleteScenarioQuery(id) {
     alert("Error while deleting your scenario.");
   }
 }
+
+// Query.js - Services queries.
