@@ -1,107 +1,70 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { Octokit } from '@octokit/core'
 import axios from 'axios'
 
 @Injectable()
 export class GithubSubscribeService {
+
+  private readonly scope: string
+  private readonly clientId: string
+  private readonly clientSecret: string
+  private readonly redirectUri: string
   private readonly githubOAuthUrl: string
 
+  private octokit: Octokit
+
   constructor(private readonly configService: ConfigService) {
+    this.scope = this.configService.get('GITHUB_OAUTH2_SCOPE') ?? ''
+    this.clientId = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
+    this.clientSecret = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
+    this.redirectUri = this.configService.get('GITHUB_OAUTH2_CALLBACK_URL') ?? ''
     this.githubOAuthUrl = 'https://github.com/login/oauth'
+    this.octokit = new Octokit({
+      auth: this.clientSecret
+    })
   }
 
   getAuthorizeUrl(): string {
-    const clientId: string = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
-    const redirectUri: string = this.configService.get('GITHUB_OAUTH2_CALLBACK_URL') ?? ''
-    return `${
-      this.githubOAuthUrl
-    }/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
+    return `${this.githubOAuthUrl}/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&scope=${this.scope}`
   }
 
   async authorize(code: string): Promise<{
     accessToken: string
-    refreshToken: string
-    expiresIn: number
   }> {
-    const clientId: string = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
-    const clientSecret: string = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
-    const redirectUri: string = this.configService.get('GITHUB_OAUTH2_CALLBACK_URL') ?? ''
-
-    const data = {
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-      code
-    }
-
-    try {
-      const response = await axios.post(
-        `${this.githubOAuthUrl}/access_token`,
-        data,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
-      )
-
-      return {
-        accessToken: response.data.access_token,
-        refreshToken: response.data.refresh_token,
-        expiresIn: response.data.expires_in
+    const response = await axios.post(`${this.githubOAuthUrl}/access_token`, {
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      code,
+      redirect_uri: this.redirectUri
+    }, {
+      headers: {
+        Accept: 'application/json'
       }
-    } catch {
-      throw new Error('Error while getting access token')
+    })
+
+    return {
+      accessToken: response.data.access_token
     }
   }
 
-  async refreshAccessToken(refreshToken: string): Promise<{
+  async refreshAccessToken(accessToken: string): Promise<{
     accessToken: string
-    newRefreshToken: string
-    expiresIn: number
   }> {
-    const clientId: string = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
-    const clientSecret: string = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
+    const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
+      client_id: this.clientId,
+      access_token: accessToken
+    })
 
-    const response = await axios.post(
-      `${this.githubOAuthUrl}/access_token`,
-      {
-        client_id: clientId,
-        client_secret: clientSecret,
-        refresh_token: refreshToken,
-        grant_type: 'refresh_token'
-      },
-      {
-        headers: {
-          accept: 'application/json'
-        }
-      }
-    )
-
-    const accessToken = response.data.access_token
-    const newRefreshToken = response.data.refresh_token
-    const expiresIn = response.data.expires_in
-
-    return { accessToken, newRefreshToken, expiresIn }
+    return {
+      accessToken: response.data.token
+    }
   }
 
-  async revokeAccessToken(refreshToken: string): Promise<void> {
-    const clientId: string = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
-    const clientSecret: string = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
-
-    await axios.post(
-      `${this.githubOAuthUrl}/revoke`,
-      {
-        client_id: clientId,
-        client_secret: clientSecret,
-        token: refreshToken
-      },
-      {
-        headers: {
-          accept: 'application/json'
-        }
-      }
-    )
+  async revokeAccessToken(accessToken: string): Promise<void> {
+    await this.octokit.request('DELETE /applications/{client_id}/token', {
+      client_id: this.clientId,
+      access_token: accessToken
+    })
   }
 }

@@ -147,8 +147,8 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createGithubSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken, expiresIn } = await this.githubSubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Github, user, accessToken, refreshToken, expiresIn)
+        const { accessToken } = await this.githubSubscribeService.authorize(body.code)
+        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Github, user, accessToken, '', 0)
 
         return {
             status: 'success',
@@ -170,8 +170,8 @@ export class SubscriptionsController {
         if (!subscription)
             throw new Error('Subscription not found')
 
-        const { accessToken, newRefreshToken, expiresIn } = await this.githubSubscribeService.refreshAccessToken(subscription.refreshToken)
-        await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, newRefreshToken, expiresIn)
+        const { accessToken } = await this.githubSubscribeService.refreshAccessToken(subscription.accessToken)
+        await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, '', 0)
 
         return {
             status: 'success',
@@ -192,6 +192,8 @@ export class SubscriptionsController {
 
         if (!subscription)
             throw new Error('Subscription not found')
+
+        void this.githubSubscribeService.revokeAccessToken(subscription.accessToken)
 
         return {
             status: 'success',

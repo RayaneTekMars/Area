@@ -26,15 +26,14 @@ export class GithubSchedule {
         await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github).then((subs) => {
             console.log(`Github: Found ${subs.length} subscriptions`)
             this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
-            for (const sub of subs) {
-                console.log(sub)
+            for (const sub of subs)
                 void this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
                     .then((scenarios) => {
                         console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
                         for (const scenario of scenarios)
                             void this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
                                 .then((commits) => {
-                                    console.log(`Github: Found ${commits.length} new commits`)
+                                    console.log(`Github: Found ${commits.length} new commits:`)
                                     console.log(commits)
                                     if (this.subscriptions.includes(sub.account.id)) {
                                         for (const commit of commits)
@@ -46,7 +45,7 @@ export class GithubSchedule {
                                 })
 
                     })
-            }
+
         })
     }
 }

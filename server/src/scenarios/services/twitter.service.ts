@@ -28,29 +28,35 @@ export class TwitterService {
     }
 
     async getNewFollowers(accountId: string, scenario: Scenario, accessToken: string): Promise<Follower[]> {
-        const twitterApi = new TwitterApi(accessToken)
-        const {
-            data: { id: userId }
-        } = await twitterApi.v2.me()
-        const scenarioId = scenario.id
-        const lastFollowers = this.Followers.find(
-            (x) => x.accountId === accountId && x.scenarioId === scenarioId
-        )?.followers
-        const { data: followers } = await twitterApi.v2.followers(userId)
+        try {
+            const twitterApi = new TwitterApi(accessToken)
+            const { data: { id: userId } } = await twitterApi.v2.me()
+            const scenarioId = scenario.id
+            const lastFollowers = this.Followers.find(
+                (x) => x.accountId === accountId && x.scenarioId === scenarioId
+            )?.followers
+            const { data: followers } = await twitterApi.v2.followers(userId)
+            const newFollowers = followers.filter(
+                (x) => !((lastFollowers?.includes(x.id)) ?? false)
+            )
 
-        const newFollowers = followers.filter(
-            (x) => !((lastFollowers?.includes(x.id)) ?? false)
-        )
-        this.Followers = [
-            ...this.Followers.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
-            { accountId, scenarioId, userId, followers: followers.map((x) => x.id) }
-        ]
+            this.Followers = [
+                ...this.Followers.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                { accountId, scenarioId, userId, followers: followers.map((x) => x.id) }
+            ]
 
-        return newFollowers.map(({ id, name, username }) => ({
-            id,
-            name,
-            username
-        }))
+            return newFollowers.map(({ id, name, username }) => ({
+                id,
+                name,
+                username
+            }))
+
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
+        }
+
+        return []
     }
 
     async triggerNewFollower(accountId: string, scenario: Scenario, follower: Follower) {
@@ -82,10 +88,12 @@ export class TwitterService {
     }
 
     async postTweet(tweet: string, accessToken: string) {
-        // eslint-disable-next-line no-console
-        console.log('PostTweet', tweet, accessToken)
-        const twitterApi = new TwitterApi(accessToken)
-
-        await twitterApi.v2.tweet(tweet)
+        try {
+            const twitterApi = new TwitterApi(accessToken)
+            await twitterApi.v2.tweet(tweet)
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
+        }
     }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "Tweet New Commit",
+    "name": "Create issue on new commit",
     "trigger": {
         "name": "NewCommit",
         "serviceName": "Github",
@@ -11,7 +11,7 @@
             },
             {
                 "name": "branch",
-                "value": "main"
+                "value": "test"
             }
         ],
         "ingredients": [
@@ -58,13 +58,25 @@
         ]
     },
     "reaction": {
-        "name": "PostTweet",
-        "serviceName": "Twitter",
-        "description": "Post a tweet on your Twitter account",
+        "name": "CreateIssue",
+        "serviceName": "Github",
+        "description": "Creates a new issue on a repository",
         "fields": [
             {
-                "name": "tweet",
-                "value": "New commit ({{sha}}) on {{branch}} of {{repository_url}} (author: {{authorName}} / {{authorEmail}}) at {{date}} by {{committerName}} ({{committerEmail}}) : {{message}}. See it on {{html_url}}"
+                "name": "repository_url",
+                "value": "{{repository_url}}"
+            },
+            {
+                "name": "title",
+                "value": "New commit on {{branch}}"
+            },
+            {
+                "name": "body",
+                "value": "Commit [{{sha}}]({{html_url}}) by {{authorName}} ({{authorEmail}}) on {{date}}"
+            },
+            {
+                "name": "milestone",
+                "value": ""
             }
         ]
     }

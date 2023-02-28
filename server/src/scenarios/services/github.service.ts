@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Injectable } from '@nestjs/common'
 import { Octokit } from '@octokit/core'
 import { ScenariosService } from '../scenarios.service'
@@ -39,8 +40,6 @@ export class GithubService {
     }
 
     async getNewCommits(accountId: string, scenario: Scenario, accessToken: string): Promise<Commit[]> {
-        const octokit = new Octokit({ auth: accessToken })
-
         const scenarioId = scenario.id
         const repositoryUrl = scenario.trigger.fields.find((x) => x.name === 'repository_url')?.value ?? ''
         const branch = scenario.trigger.fields.find((x) => x.name === 'branch')?.value ?? 'main'
@@ -57,37 +56,43 @@ export class GithubService {
             (x) => x.accountId === accountId && x.scenarioId === scenarioId
         )?.commits
 
-        const { data: commits } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
-            owner,
-            repo,
-            sha: branch
-        })
+        try {
+            const octokit = new Octokit({ auth: accessToken })
+            const { data: commits } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+                owner,
+                repo,
+                sha: branch
+            })
 
-        const newCommits = commits.filter(
-            (x) => !((lastCommit?.includes(x.sha)) ?? false)
-        )
+            const newCommits = commits.filter(
+                (x) => !((lastCommit?.includes(x.sha)) ?? false)
+            )
 
-        this.Commits = [
-            ...this.Commits.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
-            { accountId, scenarioId, repositoryUrl, commits: commits.map((x) => x.sha) }
-        ]
+            this.Commits = [
+                ...this.Commits.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                { accountId, scenarioId, repositoryUrl, commits: commits.map((x) => x.sha) }
+            ]
 
-        return newCommits.map(({ sha, html_url, commit: { message, author, committer } }) => ({
-            sha,
-            branch,
-            message,
-            htmlUrl: html_url,
-            repositoryUrl,
-            date: committer?.date ?? author?.date ?? '',
-            author: {
-                name: author?.name ?? '',
-                email: author?.email ?? ''
-            },
-            committer: {
-                name: committer?.name ?? '',
-                email: committer?.email ?? ''
-            }
-        }))
+            return newCommits.map(({ sha, html_url, commit: { message, author, committer } }) => ({
+                sha,
+                branch,
+                message,
+                htmlUrl: html_url,
+                repositoryUrl,
+                date: committer?.date ?? author?.date ?? '',
+                author: {
+                    name: author?.name ?? '',
+                    email: author?.email ?? ''
+                },
+                committer: {
+                    name: committer?.name ?? '',
+                    email: committer?.email ?? ''
+                }
+            }))
+        } catch (error) {
+            console.error(error)
+        }
+        return []
     }
 
     async triggerNewCommit(accountId: string, scenario: Scenario, commit: Commit) {
@@ -149,14 +154,46 @@ export class GithubService {
         if (!owner || !repo)
             return
 
-        const octokit = new Octokit({ auth: accessToken })
-        await octokit.request('POST /repos/{owner}/{repo}/pulls', {
-            owner,
-            repo,
-            title,
-            body,
-            head,
-            base
-        })
+        try {
+            const octokit = new Octokit({ auth: accessToken })
+            await octokit.request('POST /repos/{owner}/{repo}/pulls', {
+                owner,
+                repo,
+                title,
+                body,
+                head,
+                base,
+                headers: {
+                    'X-GitHub-Api-Version': '2022-11-28'
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
+
+    async createIssue(repositoryUrl: string, title: string, body: string, milestone: string | undefined, accessToken: string) {
+
+        if (!repositoryUrl || !title)
+            return
+
+        const [owner, repo] = repositoryUrl.split('/').slice(-2)
+
+        if (!owner || !repo)
+            return
+
+        try {
+            const octokit = new Octokit({ auth: accessToken })
+            await octokit.request('POST /repos/{owner}/{repo}/issues', {
+                owner,
+                repo,
+                title,
+                body,
+                milestone
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 }
