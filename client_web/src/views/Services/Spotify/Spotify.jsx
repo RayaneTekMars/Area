@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
 import SpotifyLogo from "../../../assets/logo_spotify.png";
 import "../../../styles/spotify.css";
-import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import SpotifyButton from "../../../components/spotifyButton";
 
 export default function SpotifyPage() {
   let actions = [
@@ -39,7 +39,7 @@ export default function SpotifyPage() {
         </p>
       </div>
       <div className="divSpotifyConnectionButton">
-        <Button style={{ color: "black" }}>Déconnexion</Button>
+        <SpotifyButton />
       </div>
       <div className="divSpotifyActionText">
         <h2>Actions </h2>

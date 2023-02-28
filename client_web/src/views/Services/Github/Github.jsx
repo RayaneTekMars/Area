@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
 import GithubLogo from "../../../assets/logo_github.png";
 import "../../../styles/github.css";
-import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import GithubButton from "../../../components/githubButton";
 
 export default function GithubPage() {
   let actions = [
@@ -37,7 +37,7 @@ export default function GithubPage() {
         </p>
       </div>
       <div className="divGithubConnectionButton">
-        <Button style={{ color: "black" }}>Déconnexion</Button>
+        <GithubButton />
       </div>
       <div className="divGithubActionText">
         <h2>Actions </h2>

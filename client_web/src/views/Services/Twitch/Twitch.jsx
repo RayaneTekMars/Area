@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
 import TwitchLogo from "../../../assets/logo_twitch.png";
 import "../../../styles/twitch.css";
-import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import TwitchButton from "../../../components/twitchButton";
 
 export default function TwitchPage() {
   let actions = [
@@ -37,7 +37,7 @@ export default function TwitchPage() {
         </p>
       </div>
       <div className="divTwitchConnectionButton">
-        <Button style={{ color: "black" }}>Déconnexion</Button>
+        <TwitchButton/>
       </div>
       <div className="divTwitchActionText">
         <h2>Actions </h2>

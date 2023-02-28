@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
 import DiscordLogo from "../../../assets/logo_discord.png";
 import "../../../styles/discord.css";
-import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import DiscordButton from "../../../components/discordButton";
 
 export default function DiscordPage() {
   let actions = [
@@ -37,7 +37,7 @@ export default function DiscordPage() {
         </p>
       </div>
       <div className="divDiscordConnectionButton">
-        <Button style={{ color: "black" }}>Déconnexion</Button>
+        <DiscordButton />
       </div>
       <div className="divDiscordActionText">
         <h2>Actions </h2>
