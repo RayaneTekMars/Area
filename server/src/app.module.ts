@@ -7,9 +7,8 @@ import { AccountsModule } from './accounts/accounts.module'
 import { AuthModule } from './auth/auth.module'
 import { TokenModule } from './token/token.module'
 import { ScenariosModule } from './scenarios/scenarios.module'
-import { SubscriptionsService } from './subscriptions/subscriptions.service';
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { ServicesModule } from './services/services.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module'
+import { ServicesModule } from './services/services.module'
 
 @Module({
     imports: [
@@ -33,7 +32,7 @@ import { ServicesModule } from './services/services.module';
                 entities: [`${__dirname}/**/entities/*.entity.{js,ts}`],
                 synchronize: true,
                 autoLoadEntities: true,
-                migrations: [`${__dirname}/database/migrations/*.ts`],
+                migrations: [`${__dirname}/database/migrations/*.ts`]
             }),
             inject: [ConfigService]
         }),
