@@ -17,7 +17,7 @@ const TwitterButton = () => {
       headers,
     };
 
-    fetch("http://localhost:8080/subscriptions/twitter", requestOptions)
+    fetch("https://api.automateme.fr/subscriptions/twitter", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
