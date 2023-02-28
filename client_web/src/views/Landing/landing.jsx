@@ -58,8 +58,7 @@ async function SignupAction() {
   }
 }
 
-async function 
-SigninAction() {
+async function SigninAction() {
   console.log(document.getElementById("emaillogin").value);
   console.log(document.getElementById("passwordlogin").value);
   const data = {
@@ -68,7 +67,10 @@ SigninAction() {
     authTokenName: "",
   };
   try {
-    const response = await axios.post("https://api.automateme.fr/auth/login", data);
+    const response = await axios.post(
+      "https://api.automateme.fr/auth/login",
+      data
+    );
     if (response.status === 200) {
       localStorage.setItem("jwt", response.data.data.bearerToken);
       localStorage.setItem("username", response.data.data.account.username);
@@ -179,9 +181,17 @@ export default function LandingPage() {
               </Button>
             </div>
             <div style={{ marginTop: "2%", marginLeft: "25%" }}>or</div>
-            <div style={{ marginTop: "2%" }}>
+            <div
+              style={{
+                marginTop: "2%",
+                marginRight: "50%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <GoogleButton />
             </div>
+
             <div style={{ marginTop: "1%" }}>
               <Button
                 style={{
