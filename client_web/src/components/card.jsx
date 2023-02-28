@@ -9,7 +9,7 @@ import {Button, CardMedia } from "@material-ui/core";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 function deleteArea(id) {
-  const API_URL = 'http://localhost:8080/scenarios/delete/';
+  const API_URL = 'https://api.automateme.fr/scenarios/delete/';
   
   fetch(`${API_URL}${id}`, {
     method: "DELETE",

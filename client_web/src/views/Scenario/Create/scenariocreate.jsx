@@ -6,28 +6,54 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Link } from "react-router-dom";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { TextField } from "@material-ui/core";
 
-function CreateScenario(actionState, reactionState, paramAction, paramReaction) {
+function CreateScenario(
+  selectedServiceAction,
+  selectedServiceReaction,
+  selectedServiceActionName,
+  selectedServiceReactionName,
+  listActions,
+  listReactions,
+  actionFields,
+  actionIngredients,
+  reactionFields
+) {
+  let actionDescription = "";
+  let reactionDescription = "";
+
+  for (let i = 0; i < listActions.length; i++) {
+    if (listActions[i].name === selectedServiceActionName) {
+      actionDescription = listActions[i].description;
+    }
+  }
+
+  for (let i = 0; i < listReactions.length; i++) {
+    if (listReactions[i].name === selectedServiceReactionName) {
+      reactionDescription = listReactions[i].description;
+    }
+  }
+
   const data = {
     name: document.getElementById("scenarioName").value,
     trigger: {
-      name: actionState.actionState,
-      serviceName: "Twitter",
-      params:paramAction,
+      name: selectedServiceActionName,
+      serviceName: selectedServiceAction,
+      description: actionDescription,
+      fields: actionFields,
+      ingredients: actionIngredients,
     },
     reaction: {
-      name: reactionState.reactionState,
-      serviceName: "Twitter",
-      params:paramReaction,
+      name: selectedServiceReactionName,
+      serviceName: selectedServiceReaction,
+      description: reactionDescription,
+      fields: reactionFields,
     },
   };
-  fetch("http://localhost:8080/scenarios/create", {
+
+  console.log(data);
+  /*fetch("https://api.automateme.fr/scenarios/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -42,7 +68,7 @@ function CreateScenario(actionState, reactionState, paramAction, paramReaction) 
     })
     .catch((error) => {
       console.error("Error:", error);
-    });
+    });*/
 }
 
 export default function ScenarioPage() {
@@ -86,33 +112,295 @@ export default function ScenarioPage() {
     ],
   ];
 
-  let listActions = [
-    "Changer de musique",
-    "Ajouter à la Playlist",
-    "Ajouter à la file d'attente",
-    "Like",
-  ];
+  const [selectedServiceAction, setServiceAction] = useState("Spotify");
+  const [selectedServiceReaction, setServiceReaction] = useState("Spotify");
 
-  let listReactions = [
-    "Lancer une musique",
-    "Lancer une playlist",
-    "Lancer une file d'attente",
-  ];
+  const changeSelectedServiceAction = (newService) => {
+    setServiceAction(newService);
+  };
 
-  const [paramAction, setParamAction] = useState([
-    { name: "textAction", value: "" },
-    { name: "textAction2", value: "" }
-  ]);
+  const changeSelectedServiceReaction = (newService) => {
+    setServiceReaction(newService);
+  };
 
-  const [paramReaction, setParamReaction] = useState([
-    { name: "textReaction", value: "" },
-    { name: "textReaction2", value: "" }
-  ]);
+  const [listActions, setListAction] = useState([]);
+  const [listFieldsAction, setListFieldAction] = useState([]);
+  const [listParamsAction, setListParamAction] = useState([]);
+
+  const [listReactions, setListReaction] = useState([]);
+  const [listFieldsReaction, setListFieldReaction] = useState([]);
+  const [listParamsReaction, setListParamReaction] = useState([]);
+
+  const [fieldAction, setFieldAction] = useState([]);
+  const [paramAction, setParamAction] = useState([]);
+
+  const [fieldReaction, setFieldReaction] = useState([]);
+  const [paramReaction, setParamReaction] = useState([]);
+
+  function getActions(selectedServiceAction) {
+    let data = {
+      status: "success",
+      data: [
+        {
+          name: "NewFollower",
+          serviceName: "Twitter",
+          description:
+            "Triggers when a new follower is added to your Twitter account",
+          fields: [],
+          ingredients: [
+            {
+              name: "id",
+              description: "The id of the new follower",
+              type: "string",
+            },
+            {
+              name: "name",
+              description: "The name of the new follower",
+              type: "string",
+            },
+            {
+              name: "username",
+              description: "The username of the new follower",
+              type: "string",
+            },
+          ],
+        },
+        {
+          name: "NewCommit",
+          serviceName: "Github",
+          description: "Triggers when a new commit is pushed to a repository",
+          fields: [
+            {
+              name: "repository_url",
+              description: "The URL of the repository",
+              type: "string",
+            },
+            {
+              name: "branch",
+              description: "The branch to watch",
+              type: "string",
+            },
+          ],
+          ingredients: [
+            {
+              name: "sha",
+              description: "The SHA of the commit",
+              type: "string",
+            },
+            {
+              name: "branch",
+              description: "The branch of the commit",
+              type: "string",
+            },
+            {
+              name: "message",
+              description: "The message of the commit",
+              type: "string",
+            },
+            {
+              name: "html_url",
+              description: "The url of the commit",
+              type: "string",
+            },
+            {
+              name: "repository_url",
+              description: "The url of the repository",
+              type: "string",
+            },
+            {
+              name: "date",
+              description: "The date of the commit",
+              type: "string",
+            },
+            {
+              name: "authorName",
+              description: "The name of the author",
+              type: "string",
+            },
+            {
+              name: "authorEmail",
+              description: "The email of the author",
+              type: "string",
+            },
+            {
+              name: "committerName",
+              description: "The name of the committer",
+              type: "string",
+            },
+            {
+              name: "committerEmail",
+              description: "The email of the committer",
+              type: "string",
+            },
+          ],
+        },
+      ],
+    };
+    let actionList = data.data.map((elem) => {
+      return {
+        name: elem.name,
+        serviceName: elem.serviceName,
+        description: elem.description,
+      };
+    });
+
+    let fieldsList = data.data.map((item) => item.fields || []);
+
+    let ingredientsList = data.data.map((item) => item.ingredients || []);
+
+    setListAction(actionList);
+    setListFieldAction(fieldsList);
+    setListParamAction(ingredientsList);
+    setFieldAction(fieldsList[0]);
+    setParamAction(ingredientsList[0]);
+    setServiceActionName(actionList[0].name);
+  }
+
+  function getReactions(selectedServiceReaction) {
+    let data = {
+      status: "success",
+      data: [
+        {
+          name: "NewFollower",
+          serviceName: "Twitter",
+          description:
+            "Triggers when a new follower is added to your Twitter account",
+          fields: [],
+          ingredients: [
+            {
+              name: "id",
+              description: "The id of the new follower",
+              type: "string",
+            },
+            {
+              name: "name",
+              description: "The name of the new follower",
+              type: "string",
+            },
+            {
+              name: "username",
+              description: "The username of the new follower",
+              type: "string",
+            },
+          ],
+        },
+        {
+          name: "NewCommit",
+          serviceName: "Github",
+          description: "Triggers when a new commit is pushed to a repository",
+          fields: [
+            {
+              name: "repository_url",
+              description: "The URL of the repository",
+              type: "string",
+            },
+            {
+              name: "branch",
+              description: "The branch to watch",
+              type: "string",
+            },
+          ],
+          ingredients: [
+            {
+              name: "sha",
+              description: "The SHA of the commit",
+              type: "string",
+            },
+            {
+              name: "branch",
+              description: "The branch of the commit",
+              type: "string",
+            },
+            {
+              name: "message",
+              description: "The message of the commit",
+              type: "string",
+            },
+            {
+              name: "html_url",
+              description: "The url of the commit",
+              type: "string",
+            },
+            {
+              name: "repository_url",
+              description: "The url of the repository",
+              type: "string",
+            },
+            {
+              name: "date",
+              description: "The date of the commit",
+              type: "string",
+            },
+            {
+              name: "authorName",
+              description: "The name of the author",
+              type: "string",
+            },
+            {
+              name: "authorEmail",
+              description: "The email of the author",
+              type: "string",
+            },
+            {
+              name: "committerName",
+              description: "The name of the committer",
+              type: "string",
+            },
+            {
+              name: "committerEmail",
+              description: "The email of the committer",
+              type: "string",
+            },
+          ],
+        },
+      ],
+    };
+    let reactionList = data.data.map((elem) => {
+      return {
+        name: elem.name,
+        serviceName: elem.serviceName,
+        description: elem.description,
+      };
+    });
+
+    let fieldsList = data.data.map((item) => item.fields || []);
+
+    let ingredientsList = data.data.map((item) => item.ingredients || []);
+
+    setListReaction(reactionList);
+    setListFieldReaction(fieldsList);
+    setListParamReaction(ingredientsList);
+    setFieldReaction(fieldsList[0]);
+    setParamReaction(ingredientsList[0]);
+    setServiceReactionName(reactionList[0].name);
+  }
+
+  function changeParamAction(ingredientsList, index) {
+    setParamAction(ingredientsList[index]);
+  }
+
+  function changeFieldAction(fieldList, index) {
+    setFieldAction(fieldList[index]);
+  }
+
+  function changeParamReaction(ingredientsList, index) {
+    setParamReaction(ingredientsList[index]);
+  }
+
+  function changeFieldReaction(fieldList, index) {
+    setFieldReaction(fieldList[index]);
+  }
 
   const handleTextFieldChangeParamAction = (index, value) => {
     const newParamAction = [...paramAction];
     newParamAction[index].value = value;
     setParamAction(newParamAction);
+  };
+
+  const handleTextFieldChangeFieldAction = (index, value) => {
+    const newFieldAction = [...fieldAction];
+    newFieldAction[index].value = value;
+    setFieldAction(newFieldAction);
   };
 
   const handleTextFieldChangeParamReaction = (index, value) => {
@@ -121,31 +409,35 @@ export default function ScenarioPage() {
     setParamReaction(newParamReaction);
   };
 
-  const changeParamAction = () => {
-    let paramActionstmp = [
-      { name: "aaa", value: "" },
-      { name: "bbbb", value: "" },
-      { name: "aaa", value: "" },
-      { name: "zd", value: "" }
-    ];
-    setParamAction(paramActionstmp);
+  const handleTextFieldChangeFieldReaction = (index, value) => {
+    const newFieldReaction = [...fieldReaction];
+    newFieldReaction[index].value = value;
+    setFieldReaction(newFieldReaction);
   };
 
-
-
-  const handleSubmit = () => {
-    console.log(paramAction); // do something with the completed form data
-  };
-
-  const [actionState, setActionState] = React.useState(listActions[0]);
-  const handleChangeAction = (event: SelectChangeEvent) => {
-    setActionState(event.target.value);
-  };
   const [reactionState, setReactionState] = React.useState(listReactions[0]);
-  const handleChangeReaction = (event: SelectChangeEvent) => {
-    setReactionState(event.target.value);
+
+  const [selectedServiceActionName, setServiceActionName] = useState("");
+  const [selectedServiceReactionName, setServiceReactionName] = useState("");
+
+  const handleSelectChange = (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOptionName = e.target.value;
+    setServiceActionName(selectedOptionName);
+    changeParamAction(listParamsAction, selectedIndex);
+    changeFieldAction(listFieldsAction, selectedIndex);
+  };
+
+  const handleSelectChangeTwo = (e) => {
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOptionName = e.target.value;
+    setServiceReactionName(selectedOptionName);
+    changeParamReaction(listParamsReaction, selectedIndex);
+    changeFieldReaction(listFieldsReaction, selectedIndex);
   };
   useEffect(() => {
+    getActions("spotify");
+    getReactions("spotify");
     document.body.style.backgroundColor = "#222222";
   }, []);
   return (
@@ -176,6 +468,9 @@ export default function ScenarioPage() {
                 backgroundColor: service[1],
                 borderRadius: "39px",
               }}
+              onClick={() =>
+                changeSelectedServiceAction(service[0])
+              }
             >
               <CardMedia
                 sx={{
@@ -202,38 +497,49 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-        <Box sx={{ minWidth: 120, backgroundColor: "white" }}>
-          <FormControl fullWidth>
-            <Select
-              id="scenarioAction"
-              value={actionState}
-              onChange={handleChangeAction}
-            >
-              {listActions.map((action, index) => (
-                <MenuItem value={action}> {action}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+        <select onChange={handleSelectChange}>
+          {listActions.map((option) => (
+            <option key={option.name}>{option.name}</option>
+          ))}
+        </select>
       </div>
       <div>
-      {paramAction.map((param, index) => (
-        <TextField
-          key={index}
-          label={param.name}
-          value={param.value}
-          onChange={(event) => handleTextFieldChangeParamAction(index, event.target.value)}
-          style={{
-            width: "100%",
-            marginTop: "4%",
-            backgroundColor: "white",
-            borderRadius: "4px",
-            border: "1px solid #ced4da",
-          }}
-        />
-      ))}
-      <button onClick={handleSubmit}>Submit</button>
-      <button onClick={changeParamAction}> chaange</button>
+        {fieldAction.map((param, index) => (
+          <TextField
+            key={index}
+            label={param.name}
+            value={param.value}
+            onChange={(event) =>
+              handleTextFieldChangeFieldAction(index, event.target.value)
+            }
+            style={{
+              width: "100%",
+              marginTop: "4%",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "1px solid #ced4da",
+            }}
+          />
+        ))}
+      </div>
+      <div>
+        {paramAction.map((param, index) => (
+          <TextField
+            key={index}
+            label={param.name}
+            value={param.value}
+            onChange={(event) =>
+              handleTextFieldChangeParamAction(index, event.target.value)
+            }
+            style={{
+              width: "100%",
+              marginTop: "4%",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "1px solid #ced4da",
+            }}
+          />
+        ))}
       </div>
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
@@ -246,6 +552,11 @@ export default function ScenarioPage() {
                 backgroundColor: service[1],
                 borderRadius: "39px",
               }}
+              onClick={() =>
+                changeSelectedServiceReaction(
+                  service[0]
+                )
+              }
             >
               <CardMedia
                 sx={{
@@ -272,37 +583,49 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-        <Box sx={{ minWidth: 120, backgroundColor: "white" }}>
-          <FormControl fullWidth>
-            <Select
-              labelId="demo-simple-select-label"
-              id="scenarioReaction"
-              value={reactionState}
-              onChange={handleChangeReaction}
-            >
-              {listReactions.map((reaction, index) => (
-                <MenuItem value={reaction}> {reaction}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+        <select onChange={handleSelectChangeTwo}>
+          {listReactions.map((option) => (
+            <option key={option.name}>{option.name}</option>
+          ))}
+        </select>
       </div>
       <div>
-      {paramReaction.map((param, index) => (
-        <TextField
-          key={index}
-          label={param.name}
-          value={param.value}
-          onChange={(event) => handleTextFieldChangeParamReaction(index, event.target.value)}
-          style={{
-            width: "100%",
-            marginTop: "4%",
-            backgroundColor: "white",
-            borderRadius: "4px",
-            border: "1px solid #ced4da",
-          }}
-        />
-      ))}
+        {fieldReaction.map((param, index) => (
+          <TextField
+            key={index}
+            label={param.name}
+            value={param.value}
+            onChange={(event) =>
+              handleTextFieldChangeFieldReaction(index, event.target.value)
+            }
+            style={{
+              width: "100%",
+              marginTop: "4%",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "1px solid #ced4da",
+            }}
+          />
+        ))}
+      </div>
+      <div>
+        {paramReaction.map((param, index) => (
+          <TextField
+            key={index}
+            label={param.name}
+            value={param.value}
+            onChange={(event) =>
+              handleTextFieldChangeParamReaction(index, event.target.value)
+            }
+            style={{
+              width: "100%",
+              marginTop: "4%",
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "1px solid #ced4da",
+            }}
+          />
+        ))}
       </div>
       <div>
         <Button
@@ -312,7 +635,19 @@ export default function ScenarioPage() {
             backgroundColor: "white",
             marginTop: "15%",
           }}
-          onClick={() => CreateScenario({ actionState }, { reactionState }, paramAction, paramReaction)}
+          onClick={() =>
+            CreateScenario(
+              selectedServiceAction,
+              selectedServiceReaction,
+              selectedServiceActionName,
+              selectedServiceReactionName,
+              listActions,
+              listReactions,
+              fieldAction,
+              paramAction,
+              fieldReaction
+            )
+          }
         >
           Créer
         </Button>
