@@ -38,6 +38,8 @@ export class TwitterSubscribeService {
             }
         )
 
+        console.log('Twitter: getAuthorizeUrl', codeVerifier, state)
+
         this.codeVerifierStateArray.set(accountId, { codeVerifier, state })
 
         return url
@@ -47,6 +49,9 @@ export class TwitterSubscribeService {
         const { codeVerifier } = this.codeVerifierStateArray.get(accountId) ?? {
             codeVerifier: ''
         }
+
+        console.log('Twitter: authorize', codeVerifier, code)
+
         let { accessToken, refreshToken, expiresIn }
             = await this.twitterApi.loginWithOAuth2({
                 code,
