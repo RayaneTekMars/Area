@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Subscription } from './entities/subscription.entity'
-import type { ServiceName } from '../scenarios/types/service.type'
+import type { ServiceName } from '../common/types/service.type'
 import type { Account } from '../accounts/entities/account.entity'
 
 

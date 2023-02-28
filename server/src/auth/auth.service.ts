@@ -53,7 +53,7 @@ class AuthService {
             return foundCredentials.account
 
         const account = await this.accountsService.create({
-            username: name,
+            username: name
         })
 
         const googleCredentials = this.googleCredentialsRepository.create({

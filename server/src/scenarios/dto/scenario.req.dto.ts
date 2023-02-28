@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Trigger } from '../types/trigger.type'
-import { Reaction } from '../types/reaction.type'
 import { IsObject, IsString } from 'class-validator'
+import { Trigger } from '../../common/types/trigger.type'
+import { Reaction } from '../../common/types/reaction.type'
 
 export class ScenarioReqDto {
 

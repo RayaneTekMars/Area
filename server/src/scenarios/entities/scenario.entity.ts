@@ -8,8 +8,8 @@ import {
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 import { Account } from '../../accounts/entities/account.entity'
-import { Reaction } from '../types/reaction.type'
-import { Trigger } from '../types/trigger.type'
+import { Reaction } from '../../common/types/reaction.type'
+import { Trigger } from '../../common/types/trigger.type'
 
 @Entity()
 export class Scenario {

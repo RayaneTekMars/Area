@@ -11,7 +11,7 @@ import { TwitchSubscribeService } from './services/twitch.sub.service'
 import { Account } from '../accounts/entities/account.entity'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
-import { ServiceName } from '../scenarios/types/service.type'
+import { ServiceName } from '../common/types/service.type'
 
 @Controller('subscriptions')
 @ApiTags('Subscriptions')

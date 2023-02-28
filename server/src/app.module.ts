@@ -9,6 +9,7 @@ import { TokenModule } from './token/token.module'
 import { ScenariosModule } from './scenarios/scenarios.module'
 import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { ServicesModule } from './services/services.module';
 
 @Module({
     imports: [
@@ -41,7 +42,8 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
         TokenModule,
         AboutModule,
         ScenariosModule,
-        SubscriptionsModule
+        SubscriptionsModule,
+        ServicesModule
     ],
     providers: [
         {

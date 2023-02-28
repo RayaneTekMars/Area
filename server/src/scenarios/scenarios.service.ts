@@ -2,40 +2,16 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Scenario } from './entities/scenario.entity'
-import { SubscriptionsService } from '../subscriptions/subscriptions.service'
-import type Integration from './integrations/intergration'
 import type { ScenarioReqDto } from './dto/scenario.req.dto'
 import type { Account } from '../accounts/entities/account.entity'
-import type { Reaction } from './types/reaction.type'
-import type { Trigger } from './types/trigger.type'
-import type { ServiceName } from './types/service.type'
 
 @Injectable()
 export class ScenariosService {
 
-    private integrations: Integration[]
-
     constructor(
         @InjectRepository(Scenario)
-        private readonly scenarioRepository: Repository<Scenario>,
-        private readonly subscriptionsService: SubscriptionsService
-    ) {
-        this.integrations = []
-    }
-
-    setIntegration(integration: Integration) {
-        this.integrations = [...this.integrations, integration]
-    }
-
-    getIntegrations(): Integration[] {
-        return this.integrations
-    }
-
-    getIntegrationByName(name: ServiceName): Integration | undefined {
-        return this.getIntegrations().find(
-            (integration) => integration.getName() === name
-        )
-    }
+        private readonly scenarioRepository: Repository<Scenario>
+    ) {}
 
     async getScenario(accountId: string, id: string): Promise<Scenario | null> {
         return this.scenarioRepository.findOne({
@@ -74,57 +50,6 @@ export class ScenariosService {
             (x) =>
                 x.trigger.serviceName === serviceName && x.trigger.name === triggerName
         )
-    }
-
-    async getReaction(accountId: string, serviceName: string, triggerName: string): Promise<Reaction | undefined> {
-        const scenarios = await this.scenarioRepository.find({
-            relations: ['account'],
-            where: {
-                account: {
-                    id: accountId
-                }
-            }
-        })
-
-        const scenario = scenarios.find(
-            (x) =>
-                x.trigger.serviceName === serviceName && x.trigger.name === triggerName
-        )
-
-        if (!scenario)
-            return
-
-        return scenario.reaction
-    }
-
-    async emit(accountId: string, trigger: Trigger, reaction: Reaction): Promise<void> {
-        const service = this.getIntegrationByName(reaction.serviceName)
-        if (!service)
-            return
-
-        const subscription
-            = await this.subscriptionsService.getSubscriptionsByAccountIdAndServiceName(
-                accountId,
-                reaction.serviceName
-            )
-        if (!subscription)
-            return
-
-        const reactionIntegration = service.getReactionByName(reaction.name)
-        if (!reactionIntegration)
-            return
-
-        const fields = new Map<string, string>()
-
-        for (let { name, value } of reaction.fields) {
-            value = value.replace(
-                /{{(.*?)}}/g,
-                (_, p1: string) => trigger.ingredients.find((x) => x.name === p1)?.value ?? `{{${p1}}}`
-            )
-            fields.set(name, value)
-        }
-
-        reactionIntegration.run(fields, subscription.accessToken)
     }
 
     async createScenario(account: Account, createdScenario: ScenarioReqDto): Promise<Scenario> {

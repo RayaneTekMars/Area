@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Trigger } from '../types/trigger.type'
-import { Reaction } from '../types/reaction.type'
+import { Trigger } from '../../common/types/trigger.type'
+import { Reaction } from '../../common/types/reaction.type'
 
 class ScenarioData {
 
@@ -18,7 +18,7 @@ class ScenarioData {
 
 }
 
-export class ScenarioResDto {
+class ScenarioResDto {
 
     @ApiProperty()
     status: 'success'
@@ -30,7 +30,7 @@ export class ScenarioResDto {
 
 }
 
-export class GetScenarioResDto {
+class GetScenarioResDto {
 
     @ApiProperty()
     status: 'success'
@@ -42,7 +42,7 @@ export class GetScenarioResDto {
 
 }
 
-export class GetScenariosResDto {
+class GetScenariosResDto {
 
     @ApiProperty()
     status: 'success'
@@ -53,3 +53,5 @@ export class GetScenariosResDto {
     data: ScenarioData[]
 
 }
+
+export { ScenarioResDto, GetScenarioResDto, GetScenariosResDto }

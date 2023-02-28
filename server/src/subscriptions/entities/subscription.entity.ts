@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 import { Account } from '../../accounts/entities/account.entity'
-import { ServiceName } from '../../scenarios/types/service.type'
+import { ServiceName } from '../../common/types/service.type'
 
 @Entity()
 @Unique(['serviceName', 'account'])

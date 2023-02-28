@@ -13,48 +13,6 @@
                 "name": "branch",
                 "value": "test"
             }
-        ],
-        "ingredients": [
-            {
-                "name": "sha",
-                "value": ""
-            },
-            {
-                "name": "branch",
-                "value": ""
-            },
-            {
-                "name": "message",
-                "value": ""
-            },
-            {
-                "name": "html_url",
-                "value": ""
-            },
-            {
-                "name": "repository_url",
-                "value": ""
-            },
-            {
-                "name": "date",
-                "value": ""
-            },
-            {
-                "name": "authorName",
-                "value": ""
-            },
-            {
-                "name": "authorEmail",
-                "value": ""
-            },
-            {
-                "name": "committerName",
-                "value": ""
-            },
-            {
-                "name": "committerEmail",
-                "value": ""
-            }
         ]
     },
     "reaction": {
