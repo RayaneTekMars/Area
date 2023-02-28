@@ -13,7 +13,7 @@ const GoogleButton = () => {
     url.searchParams.append('scope', scopes.join(' '))
     url.searchParams.append('access_type', 'offline')
     url.searchParams.append('response_type', 'code')
-    url.searchParams.append('redirect_uri', 'http://localhost:8081/oauth/google')
+    url.searchParams.append('redirect_uri', 'https://api.automateme.fr/oauth/google')
     url.searchParams.append('client_id', '372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com')
 
     return (
