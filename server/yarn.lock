@@ -1419,6 +1419,47 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/auth-oauth-app@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "@octokit/auth-oauth-app@npm:5.0.5"
+  dependencies:
+    "@octokit/auth-oauth-device": ^4.0.0
+    "@octokit/auth-oauth-user": ^2.0.0
+    "@octokit/request": ^6.0.0
+    "@octokit/types": ^9.0.0
+    "@types/btoa-lite": ^1.0.0
+    btoa-lite: ^1.0.0
+    universal-user-agent: ^6.0.0
+  checksum: 00f1567d89e1c7004aba451a2beb218da9c6e9ec5be1f973b48936de5f7960803e242a6359a4acd6238958ed62d8d3dcee3b3faafa64431504244dd37a16d418
+  languageName: node
+  linkType: hard
+
+"@octokit/auth-oauth-device@npm:^4.0.0":
+  version: 4.0.4
+  resolution: "@octokit/auth-oauth-device@npm:4.0.4"
+  dependencies:
+    "@octokit/oauth-methods": ^2.0.0
+    "@octokit/request": ^6.0.0
+    "@octokit/types": ^9.0.0
+    universal-user-agent: ^6.0.0
+  checksum: 245e1fd77684d131793a52a45133ad2514dbb14e5bb6af99eeaccff58662b567327196a721e296ef5734c0988e85a7536ef22bbf04613b302eba595995c5c751
+  languageName: node
+  linkType: hard
+
+"@octokit/auth-oauth-user@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "@octokit/auth-oauth-user@npm:2.1.1"
+  dependencies:
+    "@octokit/auth-oauth-device": ^4.0.0
+    "@octokit/oauth-methods": ^2.0.0
+    "@octokit/request": ^6.0.0
+    "@octokit/types": ^9.0.0
+    btoa-lite: ^1.0.0
+    universal-user-agent: ^6.0.0
+  checksum: 6dbe5974bbc71340811fcae86cbb60a177302ecc7bb7fdd7954077f5d40a615a4caae839290defb642703a9079752503314265362736a643ca39c4839454908e
+  languageName: node
+  linkType: hard
+
 "@octokit/auth-token@npm:^3.0.0":
   version: 3.0.3
   resolution: "@octokit/auth-token@npm:3.0.3"
@@ -1465,6 +1506,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/oauth-authorization-url@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@octokit/oauth-authorization-url@npm:5.0.0"
+  checksum: bc457c4af9559e9e8f752e643fc9d116247f4e4246e69959d99b9e39196c93d7af53c1c8e3bd946bd0e4fc29f7ba27efe9bced8525ffa41fe45ef56a8281014b
+  languageName: node
+  linkType: hard
+
+"@octokit/oauth-methods@npm:^2.0.0":
+  version: 2.0.5
+  resolution: "@octokit/oauth-methods@npm:2.0.5"
+  dependencies:
+    "@octokit/oauth-authorization-url": ^5.0.0
+    "@octokit/request": ^6.2.3
+    "@octokit/request-error": ^3.0.3
+    "@octokit/types": ^9.0.0
+    btoa-lite: ^1.0.0
+  checksum: dda36fdc85f1b9a4322e47d88b13183f86fd7e03e66e787ced7be41ea4a1a64f610e2d1a75f82c7ec7ff5c4a76e07a696c2e7232bf944f04fe64aac5c26bd484
+  languageName: node
+  linkType: hard
+
 "@octokit/openapi-types@npm:^16.0.0":
   version: 16.0.0
   resolution: "@octokit/openapi-types@npm:16.0.0"
@@ -1472,7 +1533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/request-error@npm:^3.0.0":
+"@octokit/request-error@npm:^3.0.0, @octokit/request-error@npm:^3.0.3":
   version: 3.0.3
   resolution: "@octokit/request-error@npm:3.0.3"
   dependencies:
@@ -1483,7 +1544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/request@npm:^6.0.0":
+"@octokit/request@npm:^6.0.0, @octokit/request@npm:^6.2.3":
   version: 6.2.3
   resolution: "@octokit/request@npm:6.2.3"
   dependencies:
@@ -1661,6 +1722,13 @@ __metadata:
     "@types/connect": "*"
     "@types/node": "*"
   checksum: e17840c7d747a549f00aebe72c89313d09fbc4b632b949b2470c5cb3b1cb73863901ae84d9335b567a79ec5efcfb8a28ff8e3f36bc8748a9686756b6d5681f40
+  languageName: node
+  linkType: hard
+
+"@types/btoa-lite@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@types/btoa-lite@npm:1.0.0"
+  checksum: 4d0c3c36cc8aa5669d286d62ca45d925e3ea0db75222ebacb0d9f4fd7822b8e162da8773887e045c11d64c42373807d2ab2ad97a5d8a683d2e1c981e6a05ce33
   languageName: node
   linkType: hard
 
@@ -2598,6 +2666,7 @@ __metadata:
     "@nestjs/swagger": ^6.1.2
     "@nestjs/testing": ^9.1.2
     "@nestjs/typeorm": ^9.0.1
+    "@octokit/auth-oauth-app": ^5.0.5
     "@octokit/core": ^4.2.0
     "@types/bcrypt": ^5.0.0
     "@types/express": ^4.17.13
@@ -3049,6 +3118,13 @@ __metadata:
   dependencies:
     node-int64: ^0.4.0
   checksum: 9ba4dc58ce86300c862bffc3ae91f00b2a03b01ee07f3564beeeaf82aa243b8b03ba53f123b0b842c190d4399b94697970c8e7cf7b1ea44b61aa28c3526a4449
+  languageName: node
+  linkType: hard
+
+"btoa-lite@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "btoa-lite@npm:1.0.0"
+  checksum: c2d61993b801f8e35a96f20692a45459c753d9baa29d86d1343e714f8d6bbe7069f1a20a5ae868488f3fb137d5bd0c560f6fbbc90b5a71050919d2d2c97c0475
   languageName: node
   linkType: hard
 

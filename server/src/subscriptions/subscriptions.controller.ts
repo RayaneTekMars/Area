@@ -48,13 +48,17 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
     getTwitterSubscription(@CurrentUser() user: Account): SubscriptionUrlResDto {
-        const url = this.twitterSubscribeService.getAuthorizeUrl(user.id)
+        try {
+            const url = this.twitterSubscribeService.getAuthorizeUrl(user.id)
 
-        return {
-            status: 'success',
-            data: {
-                url
+            return {
+                status: 'success',
+                data: {
+                    url
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t get the Twitter AuthLink')
         }
     }
 
@@ -65,14 +69,18 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createTwitterSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.authorize(user.id, body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitter, user, accessToken, refreshToken, expiresIn)
+        try {
+            const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.authorize(user.id, body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitter, user, accessToken, refreshToken, expiresIn)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t create the Twitter subscription')
         }
     }
 
@@ -83,20 +91,24 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async updateTwitterSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitter, user.id)
+        try {
+            const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitter, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
+            const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(subscription.refreshToken)
 
-        const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(subscription.refreshToken)
-        await this.subscriptionsService.updateSubscription(ServiceName.Twitter, user.id, accessToken, refreshToken, expiresIn)
+            await this.subscriptionsService.updateSubscription(ServiceName.Twitter, user.id, accessToken, refreshToken, expiresIn)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t update the Twitter subscription')
         }
     }
 
@@ -107,19 +119,23 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async deleteTwitterSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Twitter, user.id)
+        try {
+            const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Twitter, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
 
-        void this.twitterSubscribeService.revokeAccessToken(subscription.refreshToken)
+            void this.twitterSubscribeService.revokeAccessToken(subscription.refreshToken)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t delete the Twitter subscription')
         }
     }
 
@@ -130,13 +146,17 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
     getGithubSubscription(): SubscriptionUrlResDto {
-        const url = this.githubSubscribeService.getAuthorizeUrl()
+        try {
+            const url = this.githubSubscribeService.getAuthorizeUrl()
 
-        return {
-            status: 'success',
-            data: {
-                url
+            return {
+                status: 'success',
+                data: {
+                    url
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t get the Github AuthLink')
         }
     }
 
@@ -147,14 +167,18 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createGithubSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken } = await this.githubSubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Github, user, accessToken, '', 0)
+        try {
+            const { accessToken } = await this.githubSubscribeService.authorize(body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Github, user, accessToken, '', 0)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t create the Github subscription')
         }
     }
 
@@ -165,19 +189,23 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async updateGithubSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.getSubscription(ServiceName.Github, user.id)
+        try {
+            const subscription = await this.subscriptionsService.getSubscription(ServiceName.Github, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        const { accessToken } = await this.githubSubscribeService.refreshAccessToken(subscription.accessToken)
-        await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, '', 0)
+            const { accessToken } = await this.githubSubscribeService.refreshAccessToken(subscription.accessToken)
+            await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, '', 0)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t update the Github subscription')
         }
     }
 
@@ -188,18 +216,22 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async deleteGithubSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Github, user.id)
+        try {
+            const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Github, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        void this.githubSubscribeService.revokeAccessToken(subscription.accessToken)
+            void this.githubSubscribeService.revokeAccessToken(subscription.accessToken)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t delete the Github subscription')
         }
     }
 
@@ -210,13 +242,17 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
     getDiscordSubscription(): SubscriptionUrlResDto {
-        const url = this.discordSubscribeService.getAuthorizeUrl()
+        try {
+            const url = this.discordSubscribeService.getAuthorizeUrl()
 
-        return {
-            status: 'success',
-            data: {
-                url
+            return {
+                status: 'success',
+                data: {
+                    url
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t get the Discord AuthLink')
         }
     }
 
@@ -227,14 +263,18 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createDiscordSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken } = await this.discordSubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Discord, user, accessToken, refreshToken, 10_000)
+        try {
+            const { accessToken, refreshToken } = await this.discordSubscribeService.authorize(body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Discord, user, accessToken, refreshToken, 10_000)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t create the Discord subscription')
         }
     }
 
@@ -245,19 +285,23 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async updateDiscordSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.getSubscription(ServiceName.Discord, user.id)
+        try {
+            const subscription = await this.subscriptionsService.getSubscription(ServiceName.Discord, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        const { accessToken, newRefreshToken, expiresIn } = await this.discordSubscribeService.refreshAccessToken(subscription.refreshToken)
-        await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, newRefreshToken, expiresIn)
+            const { accessToken, newRefreshToken, expiresIn } = await this.discordSubscribeService.refreshAccessToken(subscription.refreshToken)
+            await this.subscriptionsService.updateSubscription(ServiceName.Github, user.id, accessToken, newRefreshToken, expiresIn)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t update the Discord subscription')
         }
     }
 
@@ -268,16 +312,20 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async deleteDiscordSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Discord, user.id)
+        try {
+            const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Discord, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t delete the Discord subscription')
         }
     }
 
@@ -288,13 +336,17 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
     getSpotifySubscription(): SubscriptionUrlResDto {
-        const url = this.spotifySubscribeService.getAuthorizeUrl()
+        try {
+            const url = this.spotifySubscribeService.getAuthorizeUrl()
 
-        return {
-            status: 'success',
-            data: {
-                url
+            return {
+                status: 'success',
+                data: {
+                    url
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t get the Spotify AuthLink')
         }
     }
 
@@ -305,14 +357,18 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createSpotifySubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken } = await this.spotifySubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Spotify, user, accessToken, refreshToken, 10_000)
+        try {
+            const { accessToken, refreshToken } = await this.spotifySubscribeService.authorize(body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Spotify, user, accessToken, refreshToken, 10_000)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t create the Spotify subscription')
         }
     }
 
@@ -323,19 +379,23 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async updateSpotifySubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.getSubscription(ServiceName.Spotify, user.id)
+        try {
+            const subscription = await this.subscriptionsService.getSubscription(ServiceName.Spotify, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        const { accessToken, newRefreshToken, expiresIn } = await this.spotifySubscribeService.refreshAccessToken(subscription.refreshToken)
-        await this.subscriptionsService.updateSubscription(ServiceName.Spotify, user.id, accessToken, newRefreshToken, expiresIn)
+            const { accessToken, newRefreshToken, expiresIn } = await this.spotifySubscribeService.refreshAccessToken(subscription.refreshToken)
+            await this.subscriptionsService.updateSubscription(ServiceName.Spotify, user.id, accessToken, newRefreshToken, expiresIn)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t update the Spotify subscription')
         }
     }
 
@@ -346,16 +406,20 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async deleteSpotifySubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-        const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Spotify, user.id)
+        try {
+            const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Spotify, user.id)
 
-        if (!subscription)
-            throw new Error('Subscription not found')
+            if (!subscription)
+                throw new Error('Subscription not found')
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t delete the Spotify subscription')
         }
     }
 
@@ -366,13 +430,17 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
     getTwitchSubscription(): SubscriptionUrlResDto {
-        const url = this.twitchSubscribeService.getAuthorizeUrl()
+        try {
+            const url = this.twitchSubscribeService.getAuthorizeUrl()
 
-        return {
-            status: 'success',
-            data: {
-                url
+            return {
+                status: 'success',
+                data: {
+                    url
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t get the Twitch AuthLink')
         }
     }
 
@@ -383,38 +451,50 @@ export class SubscriptionsController {
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
     async createTwitchSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
-        const { accessToken, refreshToken } = await this.twitchSubscribeService.authorize(body.code)
-        const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitch, user, accessToken, refreshToken, 10_000)
+        try {
+            const { accessToken, refreshToken } = await this.twitchSubscribeService.authorize(body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitch, user, accessToken, refreshToken, 10_000)
 
-        return {
-            status: 'success',
-            data: {
-                id: subscription.id
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
             }
+        } catch {
+            throw new Error('Couldn\'t create the Twitch subscription')
         }
     }
 
-    // @Put('twitch')
-    // @UseGuards(JwtAuthGuard)
-    // @HttpCode(200)
-    // @ApiOperation({ summary: 'Update a subscription from the current user' })
-    // @ApiOkResponse({ type: SubscriptionResDto })
-    // @ApiBadRequestResponse()
-    // async updateTwitchSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-    //     const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitch, user.id)
+    /*
+     * @Put('twitch')
+     * @UseGuards(JwtAuthGuard)
+     * @HttpCode(200)
+     * @ApiOperation({ summary: 'Update a subscription from the current user' })
+     * @ApiOkResponse({ type: SubscriptionResDto })
+     * @ApiBadRequestResponse()
+     * async updateTwitchSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+     *     const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitch, user.id)
+     */
 
-    //     if (!subscription)
-    //         throw new Error('Subscription not found')
+    /*
+     *     If (!subscription)
+     *         throw new Error('Subscription not found')
+     */
 
-    //     const { accessToken, newRefreshToken, expiresIn } = await this.twitchSubscribeService.refreshAccessToken(subscription.refreshToken)
-    //     await this.subscriptionsService.updateSubscription(ServiceName.Twitch, user.id, accessToken, newRefreshToken, expiresIn)
+    /*
+     *     Const { accessToken, newRefreshToken, expiresIn } = await this.twitchSubscribeService.refreshAccessToken(subscription.refreshToken)
+     *     await this.subscriptionsService.updateSubscription(ServiceName.Twitch, user.id, accessToken, newRefreshToken, expiresIn)
+     */
 
-    //     return {
-    //         status: 'success',
-    //         data: {
-    //             id: subscription.id
-    //         }
-    //     }
-    // }
+    /*
+     *     Return {
+     *         status: 'success',
+     *         data: {
+     *             id: subscription.id
+     *         }
+     *     }
+     * }
+     */
 
 }

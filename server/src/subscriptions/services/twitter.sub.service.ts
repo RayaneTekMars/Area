@@ -4,22 +4,29 @@ import { TwitterApi } from 'twitter-api-v2'
 
 @Injectable()
 export class TwitterSubscribeService {
+
+    private readonly clientId: string
+    private readonly clientSecret: string
+    private readonly redirectUrl: string
+
     twitterApi: TwitterApi
     codeVerifierStateArray: Map<string, { codeVerifier: string, state: string }>
 
     constructor(private readonly configService: ConfigService) {
+        this.clientId = this.configService.get<string>('TWITTER_OAUTH2_CLIENT_ID') ?? ''
+        this.clientSecret = this.configService.get<string>('TWITTER_OAUTH2_CLIENT_SECRET') ?? ''
+        this.redirectUrl = this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL') ?? ''
+
         this.twitterApi = new TwitterApi({
-            clientId:
-                this.configService.get<string>('TWITTER_OAUTH2_CLIENT_ID') ?? '',
-            clientSecret:
-                this.configService.get<string>('TWITTER_OAUTH2_CLIENT_SECRET') ?? ''
+            clientId: this.clientId,
+            clientSecret: this.clientSecret
         })
         this.codeVerifierStateArray = new Map()
     }
 
     getAuthorizeUrl(accountId: string) {
         const { url, codeVerifier, state } = this.twitterApi.generateOAuth2AuthLink(
-            this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL') ?? '',
+            this.redirectUrl,
             {
                 scope: [
                     'tweet.read',
@@ -43,8 +50,7 @@ export class TwitterSubscribeService {
         let { accessToken, refreshToken, expiresIn }
             = await this.twitterApi.loginWithOAuth2({
                 code,
-                redirectUri:
-                    this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL') ?? '',
+                redirectUri: this.redirectUrl,
                 codeVerifier
             })
 
@@ -59,7 +65,7 @@ export class TwitterSubscribeService {
         const { accessToken, refreshToken, expiresIn }
             = await this.twitterApi.refreshOAuth2Token(_refreshToken)
 
-        if (!refreshToken)
+        if (refreshToken === undefined)
             throw new Error('Refresh token is not provided')
 
         return { accessToken, refreshToken, expiresIn }

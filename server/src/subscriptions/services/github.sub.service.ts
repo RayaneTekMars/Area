@@ -1,70 +1,71 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Octokit } from '@octokit/core'
-import axios from 'axios'
+import { createOAuthAppAuth } from '@octokit/auth-oauth-app'
+import type { OAuthAppUserAuthentication } from '@octokit/auth-oauth-app'
 
 @Injectable()
 export class GithubSubscribeService {
 
-  private readonly scope: string
-  private readonly clientId: string
-  private readonly clientSecret: string
-  private readonly redirectUri: string
-  private readonly githubOAuthUrl: string
+    private readonly scope: string
+    private readonly clientId: string
+    private readonly clientSecret: string
+    private readonly redirectUrl: string
 
-  private octokit: Octokit
+    private readonly githubOAuthUrl: string
 
-  constructor(private readonly configService: ConfigService) {
-    this.scope = this.configService.get('GITHUB_OAUTH2_SCOPE') ?? ''
-    this.clientId = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
-    this.clientSecret = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
-    this.redirectUri = this.configService.get('GITHUB_OAUTH2_CALLBACK_URL') ?? ''
-    this.githubOAuthUrl = 'https://github.com/login/oauth'
-    this.octokit = new Octokit({
-      auth: this.clientSecret
-    })
-  }
+    private octokit: Octokit
 
-  getAuthorizeUrl(): string {
-    return `${this.githubOAuthUrl}/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUri}&scope=${this.scope}`
-  }
+    constructor(private readonly configService: ConfigService) {
+        this.scope = this.configService.get('GITHUB_OAUTH2_SCOPE') ?? ''
+        this.clientId = this.configService.get('GITHUB_OAUTH2_CLIENT_ID') ?? ''
+        this.clientSecret = this.configService.get('GITHUB_OAUTH2_CLIENT_SECRET') ?? ''
+        this.redirectUrl = this.configService.get('GITHUB_OAUTH2_CALLBACK_URL') ?? ''
 
-  async authorize(code: string): Promise<{
-    accessToken: string
-  }> {
-    const response = await axios.post(`${this.githubOAuthUrl}/access_token`, {
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      code,
-      redirect_uri: this.redirectUri
-    }, {
-      headers: {
-        Accept: 'application/json'
-      }
-    })
+        this.githubOAuthUrl = 'https://github.com/login/oauth'
 
-    return {
-      accessToken: response.data.access_token
+        this.octokit = new Octokit({
+            authStrategy: createOAuthAppAuth,
+            auth: {
+              clientId: this.clientId,
+              clientSecret: this.clientSecret
+            }
+        })
     }
-  }
 
-  async refreshAccessToken(accessToken: string): Promise<{
-    accessToken: string
-  }> {
-    const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
-      client_id: this.clientId,
-      access_token: accessToken
-    })
-
-    return {
-      accessToken: response.data.token
+    getAuthorizeUrl(): string {
+        return `${this.githubOAuthUrl}/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectUrl}&scope=${encodeURIComponent(this.scope)}`
     }
-  }
 
-  async revokeAccessToken(accessToken: string): Promise<void> {
-    await this.octokit.request('DELETE /applications/{client_id}/token', {
-      client_id: this.clientId,
-      access_token: accessToken
-    })
-  }
+    async authorize(code: string): Promise<{
+        accessToken: string
+    }> {
+        const userAuth = await this.octokit.auth({
+            type: 'oauth-user',
+            code,
+            redirectUrl: this.redirectUrl
+        }) as OAuthAppUserAuthentication
+
+        return {
+            accessToken: userAuth.token
+        }
+    }
+
+    async refreshAccessToken(accessToken: string): Promise<{ accessToken: string }> {
+        const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
+            client_id: this.clientId,
+            access_token: accessToken
+        })
+
+        return {
+            accessToken: response.data.token
+        }
+    }
+
+    async revokeAccessToken(accessToken: string): Promise<void> {
+        await this.octokit.request('DELETE /applications/{client_id}/token', {
+            client_id: this.clientId,
+            access_token: accessToken
+        })
+    }
 }
