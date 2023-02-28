@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import MainNavbar from "../../../components/mainNavbar";
 import TwitterLogo from "../../../assets/logo_twitter.png";
 import "../../../styles/twitter.css";
-import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import TwitterButton from "../../../components/twitterButton";
 
 export default function TwitterPage() {
   let actions = [
@@ -38,8 +38,8 @@ export default function TwitterPage() {
           around the world.
         </p>
       </div>
-      <div className="divTwitterConnectionButton">
-        <Button style={{ color: "black" }}>Déconnexion</Button>
+      <div>
+      <TwitterButton />
       </div>
       <div className="divTwitterActionText">
         <h2>Actions </h2>
