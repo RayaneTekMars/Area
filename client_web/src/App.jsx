@@ -14,6 +14,7 @@ import ServiceSpotify from "./views/Services/Spotify";
 import Twitch from "./views/Services/Twitch";
 import Discord from "./views/Services/Discord";
 import Github from "./views/Services/Github";
+import Twitter from "./views/Services/Twitter";
 import Scenario from "./views/Scenario";
 import ScenarioCreate from "./views/Scenario/Create";
 import * as ROUTES from './constants/routes';
@@ -36,6 +37,7 @@ const App = () => (
       <Route path={ROUTES.SCENARIO} element={< Scenario />} />
       <Route path={ROUTES.SERVICE_DISCORD} element={< Discord />} />
       <Route path={ROUTES.SERVICE_TWITCH} element={< Twitch />} />
+      <Route path={ROUTES.SERVICE_TWITTER} element={< Twitter />} />
       <Route path={ROUTES.SERVICE_GITHUB} element={<Github />} />
       <Route path={ROUTES.SCENARIO_CREATE} element={< ScenarioCreate />} />
       </Routes>

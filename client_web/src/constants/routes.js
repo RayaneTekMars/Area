@@ -14,4 +14,5 @@ export const SERVICE_SPOTIFY = '/services/spotify';
 export const SERVICE_DISCORD = '/services/discord';
 export const SERVICE_TWITCH = '/services/twitch';
 export const SERVICE_GITHUB = '/services/github';
+export const SERVICE_TWITTER = '/services/twitter';
 export const SCENARIO_CREATE = '/scenario/create';

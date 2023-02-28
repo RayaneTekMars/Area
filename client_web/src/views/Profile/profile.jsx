@@ -18,7 +18,7 @@ export default function HomePage() {
   const [username, setUsername] = React.useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/me", {
+    fetch("https://api.automateme.fr/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
