@@ -10,30 +10,50 @@ import Button from "@mui/material/Button";
 import { TextField } from "@material-ui/core";
 
 function CreateScenario(
-  actionState,
-  reactionState,
-  paramAction,
-  paramReaction,
   selectedServiceAction,
-  selectedServiceReaction
+  selectedServiceReaction,
+  selectedServiceActionName,
+  selectedServiceReactionName,
+  listActions,
+  listReactions,
+  actionFields,
+  actionIngredients,
+  reactionFields
 ) {
+  let actionDescription = "";
+  let reactionDescription = "";
+
+  for (let i = 0; i < listActions.length; i++) {
+    if (listActions[i].name === selectedServiceActionName) {
+      actionDescription = listActions[i].description;
+    }
+  }
+
+  for (let i = 0; i < listReactions.length; i++) {
+    if (listReactions[i].name === selectedServiceReactionName) {
+      reactionDescription = listReactions[i].description;
+    }
+  }
+
   const data = {
-    name : document.getElementById("scenarioName").value,
+    name: document.getElementById("scenarioName").value,
     trigger: {
-        name: "NewFollower",
-        serviceName: selectedServiceAction,
-        description: "Trigger when a new person follows you on Twitter",
-        fields: [],
-        ingredients: []
+      name: selectedServiceActionName,
+      serviceName: selectedServiceAction,
+      description: actionDescription,
+      fields: actionFields,
+      ingredients: actionIngredients,
     },
     reaction: {
-        name: "PostTweet",
-        serviceName: selectedServiceReaction,
-        description: "Post a tweet on your Twitter account",
-        fields: []
-    }
+      name: selectedServiceReactionName,
+      serviceName: selectedServiceReaction,
+      description: reactionDescription,
+      fields: reactionFields,
+    },
   };
-  fetch("https://api.automateme.fr/scenarios/create", {
+
+  console.log(data);
+  /*fetch("https://api.automateme.fr/scenarios/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -48,7 +68,7 @@ function CreateScenario(
     })
     .catch((error) => {
       console.error("Error:", error);
-    });
+    });*/
 }
 
 export default function ScenarioPage() {
@@ -92,19 +112,15 @@ export default function ScenarioPage() {
     ],
   ];
 
-  let selectedServiceAction = "Spotify";
+  const [selectedServiceAction, setServiceAction] = useState("Spotify");
+  const [selectedServiceReaction, setServiceReaction] = useState("Spotify");
 
-  const changeSelectedServiceAction = (newService, selectedServiceAction) => {
-    selectedServiceAction = newService;
+  const changeSelectedServiceAction = (newService) => {
+    setServiceAction(newService);
   };
 
-  let selectedServiceReaction = "Spotify";
-
-  const changeSelectedServiceReaction = (
-    newService,
-    selectedServiceReaction
-  ) => {
-    selectedServiceReaction = newService;
+  const changeSelectedServiceReaction = (newService) => {
+    setServiceReaction(newService);
   };
 
   const [listActions, setListAction] = useState([]);
@@ -115,16 +131,13 @@ export default function ScenarioPage() {
   const [listFieldsReaction, setListFieldReaction] = useState([]);
   const [listParamsReaction, setListParamReaction] = useState([]);
 
-
   const [fieldAction, setFieldAction] = useState([]);
   const [paramAction, setParamAction] = useState([]);
 
   const [fieldReaction, setFieldReaction] = useState([]);
   const [paramReaction, setParamReaction] = useState([]);
 
-  function getActions(
-    selectedServiceAction,
-  ) {
+  function getActions(selectedServiceAction) {
     let data = {
       status: "success",
       data: [
@@ -240,11 +253,10 @@ export default function ScenarioPage() {
     setListParamAction(ingredientsList);
     setFieldAction(fieldsList[0]);
     setParamAction(ingredientsList[0]);
+    setServiceActionName(actionList[0].name);
   }
 
-  function getReactions(
-    selectedServiceReaction,
-  ) {
+  function getReactions(selectedServiceReaction) {
     let data = {
       status: "success",
       data: [
@@ -360,10 +372,11 @@ export default function ScenarioPage() {
     setListParamReaction(ingredientsList);
     setFieldReaction(fieldsList[0]);
     setParamReaction(ingredientsList[0]);
+    setServiceReactionName(reactionList[0].name);
   }
 
   function changeParamAction(ingredientsList, index) {
-    setParamAction(ingredientsList[index])
+    setParamAction(ingredientsList[index]);
   }
 
   function changeFieldAction(fieldList, index) {
@@ -371,7 +384,7 @@ export default function ScenarioPage() {
   }
 
   function changeParamReaction(ingredientsList, index) {
-    setParamReaction(ingredientsList[index])
+    setParamReaction(ingredientsList[index]);
   }
 
   function changeFieldReaction(fieldList, index) {
@@ -404,14 +417,21 @@ export default function ScenarioPage() {
 
   const [reactionState, setReactionState] = React.useState(listReactions[0]);
 
+  const [selectedServiceActionName, setServiceActionName] = useState("");
+  const [selectedServiceReactionName, setServiceReactionName] = useState("");
+
   const handleSelectChange = (e) => {
     const selectedIndex = e.target.selectedIndex;
+    const selectedOptionName = e.target.value;
+    setServiceActionName(selectedOptionName);
     changeParamAction(listParamsAction, selectedIndex);
     changeFieldAction(listFieldsAction, selectedIndex);
   };
 
   const handleSelectChangeTwo = (e) => {
     const selectedIndex = e.target.selectedIndex;
+    const selectedOptionName = e.target.value;
+    setServiceReactionName(selectedOptionName);
     changeParamReaction(listParamsReaction, selectedIndex);
     changeFieldReaction(listFieldsReaction, selectedIndex);
   };
@@ -449,7 +469,7 @@ export default function ScenarioPage() {
                 borderRadius: "39px",
               }}
               onClick={() =>
-                changeSelectedServiceAction(service[0], selectedServiceAction)
+                changeSelectedServiceAction(service[0])
               }
             >
               <CardMedia
@@ -477,11 +497,11 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-      <select onChange={handleSelectChange}>
-      {listActions.map((option) => (
-        <option key={option.name}>{option.name}</option>
-      ))}
-    </select>
+        <select onChange={handleSelectChange}>
+          {listActions.map((option) => (
+            <option key={option.name}>{option.name}</option>
+          ))}
+        </select>
       </div>
       <div>
         {fieldAction.map((param, index) => (
@@ -534,8 +554,7 @@ export default function ScenarioPage() {
               }}
               onClick={() =>
                 changeSelectedServiceReaction(
-                  service[0],
-                  selectedServiceReaction
+                  service[0]
                 )
               }
             >
@@ -564,11 +583,11 @@ export default function ScenarioPage() {
         ))}
       </div>
       <div>
-      <select onChange={handleSelectChangeTwo}>
-      {listReactions.map((option) => (
-        <option key={option.name}>{option.name}</option>
-      ))}
-    </select>
+        <select onChange={handleSelectChangeTwo}>
+          {listReactions.map((option) => (
+            <option key={option.name}>{option.name}</option>
+          ))}
+        </select>
       </div>
       <div>
         {fieldReaction.map((param, index) => (
@@ -618,12 +637,15 @@ export default function ScenarioPage() {
           }}
           onClick={() =>
             CreateScenario(
-              { actionstate : "aaa" },
-              { reactionState },
-              paramAction,
-              paramReaction,
               selectedServiceAction,
-              selectedServiceReaction
+              selectedServiceReaction,
+              selectedServiceActionName,
+              selectedServiceReactionName,
+              listActions,
+              listReactions,
+              fieldAction,
+              paramAction,
+              fieldReaction
             )
           }
         >
