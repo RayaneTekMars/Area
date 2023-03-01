@@ -96,8 +96,7 @@ export default function ScenarioPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        let areas = data.data.map(item => [item.account, item.id, item.name]);
-        console.log(areas);
+        let areas = data.data.map(item => [item.account, item.id, item.name, item.trigger.name, item.reaction.name, item.trigger.serviceName, item.reaction.serviceName]);
         setAreas(areas);
       });
   }, []);
@@ -257,6 +256,10 @@ export default function ScenarioPage() {
               <CardArea
                 name={items[2]}
                 id={items[1]}
+                actionName={items[3]}
+                reactionName={items[4]}
+                actionService={items[5]}
+                reactionService={items[6]}
               />
             );
           })}
