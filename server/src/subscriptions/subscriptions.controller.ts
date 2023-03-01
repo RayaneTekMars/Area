@@ -273,7 +273,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(error)
             throw new Error('Couldn\'t create the Discord subscription')
         }
     }

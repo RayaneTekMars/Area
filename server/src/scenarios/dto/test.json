@@ -1,5 +1,5 @@
 {
-    "name": "DM back on twitter",
+    "name": "When I get a DM, i post it to a discord channel",
     "trigger": {
         "name": "NewDirectMessage",
         "serviceName": "Twitter",
@@ -12,17 +12,17 @@
         ]
     },
     "reaction": {
-        "name": "CreateDirectMessage",
-        "serviceName": "Twitter",
-        "description": "Sends a direct message to a user",
+        "name": "PostChannelMessage",
+        "serviceName": "Discord",
+        "description": "Post a message to a channel",
         "fields": [
             {
-                "name": "username",
-                "value": "{{senderUsername}}"
+                "name": "channel",
+                "value": "1079788025602646038"
             },
             {
-                "name": "message",
-                "value": "Hello {{senderUsername}}! This is a test message from the DM back on twitter recipe.\nid: {{id}}\nmessage: {{text}}\nsenderName: {{senderName}}"
+                "name": "content",
+                "value": "You have a new DM from {{senderName}}: {{text}}"
             }
         ]
     }

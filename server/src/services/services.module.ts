@@ -8,7 +8,7 @@ import { GithubService } from './services/github.service'
 import { GithubSchedule } from './schedules/github.schedule'
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module'
 import { ScenariosModule } from '../scenarios/scenarios.module'
-// import { DiscordService } from './services/discord.service'
+import { DiscordService } from './services/discord.service'
 // import { DiscordSchedule } from './schedules/discord.schedule'
 // import { SpotifyService } from './services/spotify.service'
 // import { SpotifySchedule } from './schedules/spotify.schedule'
@@ -24,8 +24,8 @@ import { ScenariosModule } from '../scenarios/scenarios.module'
     TwitterService,
     TwitterSchedule,
     GithubService,
-    GithubSchedule
-    // DiscordService,
+    GithubSchedule,
+    DiscordService
     // DiscordSchedule,
     // SpotifyService,
     // SpotifySchedule,
