@@ -33,6 +33,8 @@ export class TwitterSubscribeService {
                     'tweet.write',
                     'users.read',
                     'follows.read',
+                    'dm.read',
+                    'dm.write',
                     'offline.access'
                 ]
             }

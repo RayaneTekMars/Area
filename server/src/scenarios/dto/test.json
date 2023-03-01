@@ -1,40 +1,28 @@
 {
-    "name": "Create issue on new commit",
+    "name": "DM back on twitter",
     "trigger": {
-        "name": "NewCommit",
-        "serviceName": "Github",
-        "description": "Triggers when a new commit is pushed to a repository",
+        "name": "NewDirectMessage",
+        "serviceName": "Twitter",
+        "description": "Triggers when a new direct message is received",
         "fields": [
             {
-                "name": "repository_url",
-                "value": "https://github.com/kbitoune/befunge-hello-world"
-            },
-            {
-                "name": "branch",
-                "value": "test"
+                "name": "username",
+                "value": ""
             }
         ]
     },
     "reaction": {
-        "name": "CreateIssue",
-        "serviceName": "Github",
-        "description": "Creates a new issue on a repository",
+        "name": "CreateDirectMessage",
+        "serviceName": "Twitter",
+        "description": "Sends a direct message to a user",
         "fields": [
             {
-                "name": "repository_url",
-                "value": "{{repository_url}}"
+                "name": "username",
+                "value": "{{senderUsername}}"
             },
             {
-                "name": "title",
-                "value": "New commit on {{branch}}"
-            },
-            {
-                "name": "body",
-                "value": "Commit [{{sha}}]({{html_url}}) by {{authorName}} ({{authorEmail}}) on {{date}}"
-            },
-            {
-                "name": "milestone",
-                "value": ""
+                "name": "message",
+                "value": "Hello {{senderUsername}}! This is a test message from the DM back on twitter recipe.\nid: {{id}}\nmessage: {{text}}\nsenderName: {{senderName}}"
             }
         ]
     }

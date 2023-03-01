@@ -44,6 +44,7 @@ class PostTweet extends ReactionIntegration {
     }
 
     run(fields: Map<string, string>, accessToken: string): void {
+        console.log('PostTweet', fields, accessToken)
         void this.twitterService.postTweet(fields.get('tweet') ?? '', accessToken)
     }
 

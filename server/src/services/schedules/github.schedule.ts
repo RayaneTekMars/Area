@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable max-depth, no-console */
 import { Injectable } from '@nestjs/common'
 import { Interval } from '@nestjs/schedule'
 import { GithubService } from '../services/github.service'
@@ -23,29 +23,39 @@ export class GithubSchedule {
     @Interval(60_000)
     async handleNewCommits() {
         console.log('Github: Checking for new commits...')
-        await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github).then((subs) => {
-            console.log(`Github: Found ${subs.length} subscriptions`)
-            this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
-            for (const sub of subs)
-                void this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
-                    .then((scenarios) => {
-                        console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
-                        for (const scenario of scenarios)
-                            void this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
-                                .then((commits) => {
-                                    console.log(`Github: Found ${commits.length} new commits:`)
-                                    console.log(commits)
-                                    if (this.subscriptions.includes(sub.account.id)) {
-                                        for (const commit of commits)
-                                            void this.githubService.triggerNewCommit(sub.account.id, scenario, commit)
-                                    } else {
-                                        console.log('Github: New Subscription')
-                                        this.subscriptions.push(sub.account.id)
-                                    }
-                                })
+        const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github)
+        console.log(`Github: Found ${subs.length} subscriptions`)
+        this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
+        for await (const sub of subs) {
+            const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
+            console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            for await (const scenario of scenarios) {
+                const commits = await this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
+                console.log(`Github: Found ${commits.length} new commits:`)
+                console.log(commits)
+                if (this.subscriptions.includes(sub.account.id)) {
+                    for (const commit of commits)
+                        void this.githubService.triggerNewCommit(sub.account.id, scenario, commit)
+                } else {
+                    console.log('Github: New Subscription')
+                    this.subscriptions.push(sub.account.id)
+                }
+            }
+        }
+    }
 
-                    })
-
-        })
+    @Interval(3_600_000)
+    async refreshGithubTokens() {
+        console.log('Github: Refreshing Github tokens...')
+        const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github)
+        console.log(`Github: Found ${subs.length} subscriptions`)
+        for await (const sub of subs)
+            try {
+                const { accessToken } = await this.githubSubscribeService.refreshAccessToken(sub.refreshToken)
+                console.log(`Github: New access token: ${accessToken}`)
+                void this.subscriptionsService.updateSubscription(ServiceName.Github, sub.account.id, accessToken, sub.refreshToken, sub.expiresIn)
+            } catch {
+                throw new Error('Github: Error refreshing access token')
+            }
     }
 }
