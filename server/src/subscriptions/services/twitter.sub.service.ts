@@ -7,7 +7,8 @@ export class TwitterSubscribeService {
 
     private readonly clientId: string
     private readonly clientSecret: string
-    private readonly redirectUrl: string
+    private readonly redirectUri: string
+    private readonly scope: string
 
     twitterApi: TwitterApi
     codeVerifierStateArray: Map<string, { codeVerifier: string, state: string }>
@@ -15,7 +16,8 @@ export class TwitterSubscribeService {
     constructor(private readonly configService: ConfigService) {
         this.clientId = this.configService.get<string>('TWITTER_OAUTH2_CLIENT_ID') ?? ''
         this.clientSecret = this.configService.get<string>('TWITTER_OAUTH2_CLIENT_SECRET') ?? ''
-        this.redirectUrl = this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL') ?? ''
+        this.redirectUri = this.configService.get<string>('TWITTER_OAUTH2_CALLBACK_URL') ?? ''
+        this.scope = this.configService.get<string>('TWITTER_OAUTH2_SCOPE') ?? ''
 
         this.twitterApi = new TwitterApi({
             clientId: this.clientId,
@@ -26,17 +28,9 @@ export class TwitterSubscribeService {
 
     getAuthorizeUrl(accountId: string) {
         const { url, codeVerifier, state } = this.twitterApi.generateOAuth2AuthLink(
-            this.redirectUrl,
+            this.redirectUri,
             {
-                scope: [
-                    'tweet.read',
-                    'tweet.write',
-                    'users.read',
-                    'follows.read',
-                    'dm.read',
-                    'dm.write',
-                    'offline.access'
-                ]
+                scope: this.scope.split(' ')
             }
         )
 
@@ -53,7 +47,7 @@ export class TwitterSubscribeService {
         let { accessToken, refreshToken, expiresIn }
             = await this.twitterApi.loginWithOAuth2({
                 code,
-                redirectUri: this.redirectUrl,
+                redirectUri: this.redirectUri,
                 codeVerifier
             })
 

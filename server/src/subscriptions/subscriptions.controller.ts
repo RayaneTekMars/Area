@@ -35,6 +35,7 @@ export class SubscriptionsController {
     @ApiBadRequestResponse()
     async getSubscriptions(@CurrentUser() user: Account): Promise<GetSubscriptionsResDto> {
         const subscriptions = await this.subscriptionsService.getSubscriptions(user.id)
+
         return {
             status: 'success',
             data: subscriptions
@@ -57,7 +58,9 @@ export class SubscriptionsController {
                     url
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t get the Twitter AuthLink')
         }
     }
@@ -79,7 +82,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t create the Twitter subscription')
         }
     }
@@ -98,7 +103,6 @@ export class SubscriptionsController {
                 throw new Error('Subscription not found')
 
             const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(subscription.refreshToken)
-
             await this.subscriptionsService.updateSubscription(ServiceName.Twitter, user.id, accessToken, refreshToken, expiresIn)
 
             return {
@@ -107,7 +111,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t update the Twitter subscription')
         }
     }
@@ -125,7 +131,6 @@ export class SubscriptionsController {
             if (!subscription)
                 throw new Error('Subscription not found')
 
-
             void this.twitterSubscribeService.revokeAccessToken(subscription.refreshToken)
 
             return {
@@ -134,7 +139,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t delete the Twitter subscription')
         }
     }
@@ -155,7 +162,9 @@ export class SubscriptionsController {
                     url
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t get the Github AuthLink')
         }
     }
@@ -177,7 +186,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t create the Github subscription')
         }
     }
@@ -204,7 +215,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t update the Github subscription')
         }
     }
@@ -230,7 +243,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t delete the Github subscription')
         }
     }
@@ -251,7 +266,9 @@ export class SubscriptionsController {
                     url
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t get the Discord AuthLink')
         }
     }
@@ -275,7 +292,7 @@ export class SubscriptionsController {
             }
         } catch (error) {
             // eslint-disable-next-line no-console
-            console.log(error)
+            console.error(error)
             throw new Error('Couldn\'t create the Discord subscription')
         }
     }
@@ -302,7 +319,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t update the Discord subscription')
         }
     }
@@ -320,13 +339,17 @@ export class SubscriptionsController {
             if (!subscription)
                 throw new Error('Subscription not found')
 
+            void this.discordSubscribeService.revokeAccessToken(subscription.accessToken)
+
             return {
                 status: 'success',
                 data: {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t delete the Discord subscription')
         }
     }
@@ -347,7 +370,9 @@ export class SubscriptionsController {
                     url
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t get the Spotify AuthLink')
         }
     }
@@ -369,7 +394,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t create the Spotify subscription')
         }
     }
@@ -387,8 +414,8 @@ export class SubscriptionsController {
             if (!subscription)
                 throw new Error('Subscription not found')
 
-            const { accessToken, newRefreshToken, expiresIn } = await this.spotifySubscribeService.refreshAccessToken(subscription.refreshToken)
-            await this.subscriptionsService.updateSubscription(ServiceName.Spotify, user.id, accessToken, newRefreshToken, expiresIn)
+            const { accessToken, expiresIn } = await this.spotifySubscribeService.refreshAccessToken(subscription.refreshToken)
+            await this.subscriptionsService.updateSubscription(ServiceName.Spotify, user.id, accessToken, subscription.refreshToken, expiresIn)
 
             return {
                 status: 'success',
@@ -396,7 +423,9 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t update the Spotify subscription')
         }
     }
@@ -414,13 +443,17 @@ export class SubscriptionsController {
             if (!subscription)
                 throw new Error('Subscription not found')
 
+            this.spotifySubscribeService.revokeAccessToken(subscription.accessToken)
+
             return {
                 status: 'success',
                 data: {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t delete the Spotify subscription')
         }
     }
@@ -441,7 +474,9 @@ export class SubscriptionsController {
                     url
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t get the Twitch AuthLink')
         }
     }
@@ -454,8 +489,8 @@ export class SubscriptionsController {
     @ApiBadRequestResponse()
     async createTwitchSubscription(@CurrentUser() user: Account, @Body() body: SubscriptionReqDto): Promise<SubscriptionResDto> {
         try {
-            const { accessToken, refreshToken } = await this.twitchSubscribeService.authorize(body.code)
-            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitch, user, accessToken, refreshToken, 10_000)
+            const { accessToken, refreshToken, expiresIn } = await this.twitchSubscribeService.authorize(body.code)
+            const subscription = await this.subscriptionsService.createSubscription(ServiceName.Twitch, user, accessToken, refreshToken, expiresIn)
 
             return {
                 status: 'success',
@@ -463,40 +498,62 @@ export class SubscriptionsController {
                     id: subscription.id
                 }
             }
-        } catch {
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             throw new Error('Couldn\'t create the Twitch subscription')
         }
     }
 
-    /*
-     * @Put('twitch')
-     * @UseGuards(JwtAuthGuard)
-     * @HttpCode(200)
-     * @ApiOperation({ summary: 'Update a subscription from the current user' })
-     * @ApiOkResponse({ type: SubscriptionResDto })
-     * @ApiBadRequestResponse()
-     * async updateTwitchSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
-     *     const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitch, user.id)
-     */
 
-    /*
-     *     If (!subscription)
-     *         throw new Error('Subscription not found')
-     */
+    @Put('twitch')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Update a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async updateTwitchSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        const subscription = await this.subscriptionsService.getSubscription(ServiceName.Twitch, user.id)
 
-    /*
-     *     Const { accessToken, newRefreshToken, expiresIn } = await this.twitchSubscribeService.refreshAccessToken(subscription.refreshToken)
-     *     await this.subscriptionsService.updateSubscription(ServiceName.Twitch, user.id, accessToken, newRefreshToken, expiresIn)
-     */
+        if (!subscription)
+            throw new Error('Subscription not found')
 
-    /*
-     *     Return {
-     *         status: 'success',
-     *         data: {
-     *             id: subscription.id
-     *         }
-     *     }
-     * }
-     */
+        const { accessToken, newRefreshToken } = await this.twitchSubscribeService.refreshAccessToken(subscription.refreshToken)
+        await this.subscriptionsService.updateSubscription(ServiceName.Twitch, user.id, accessToken, newRefreshToken, subscription.expiresIn)
 
+        return {
+            status: 'success',
+                data: {
+                id: subscription.id
+            }
+        }
+    }
+
+    @Delete('twitch')
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Delete a subscription from the current user' })
+    @ApiOkResponse({ type: SubscriptionResDto })
+    @ApiBadRequestResponse()
+    async deleteTwitchSubscription(@CurrentUser() user: Account): Promise<SubscriptionResDto> {
+        try {
+            const subscription = await this.subscriptionsService.deleteSubscription(ServiceName.Twitch, user.id)
+
+            if (!subscription)
+                throw new Error('Subscription not found')
+
+            void this.twitchSubscribeService.revokeAccessToken(subscription.accessToken)
+
+            return {
+                status: 'success',
+                data: {
+                    id: subscription.id
+                }
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
+            throw new Error('Couldn\'t delete the Twitch subscription')
+        }
+    }
 }
