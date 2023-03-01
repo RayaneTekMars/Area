@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { TextField } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
+import Typography from "@material-ui/core/Typography";
 
 function CreateScenario(
   selectedServiceAction,
@@ -21,7 +22,6 @@ function CreateScenario(
   actionIngredients,
   reactionFields
 ) {
-
   actionFields = actionFields.map((field) => {
     return { name: field.name, value: field.value };
   });
@@ -208,16 +208,13 @@ export default function ScenarioPage() {
   const [fieldReaction, setFieldReaction] = useState([]);
 
   function getActions(selectedServiceAction) {
-    fetch(
-      `http://localhost:8080/services/${selectedServiceAction}/triggers`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-      }
-    )
+    fetch(`http://localhost:8080/services/${selectedServiceAction}/triggers`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         let actionList = data.map((elem) => {
@@ -259,9 +256,9 @@ export default function ScenarioPage() {
             description: elem.description,
           };
         });
-    
+
         let fieldsList = data.map((item) => item.fields || []);
-    
+
         setListReaction(reactionList);
         setListFieldReaction(fieldsList);
         setFieldReaction(fieldsList[0]);
@@ -336,19 +333,44 @@ export default function ScenarioPage() {
     <div className="PageStyle">
       <MainNavbar />
       <div className="ScenarioTitle">Scénario</div>
-      <div>
-        <TextField
-          id="scenarioName"
-          label="Name"
-          style={{
-            width: "100%",
-            marginTop: "4%",
-            backgroundColor: "white",
-            borderRadius: "4px",
-            border: "1px solid #ced4da",
-          }}
-        />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ marginTop: "2%" }}>
+          <Typography
+            style={{
+              color: "white",
+              fontWeight: 600,
+              marginBottom: "2%",
+              textAlign: "center",
+            }}
+          >
+            Name
+          </Typography>
+          <TextField
+            id="scenarioName"
+            variant="outlined"
+            color="primary"
+            fullWidth
+            InputProps={{
+              style: {
+                borderRadius: "16px",
+                backgroundColor: "#fff",
+                border: "none",
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+              },
+            }}
+            InputLabelProps={{
+              style: { display: "none" },
+            }}
+          />
+        </div>
       </div>
+
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
           <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
@@ -393,25 +415,58 @@ export default function ScenarioPage() {
           ))}
         </select>
       </div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {fieldAction.map((param, index) => (
-          <TextField
+          <div
             key={index}
-            label={param.name}
-            value={param.value}
-            onChange={(event) =>
-              handleTextFieldChangeFieldAction(index, event.target.value)
-            }
             style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
               width: "100%",
               marginTop: "4%",
-              backgroundColor: "white",
-              borderRadius: "4px",
-              border: "1px solid #ced4da",
             }}
-          />
+          >
+            <Typography
+              style={{
+                color: "white",
+                fontWeight: 600,
+                marginBottom: "2%",
+              }}
+            >
+              {param.name}
+            </Typography>
+            <TextField
+              value={param.value}
+              onChange={(event) =>
+                handleTextFieldChangeFieldAction(index, event.target.value)
+              }
+              variant="outlined"
+              color="primary"
+              fullWidth
+              InputProps={{
+                style: {
+                  borderRadius: "16px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                },
+              }}
+              InputLabelProps={{
+                style: { display: "none" },
+              }}
+            />
+          </div>
         ))}
       </div>
+
       <div style={{ marginTop: "5%" }}>
         {paramAction.map((param, index) => (
           <Chip
@@ -469,23 +524,55 @@ export default function ScenarioPage() {
           ))}
         </select>
       </div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {fieldReaction.map((param, index) => (
-          <TextField
+          <div
             key={index}
-            label={param.name}
-            value={param.value}
-            onChange={(event) =>
-              handleTextFieldChangeFieldReaction(index, event.target.value)
-            }
             style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
               width: "100%",
               marginTop: "4%",
-              backgroundColor: "white",
-              borderRadius: "4px",
-              border: "1px solid #ced4da",
             }}
-          />
+          >
+            <Typography
+              style={{
+                color: "white",
+                fontWeight: 600,
+                marginBottom: "2%",
+              }}
+            >
+              {param.name}
+            </Typography>
+            <TextField
+              value={param.value}
+              onChange={(event) =>
+                handleTextFieldChangeFieldReaction(index, event.target.value)
+              }
+              variant="outlined"
+              color="primary"
+              fullWidth
+              InputProps={{
+                style: {
+                  borderRadius: "16px",
+                  backgroundColor: "#fff",
+                  border: "none",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                },
+              }}
+              InputLabelProps={{
+                style: { display: "none" },
+              }}
+            />
+          </div>
         ))}
       </div>
 
