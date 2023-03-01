@@ -3,6 +3,7 @@ import { ServiceName } from '../../common/types/service.type'
 import type { DiscordService } from '../services/discord.service'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
+import PostChannelMessage from '../reactions/discord/post-message.reaction'
 
 class DiscordIntegration extends Integration {
 
@@ -10,6 +11,7 @@ class DiscordIntegration extends Integration {
     ]
 
     private readonly reactionIntegration: ReactionIntegration[] = [
+        new PostChannelMessage(this.discordService)
     ]
 
     constructor(private readonly discordService: DiscordService) {

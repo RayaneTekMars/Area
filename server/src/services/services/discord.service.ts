@@ -26,4 +26,14 @@ export class DiscordService {
         void this.client.login(this.configService.get('DISCORD_BOT_TOKEN'))
         this.servicesService.setIntegration(new DiscordIntegration(this))
     }
+
+    async postChannelMessage(channel: string, content: string): Promise<void> {
+        const discordChannel = this.client.channels.cache.get(channel) as Discord.TextChannel
+        if (discordChannel) {
+            await discordChannel.send(content)
+        } else {
+            // eslint-disable-next-line no-console
+            console.log(`Channel with ID ${channel} not found.`)
+        }
+    }
 }
