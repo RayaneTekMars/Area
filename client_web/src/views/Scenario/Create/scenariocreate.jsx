@@ -62,7 +62,7 @@ function CreateScenario(
     },
   };
 
-  fetch("https://api.automateme.fr/scenarios/create", {
+  fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -84,7 +84,7 @@ export default function ScenarioPage() {
   const [services, setServices] = useState([]);
 
   function setAvailableServices() {
-    fetch("https://api.automateme.fr/subscriptions", {
+    fetch("http://localhost:8080/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -209,7 +209,7 @@ export default function ScenarioPage() {
 
   function getActions(selectedServiceAction) {
     fetch(
-      `https://api.automateme.fr/services/${selectedServiceAction}/triggers`,
+      `http://localhost:8080/services/${selectedServiceAction}/triggers`,
       {
         method: "GET",
         headers: {
@@ -241,7 +241,7 @@ export default function ScenarioPage() {
 
   function getReactions(selectedServiceReaction) {
     fetch(
-      `https://api.automateme.fr/services/${selectedServiceReaction}/reactions`,
+      `http://localhost:8080/services/${selectedServiceReaction}/reactions`,
       {
         method: "GET",
         headers: {
