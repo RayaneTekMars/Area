@@ -21,6 +21,15 @@ function CreateScenario(
   actionIngredients,
   reactionFields
 ) {
+
+  actionFields = actionFields.map((field) => {
+    return { name: field.name, value: field.value };
+  });
+
+  reactionFields = reactionFields.map((field) => {
+    return { name: field.name, value: field.value };
+  });
+
   let actionDescription = "";
   let reactionDescription = "";
 
@@ -53,8 +62,7 @@ function CreateScenario(
     },
   };
 
-  console.log(data);
-  /*fetch("https://api.automateme.fr/scenarios/create", {
+  fetch("https://api.automateme.fr/scenarios/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -69,7 +77,7 @@ function CreateScenario(
     })
     .catch((error) => {
       console.error("Error:", error);
-    });*/
+    });
 }
 
 export default function ScenarioPage() {
@@ -184,6 +192,7 @@ export default function ScenarioPage() {
 
   const changeSelectedServiceReaction = (newService) => {
     setServiceReaction(newService);
+    getReactions(newService);
   };
 
   const [listActions, setListAction] = useState([]);
@@ -192,13 +201,11 @@ export default function ScenarioPage() {
 
   const [listReactions, setListReaction] = useState([]);
   const [listFieldsReaction, setListFieldReaction] = useState([]);
-  const [listParamsReaction, setListParamReaction] = useState([]);
 
   const [fieldAction, setFieldAction] = useState([]);
   const [paramAction, setParamAction] = useState([]);
 
   const [fieldReaction, setFieldReaction] = useState([]);
-  const [paramReaction, setParamReaction] = useState([]);
 
   function getActions(selectedServiceAction) {
     fetch(
@@ -233,122 +240,33 @@ export default function ScenarioPage() {
   }
 
   function getReactions(selectedServiceReaction) {
-    let data = {
-      status: "success",
-      data: [
-        {
-          name: "NewFollower",
-          serviceName: "Twitter",
-          description:
-            "Triggers when a new follower is added to your Twitter account",
-          fields: [],
-          ingredients: [
-            {
-              name: "id",
-              description: "The id of the new follower",
-              type: "string",
-            },
-            {
-              name: "name",
-              description: "The name of the new follower",
-              type: "string",
-            },
-            {
-              name: "username",
-              description: "The username of the new follower",
-              type: "string",
-            },
-          ],
+    fetch(
+      `https://api.automateme.fr/services/${selectedServiceReaction}/reactions`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
-        {
-          name: "NewCommit",
-          serviceName: "Github",
-          description: "Triggers when a new commit is pushed to a repository",
-          fields: [
-            {
-              name: "repository_url",
-              description: "The URL of the repository",
-              type: "string",
-            },
-            {
-              name: "branch",
-              description: "The branch to watch",
-              type: "string",
-            },
-          ],
-          ingredients: [
-            {
-              name: "sha",
-              description: "The SHA of the commit",
-              type: "string",
-            },
-            {
-              name: "branch",
-              description: "The branch of the commit",
-              type: "string",
-            },
-            {
-              name: "message",
-              description: "The message of the commit",
-              type: "string",
-            },
-            {
-              name: "html_url",
-              description: "The url of the commit",
-              type: "string",
-            },
-            {
-              name: "repository_url",
-              description: "The url of the repository",
-              type: "string",
-            },
-            {
-              name: "date",
-              description: "The date of the commit",
-              type: "string",
-            },
-            {
-              name: "authorName",
-              description: "The name of the author",
-              type: "string",
-            },
-            {
-              name: "authorEmail",
-              description: "The email of the author",
-              type: "string",
-            },
-            {
-              name: "committerName",
-              description: "The name of the committer",
-              type: "string",
-            },
-            {
-              name: "committerEmail",
-              description: "The email of the committer",
-              type: "string",
-            },
-          ],
-        },
-      ],
-    };
-    let reactionList = data.data.map((elem) => {
-      return {
-        name: elem.name,
-        serviceName: elem.serviceName,
-        description: elem.description,
-      };
-    });
-
-    let fieldsList = data.data.map((item) => item.fields || []);
-
-    let ingredientsList = data.data.map((item) => item.ingredients || []);
-
-    setListReaction(reactionList);
-    setListFieldReaction(fieldsList);
-    setListParamReaction(ingredientsList);
-    setFieldReaction(fieldsList[0]);
-    setParamReaction(ingredientsList[0]);
-    setServiceReactionName(reactionList[0].name);
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        let reactionList = data.map((elem) => {
+          return {
+            name: elem.name,
+            serviceName: elem.serviceName,
+            description: elem.description,
+          };
+        });
+    
+        let fieldsList = data.map((item) => item.fields || []);
+    
+        setListReaction(reactionList);
+        setListFieldReaction(fieldsList);
+        setFieldReaction(fieldsList[0]);
+        setServiceReactionName(reactionList[0].name);
+      });
   }
 
   function changeParamAction(ingredientsList, index) {
@@ -357,10 +275,6 @@ export default function ScenarioPage() {
 
   function changeFieldAction(fieldList, index) {
     setFieldAction(fieldList[index]);
-  }
-
-  function changeParamReaction(ingredientsList, index) {
-    setParamReaction(ingredientsList[index]);
   }
 
   function changeFieldReaction(fieldList, index) {
@@ -377,12 +291,7 @@ export default function ScenarioPage() {
     const newFieldAction = [...fieldAction];
     newFieldAction[index].value = value;
     setFieldAction(newFieldAction);
-  };
-
-  const handleTextFieldChangeParamReaction = (index, value) => {
-    const newParamReaction = [...paramReaction];
-    newParamReaction[index].value = value;
-    setParamReaction(newParamReaction);
+    console.log(fieldAction);
   };
 
   const handleTextFieldChangeFieldReaction = (index, value) => {
@@ -408,7 +317,6 @@ export default function ScenarioPage() {
     const selectedIndex = e.target.selectedIndex;
     const selectedOptionName = e.target.value;
     setServiceReactionName(selectedOptionName);
-    changeParamReaction(listParamsReaction, selectedIndex);
     changeFieldReaction(listFieldsReaction, selectedIndex);
   };
   useEffect(() => {
@@ -420,6 +328,8 @@ export default function ScenarioPage() {
     if (services.length > 0) {
       getActions(services[0][0]);
       getReactions(services[0][0]);
+      setServiceAction(services[0][0]);
+      setServiceReaction(services[0][0]);
     }
   }, [services]);
   return (
@@ -578,25 +488,7 @@ export default function ScenarioPage() {
           />
         ))}
       </div>
-      <div>
-        {paramReaction.map((param, index) => (
-          <TextField
-            key={index}
-            label={param.name}
-            value={param.value}
-            onChange={(event) =>
-              handleTextFieldChangeParamReaction(index, event.target.value)
-            }
-            style={{
-              width: "100%",
-              marginTop: "4%",
-              backgroundColor: "white",
-              borderRadius: "4px",
-              border: "1px solid #ced4da",
-            }}
-          />
-        ))}
-      </div>
+
       <div>
         <Button
           style={{
