@@ -144,7 +144,7 @@ export default function HomePage() {
           fontSize: "2rem",
           width: "40%",
           margin: "0 auto",
-          marginTop: "5%",
+          marginTop: "10%",
         }}
       >
         Bienvenue sur ton profil {username}
