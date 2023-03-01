@@ -1,9 +1,9 @@
 import Integration from './intergration'
 import { ServiceName } from '../../common/types/service.type'
+import PostChannelMessage from '../reactions/discord/post-channel-message.reaction'
 import type { DiscordService } from '../services/discord.service'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
-import PostChannelMessage from '../reactions/discord/post-message.reaction'
 
 class DiscordIntegration extends Integration {
 

@@ -153,5 +153,4 @@ export class GithubService {
             console.error(error)
         }
     }
-
 }

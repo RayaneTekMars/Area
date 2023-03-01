@@ -81,7 +81,7 @@ export class TwitterService {
 
             const scenarioId = scenario.id
             const { data: { id: userId } } = await twitterApi.v2.me()
-            const username = scenario.trigger.fields.find((x) => x.name === 'username')?.value.replace(/^@/, '') ?? ''
+            const username = scenario.trigger.fields.find((x) => x.name === 'username')?.value ?? ''
 
             const lastDirectMessage = this.LastDirectMessage.find(
                 (x) => x.accountId === accountId && x.scenarioId === scenarioId
@@ -104,8 +104,8 @@ export class TwitterService {
                 { accountId, scenarioId, userId, id: Number(dmEvent.events[0]?.id ?? '0') }
             ]
 
-            if (username) {
-                const { data: { id: senderId } } = await twitterApi.v2.userByUsername(username)
+            if (username.length > 0) {
+                const { data: { id: senderId } } = await twitterApi.v2.userByUsername(username.replace(/^@/, ''))
                 const user = dmEvent.includes.userById(senderId)
                 if (!user)
                     return []

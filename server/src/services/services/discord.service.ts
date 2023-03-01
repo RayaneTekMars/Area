@@ -23,17 +23,21 @@ export class DiscordService {
             // eslint-disable-next-line no-console
             console.log('Discord client ready')
         })
+
         void this.client.login(this.configService.get('DISCORD_BOT_TOKEN'))
         this.servicesService.setIntegration(new DiscordIntegration(this))
     }
 
     async postChannelMessage(channel: string, content: string): Promise<void> {
-        const discordChannel = this.client.channels.cache.get(channel) as Discord.TextChannel
-        if (discordChannel) {
-            await discordChannel.send(content)
-        } else {
+        try {
+            const discordChannel = await this.client.channels.fetch(channel)
+            if (discordChannel instanceof Discord.TextChannel)
+                await discordChannel.send(content)
+             else
+                throw new Error('Channel is not a text channel')
+        } catch (error) {
             // eslint-disable-next-line no-console
-            console.log(`Channel with ID ${channel} not found.`)
+            console.error(error)
         }
     }
 }

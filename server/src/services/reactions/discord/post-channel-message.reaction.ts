@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ServiceName } from '../../../common/types/service.type'
 import ReactionIntegration from '../reaction'
 import type { DiscordService } from '../../services/discord.service'
@@ -54,9 +55,10 @@ class PostChannelMessage extends ReactionIntegration {
     }
 
     run(fields: Map<string, string>, accessToken: string): void {
-        this.discordService.postChannelMessage(fields.get('channel') ?? '', fields.get('content') ?? '')
+        console.log('PostChannelMessage', fields, accessToken)
+        void this.discordService.postChannelMessage(fields.get('channel') ?? '', fields.get('content') ?? '')
     }
-    
+
 }
 
 export default PostChannelMessage
