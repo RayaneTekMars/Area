@@ -13,7 +13,7 @@ function DiscordPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('http://localhost:8080/subscriptions/discord', {
+    fetch('https://api.automateme.fr/subscriptions/discord', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

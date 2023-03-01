@@ -18,7 +18,7 @@ export default function HomePage() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/me", {
+    fetch("https://api.automateme.fr/me", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -32,7 +32,7 @@ export default function HomePage() {
   }, []);
 
   function setAvailableServices() {
-    fetch("http://localhost:8080/subscriptions", {
+    fetch("https://api.automateme.fr/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",
