@@ -12,8 +12,8 @@ function SpotifyPage() {
     const code = urlSearchParams.get('code');
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
-
-    fetch('http://localhost:8080/subscriptions/Spotify', {
+    
+    fetch('https://api.automateme.fr/subscriptions/spotify', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
