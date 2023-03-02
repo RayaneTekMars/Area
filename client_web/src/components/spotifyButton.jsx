@@ -17,7 +17,7 @@ const SpotifyButton = () => {
       headers,
     };
 
-    fetch("http://localhost:8080/subscriptions/spotify", requestOptions)
+    fetch("http://localhost:8080/subscriptions/Spotify", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);

@@ -19,6 +19,20 @@ export default function TwitterPage() {
     "retweet",
     "Like",
   ];
+
+  let descriptionActions = [
+    "desc Post a tweet",
+    "desc follow",
+    "desc retweet",
+    "desc Like",
+  ];
+  let descriptionReactions = [
+    "desc Post a tweet",
+    "desc follow",
+    "desc retweet",
+    "desc Like",
+  ];
+
   useEffect(() => {
     document.body.style.backgroundColor = "#1DA1F2";
   }, []);
@@ -33,9 +47,7 @@ export default function TwitterPage() {
       </div>
       <div className="divTwitterDescription">
         <p>
-          Twitter is a digital music, podcast and video service that gives you
-          instant access to millions of songs and other content from creators
-          around the world.
+          Twitter is a microblogging social network operated by Twitter Inc.
         </p>
       </div>
       <div>

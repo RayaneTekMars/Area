@@ -17,7 +17,7 @@ const DiscordButton = () => {
       headers,
     };
 
-    fetch("http://localhost:8080/subscriptions/discord", requestOptions)
+    fetch("http://localhost:8080/subscriptions/Discord", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
