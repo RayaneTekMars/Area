@@ -49,7 +49,7 @@ async function CreateScenario() {
       ],
     },
   };
-  fetch("https://api.automateme.fr/scenarios/create", {
+  fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
       "Accept": "application/json",
@@ -74,7 +74,7 @@ export default function ScenarioPage() {
 
   useEffect(() => {
     // call /me to get user info
-    fetch("https://api.automateme.fr/me", {
+    fetch("http://localhost:8080/me", {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -87,7 +87,7 @@ export default function ScenarioPage() {
   }, []);
 
   useEffect(() => {
-    fetch("https://api.automateme.fr/scenarios", {
+    fetch("http://localhost:8080/scenarios", {
       method: "GET",
       headers: {
         "Accept": "application/json",

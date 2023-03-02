@@ -17,7 +17,7 @@ const SpotifyButton = () => {
       headers,
     };
 
-    fetch("https://api.automateme.fr/subscriptions/spotify", requestOptions)
+    fetch("http://localhost:8080/subscriptions/spotify", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);

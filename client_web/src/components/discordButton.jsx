@@ -17,7 +17,7 @@ const DiscordButton = () => {
       headers,
     };
 
-    fetch("https://api.automateme.fr/subscriptions/discord", requestOptions)
+    fetch("http://localhost:8080/subscriptions/discord", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);
