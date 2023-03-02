@@ -19,7 +19,7 @@ function GithubPage() {
     }
 
     // Envoie de la requête POST
-    fetch('http://localhost:8080/subscriptions/github', {
+    fetch('http://localhost:8080/subscriptions/Github', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
