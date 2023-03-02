@@ -13,7 +13,7 @@ function TwitchPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('https://api.automateme.fr/subscriptions/twitch', {
+    fetch('http://localhost:8080/subscriptions/twitch', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

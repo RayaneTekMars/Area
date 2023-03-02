@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import TokenList from "../Landing/tokenList";
 
 function disconnect() {
   localStorage.removeItem("username");
@@ -16,9 +17,10 @@ function disconnect() {
 export default function HomePage() {
   const [username, setUsername] = React.useState("");
   const [services, setServices] = useState([]);
+  const [tokens, setTokens] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.automateme.fr/me", {
+    fetch("http://localhost:8080/me", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -29,10 +31,23 @@ export default function HomePage() {
       .then((data) => {
         setUsername(data.data.username);
       });
+
+    fetch("http://localhost:8080/me/tokens", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTokens(data.data.authTokens);
+      });
+
   }, []);
 
   function setAvailableServices() {
-    fetch("https://api.automateme.fr/subscriptions", {
+    fetch("http://localhost:8080/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -220,6 +235,7 @@ export default function HomePage() {
           ))}
         </div>
       )}
+      <TokenList tokens={tokens} />
       <Button
         style={{
           backgroundColor: "white",
