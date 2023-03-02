@@ -10,7 +10,7 @@ import TokenList from "../Landing/tokenList";
 
 function disconnect() {
   localStorage.removeItem("username");
-  localStorage.removeItem("token");
+  localStorage.removeItem("jwt");
   window.location.href = "/";
 }
 

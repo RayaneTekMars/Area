@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppBar, Toolbar, Button } from "@material-ui/core";
 import { ReactComponent as Logo } from "./logo.svg";
 import { Grid } from "@material-ui/core";
@@ -7,6 +7,26 @@ import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MainNavbar = () => {
+  const [subscription, setSubscription] = React.useState();
+  function isSubscribed() {
+    fetch("http://localhost:8080/subscriptions", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data.length === 0) setSubscription(0);
+        else setSubscription(1);
+      });
+  }
+
+  useEffect(() => {
+    isSubscribed();
+  }, [subscription]);
+
   return (
     <AppBar position="fixed" style={{ backgroundColor: "#222222" }}>
       <Toolbar>
@@ -28,17 +48,23 @@ const MainNavbar = () => {
               Scenarios
             </Button>
           </Link>
-          <Link to="/scenario/create" style={{ textDecoration: "none", marginRight: "1%" }}>
-            <Button
-              style={{
-                color: "black",
-                borderRadius: "50px",
-                backgroundColor: "white",
-              }}
+          {subscription === 1 ? (
+            <Link
+              to="/scenario/create"
+              style={{ textDecoration: "none", marginRight: "1%" }}
             >
-              Créer
-            </Button>
-          </Link>
+              <Button
+                style={{
+                  color: "black",
+                  borderRadius: "50px",
+                  backgroundColor: "white",
+                }}
+              >
+                Créer
+              </Button>
+            </Link>
+          ) : null}
+
           <Link to="/profile" style={{ textDecoration: "none" }}>
             <Button
               style={{
