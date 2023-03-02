@@ -5,19 +5,17 @@ import "../../../styles/discord.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import DiscordButton from "../../../components/discordButton";
+import Tooltip from '@mui/material/Tooltip';
 
 export default function DiscordPage() {
-  let actions = [
-    "Send a message",
-    "Send a file",
-    "Send a voice message",
-    "Send a video",
-  ];
+  let actions = [];
   let reactions = [
-    "Send a message",
-    "Send a file",
-    "Send a voice message",
-    "Send a video",
+    "PostChannelMessage",
+  ];
+
+  let descriptionActions = [];
+  let descriptionReactions = [
+    "Post a message to a channel",
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#5865F2";
@@ -45,6 +43,7 @@ export default function DiscordPage() {
       <div className="divDiscordActionCards">
         {actions.map((action, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionActions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -53,9 +52,10 @@ export default function DiscordPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{action}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{action}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card> 
         ))}
       </div>
       <div className="divDiscordActionText">
@@ -64,6 +64,7 @@ export default function DiscordPage() {
       <div className="divDiscordReactionCards">
         {reactions.map((reaction, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionReactions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -72,9 +73,10 @@ export default function DiscordPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{reaction}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{reaction}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
     </div>
