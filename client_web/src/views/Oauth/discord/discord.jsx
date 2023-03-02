@@ -12,7 +12,7 @@ function DiscordPage() {
     const code = urlSearchParams.get('code');
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
-
+      
     fetch('https://api.automateme.fr/subscriptions/discord', {
       method: 'POST',
       headers: {

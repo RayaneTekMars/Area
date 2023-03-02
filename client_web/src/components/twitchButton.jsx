@@ -16,7 +16,7 @@ const TwitchButton = () => {
       method: "GET",
       headers,
     };
-
+    
     fetch("https://api.automateme.fr/subscriptions/twitch", requestOptions)
       .then((res) => res.json())
       .then((res) => {
