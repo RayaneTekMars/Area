@@ -5,19 +5,25 @@ import "../../../styles/twitch.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TwitchButton from "../../../components/twitchButton";
+import Tooltip from '@mui/material/Tooltip';
 
 export default function TwitchPage() {
   let actions = [
-    "Start a stream",
-    "Stop a stream",
-    "New follower",
-    "New subscriber",
+    "Action 1",
+    "Action 2",
   ];
   let reactions = [
-    "Start a stream",
-    "Stop a stream",
-    "New follower",
-    "New subscriber",
+    "Reaction 1",
+    "Reaction 2",
+  ];
+
+  let descriptionActions = [
+    "Description action 1",
+    "Description action 2",
+  ];
+  let descriptionReactions = [
+    "Description reaction 1",
+    "Description reaction 2",
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#9146FF";
@@ -45,6 +51,7 @@ export default function TwitchPage() {
       <div className="divTwitchActionCards">
         {actions.map((action, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionActions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -53,9 +60,10 @@ export default function TwitchPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{action}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{action}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
       <div className="divTwitchActionText">
@@ -64,6 +72,7 @@ export default function TwitchPage() {
       <div className="divTwitchReactionCards">
         {reactions.map((reaction, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionReactions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -72,9 +81,10 @@ export default function TwitchPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{reaction}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{reaction}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
     </div>

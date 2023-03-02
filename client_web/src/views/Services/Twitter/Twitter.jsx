@@ -5,32 +5,26 @@ import "../../../styles/twitter.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TwitterButton from "../../../components/twitterButton";
+import Tooltip from '@mui/material/Tooltip';
+
 
 export default function TwitterPage() {
   let actions = [
-    "Post a tweet",
-    "follow",
-    "retweet",
-    "Like",
+    "NewFollower",
+    "NewDirectMessage",
   ];
   let reactions = [
-    "Post a tweet",
-    "follow",
-    "retweet",
-    "Like",
+    "PostTweet",
+    "CreateDirectMessage",
   ];
 
   let descriptionActions = [
-    "desc Post a tweet",
-    "desc follow",
-    "desc retweet",
-    "desc Like",
+    "Trigger when a new person follows you on Twitter",
+    "Trigger when a new direct message is received",
   ];
   let descriptionReactions = [
-    "desc Post a tweet",
-    "desc follow",
-    "desc retweet",
-    "desc Like",
+    "Post a tweet on your Twitter account",
+    "Create a direct message from your Twitter account to another user",
   ];
 
   useEffect(() => {
@@ -59,6 +53,7 @@ export default function TwitterPage() {
       <div className="divTwitterActionCards">
         {actions.map((action, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionActions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -67,9 +62,10 @@ export default function TwitterPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{action}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{action}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
       <div className="divTwitterActionText">
@@ -78,6 +74,7 @@ export default function TwitterPage() {
       <div className="divTwitterReactionCards">
         {reactions.map((reaction, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionReactions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -86,9 +83,10 @@ export default function TwitterPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{reaction}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{reaction}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
     </div>
