@@ -32,7 +32,7 @@ const TokenList = ({ tokens, activeTokenId, onTokenSelect }) => {
         Authorization: `Bearer ${jwt}`,
       },
     };
-    axios.delete(`http://localhost:8080/token/${token.id}`, config)
+    axios.delete(`https://api.automateme.fr/token/${token.id}`, config)
       .then(response => {
         console.log(response);
         // Remove the deleted token from the list
