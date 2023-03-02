@@ -9,7 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const MainNavbar = () => {
   const [subscription, setSubscription] = React.useState();
   function isSubscribed() {
-    fetch("https://api.automateme.fr/subscriptions", {
+    fetch("http://localhost:8080/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",
