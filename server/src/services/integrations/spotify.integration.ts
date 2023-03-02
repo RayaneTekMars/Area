@@ -2,18 +2,21 @@ import Integration from './intergration'
 import { ServiceName } from '../../common/types/service.type'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
+import { SpotifyService } from '../services/spotify.service'
+import MusicChange from '../triggers/spotify/music-change.trigger'
 
 class SpotifyIntegration extends Integration {
 
     private readonly triggerIntegration: TriggerIntegration[] = [
+        new MusicChange()
     ]
 
     private readonly reactionIntegration: ReactionIntegration[] = [
     ]
 
-    // constructor(private readonly spotifyService: SpotifyService) {
-    //     super()
-    // }
+    constructor(private readonly spotifyService: SpotifyService) {
+        super()
+    }
 
     getName(): ServiceName {
         return ServiceName.Spotify

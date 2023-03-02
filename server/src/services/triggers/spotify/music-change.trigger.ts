@@ -26,43 +26,24 @@ class MusicChange extends TriggerIntegration {
       }
   
       getIngredientsDefinition(): IngredientDefinition[] {
-          return [
-              {
-                  name: 'title',
-                  description: 'The title of the music',
-                  type: 'string'
-              },
-              {
-                  name: 'artist',
-                  description: 'The artist of the music',
-                  type: 'string'
-              },
-              {
-                  name: 'album',
-                  description: 'The album of the music',
-                  type: 'string'
-              },
-              {
-                  name: 'image',
-                  description: 'The image of the music',
-                  type: 'string'
-              },
-              {
-                  name: 'duration',
-                  description: 'The duration of the music',
-                  type: 'number'
-              },
-              {
-                  name: 'progress',
-                  description: 'The progress of the music',
-                  type: 'number'
-              },
-              {
-                  name: 'is_playing',
-                  description: 'If the music is playing',
-                  type: 'boolean'
-              }
-          ]
-      }
-  
+            return [
+                {
+                    name: 'name',
+                    type: 'string',
+                    description: 'The track that is playing'
+                },
+                {
+                    name: 'artist',
+                    type: 'string',
+                    description: 'The artist of the track'
+                },
+                {
+                    name: 'id',
+                    type: 'string',
+                    description: 'The id of the track'
+                }
+            ]
+        }
 }
+
+export default MusicChange

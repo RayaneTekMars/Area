@@ -10,8 +10,8 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module'
 import { ScenariosModule } from '../scenarios/scenarios.module'
 import { DiscordService } from './services/discord.service'
 // import { DiscordSchedule } from './schedules/discord.schedule'
-// import { SpotifyService } from './services/spotify.service'
-// import { SpotifySchedule } from './schedules/spotify.schedule'
+import { SpotifyService } from './services/spotify.service'
+import { SpotifySchedule } from './schedules/spotify.schedule'
 // import { TwitchService } from './services/twitch.service'
 // import { TwitchSchedule } from './schedules/twitch.schedule'
 
@@ -25,10 +25,10 @@ import { DiscordService } from './services/discord.service'
     TwitterSchedule,
     GithubService,
     GithubSchedule,
-    DiscordService
+    DiscordService,
     // DiscordSchedule,
-    // SpotifyService,
-    // SpotifySchedule,
+    SpotifyService,
+    SpotifySchedule,
     // TwitchService,
     // TwitchSchedule
   ],
