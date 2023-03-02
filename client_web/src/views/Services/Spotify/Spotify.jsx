@@ -5,19 +5,25 @@ import "../../../styles/spotify.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import SpotifyButton from "../../../components/spotifyButton";
+import Tooltip from '@mui/material/Tooltip';
 
 export default function SpotifyPage() {
   let actions = [
-    "Play a song",
-    "Play a playlist",
-    "Play a podcast",
-    "List a song",
+    "Action 1",
+    "Action 2",
   ];
   let reactions = [
-    "Play a song",
-    "Play a playlist",
-    "Play a podcast",
-    "List a song",
+    "Reaction 1",
+    "Reaction 2",
+  ];
+
+  let descriptionActions = [
+    "Description action 1",
+    "Description action 2",
+  ];
+  let descriptionReactions = [
+    "Description reaction 1",
+    "Description reaction 2",
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#1ED760";
@@ -47,6 +53,7 @@ export default function SpotifyPage() {
       <div className="divSpotifyActionCards">
         {actions.map((action, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionActions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -55,9 +62,10 @@ export default function SpotifyPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{action}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{action}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
       <div className="divSpotifyActionText">
@@ -66,6 +74,7 @@ export default function SpotifyPage() {
       <div className="divSpotifyReactionCards">
         {reactions.map((reaction, index) => (
           <Card sx={{ width: 180, marginLeft: "1%", height: 180, borderRadius: "20px"}}>
+          <Tooltip title={descriptionReactions[index]}>
             <CardContent
               style={{
                 display: "flex",
@@ -74,9 +83,10 @@ export default function SpotifyPage() {
                 height: "80%",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>{reaction}</h1>
+              <h1 style={{ textAlign: "center", fontSize: "14px" }}>{reaction}</h1>
             </CardContent>
-          </Card>
+          </Tooltip>
+        </Card>
         ))}
       </div>
     </div>

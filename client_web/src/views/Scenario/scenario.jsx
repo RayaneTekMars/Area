@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  TextField,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import CardArea from "../../components/card";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -11,7 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Fond1 from "../../assets/fond1.png";
-import '../../styles/style.css';
+import "../../styles/style.css";
 import MainNavbar from "../../components/mainNavbar";
 
 const style = {
@@ -52,11 +49,11 @@ async function CreateScenario() {
   fetch("https://api.automateme.fr/scenarios/create", {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -77,26 +74,33 @@ export default function ScenarioPage() {
     fetch("https://api.automateme.fr/me", {
       method: "GET",
       headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-      });
+      .then((data) => {});
   }, []);
 
   useEffect(() => {
     fetch("https://api.automateme.fr/scenarios", {
       method: "GET",
       headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+        Accept: "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        let areas = data.data.map(item => [item.account, item.id, item.name, item.trigger.name, item.reaction.name, item.trigger.serviceName, item.reaction.serviceName]);
+        let areas = data.data.map((item) => [
+          item.account,
+          item.id,
+          item.name,
+          item.trigger.name,
+          item.reaction.name,
+          item.trigger.serviceName,
+          item.reaction.serviceName,
+        ]);
         setAreas(areas);
       });
   }, []);
@@ -112,17 +116,11 @@ export default function ScenarioPage() {
   const handleChangeReaction = (event) => {
     setReaction(event.target.value);
   };
-  let services = [
-    ["Twitter", "#00acee"],
-  ];
+  let services = [["Twitter", "#00acee"]];
 
-  let actions = [
-    ["Nouveau follower"],
-  ];
+  let actions = [["Nouveau follower"]];
 
-  let reactions = [
-    ["Tweet"],
-  ];
+  let reactions = [["Tweet"]];
 
   useEffect(() => {
     document.body.style.backgroundColor = "#222222";
@@ -243,27 +241,30 @@ export default function ScenarioPage() {
           fontFamily: "Inter-ExtraBold",
           color: "white",
           fontSize: "2rem",
-          marginLeft: "42%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           marginTop: "8%",
         }}
       >
-        Vos scénarios
+        Scénarios
       </div>
       <div style={{ marginLeft: "28%", marginTop: "2%", maxWidth: "50%" }}>
         <div style={{ display: "flex", flexWrap: "wrap", marginTop: "2%" }}>
           {areas.map((items, index) => {
             return (
-              <CardArea
-                name={items[2]}
-                id={items[1]}
-                actionName={items[3]}
-                reactionName={items[4]}
-                actionService={items[5]}
-                reactionService={items[6]}
-              />
+              <div style={{ marginLeft: "2%", marginTop: "2%" }}>
+                <CardArea
+                  name={items[2]}
+                  id={items[1]}
+                  actionName={items[3]}
+                  reactionName={items[4]}
+                  actionService={items[5]}
+                  reactionService={items[6]}
+                />
+              </div>
             );
           })}
-          
         </div>
       </div>
     </div>

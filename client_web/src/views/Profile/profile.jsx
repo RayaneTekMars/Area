@@ -162,7 +162,7 @@ export default function HomePage() {
     justifyContent: "center",
   }}
 >
-  Bienvenue sur ton profil {username}
+  Welcome on your profile {username}
 </div>
       <div
         style={{
@@ -175,7 +175,7 @@ export default function HomePage() {
           textAlign: "center",
         }}
       >
-        Services connectés
+        Connected services
       </div>
       {services.length === 0 ? (
         <div
@@ -189,7 +189,7 @@ export default function HomePage() {
             textAlign: "center",
           }}
         >
-          Aucun service connecté
+          No service connected
         </div>
       ) : (
         <div className="divServicesCardsHome">
@@ -247,7 +247,7 @@ export default function HomePage() {
         }}
         onClick={disconnect}
       >
-        Déconnexion
+        Logout
       </Button>
     </div>
   );
