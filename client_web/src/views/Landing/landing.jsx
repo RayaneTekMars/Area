@@ -17,6 +17,8 @@ import { ReactComponent as Text } from "../../components/text3.svg";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import axios from "axios";
 import GoogleButton from "../../components/googleButton.jsx";
+import { getDevice, getBrowser, getOS } from "./deviceDetection";
+
 
 const style = {
   position: "absolute",
@@ -38,11 +40,11 @@ async function SignupAction() {
     email: document.getElementById("email").value,
     username: document.getElementById("username").value,
     password: document.getElementById("password").value,
-    authTokenName: "",
+    authTokenName: getDevice() + ' ' + getBrowser() + ' on ' + getOS(), 
   };
   try {
     const response = await axios.post(
-      "https://api.automateme.fr/auth/signup",
+      "http://localhost:8080/auth/signup",
       data
     );
     if (response.status === 200) {
@@ -58,23 +60,25 @@ async function SignupAction() {
   }
 }
 
+
 async function SigninAction() {
   console.log(document.getElementById("emaillogin").value);
   console.log(document.getElementById("passwordlogin").value);
   const data = {
     email: document.getElementById("emaillogin").value,
     password: document.getElementById("passwordlogin").value,
-    authTokenName: "",
+    authTokenName: getDevice() + ' ' + getBrowser() + ' on ' + getOS(), 
   };
   try {
     const response = await axios.post(
-      "https://api.automateme.fr/auth/login",
+      "http://localhost:8080/auth/login",
       data
     );
     if (response.status === 200) {
       localStorage.setItem("jwt", response.data.data.bearerToken);
       localStorage.setItem("username", response.data.data.account.username);
       localStorage.setItem("email", response.data.data.account.email);
+      localStorage.setItem("authTokenName", getDevice() + ' ' + getBrowser() + ' on ' + getOS());
       window.location.href = "/home";
     } else {
       alert("Erreur lors de la connexion.");
@@ -94,6 +98,10 @@ export default function LandingPage() {
 
   useEffect(() => {
     document.body.style.backgroundColor = "#222222";
+    // check if user is already logged in
+    if (localStorage.getItem("jwt")) {
+      window.location.href = "/home";
+    }
   }, []);
   return (
     <div>
