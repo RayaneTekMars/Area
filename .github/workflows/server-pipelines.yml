@@ -1,0 +1,32 @@
+name: Server Build and Lint pipelines
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - server/**
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        working-directory: server
+        run: yarn install
+      - name: Lint
+        working-directory: server
+        run: yarn lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        working-directory: server
+        run: docker build . -f Dockerfile -t automateme-server:$(date +%s)
+
