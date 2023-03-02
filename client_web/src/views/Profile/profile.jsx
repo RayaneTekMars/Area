@@ -138,17 +138,17 @@ export default function HomePage() {
     <div>
       <MainNavbar />
       <div
-        style={{
-          fontFamily: "Inter-ExtraBold",
-          color: "white",
-          fontSize: "2rem",
-          width: "40%",
-          margin: "0 auto",
-          marginTop: "10%",
-        }}
-      >
-        Bienvenue sur ton profil {username}
-      </div>
+  style={{
+    fontFamily: "Inter-ExtraBold",
+    color: "white",
+    fontSize: "2rem",
+    marginTop: "10%",
+    display: "flex",
+    justifyContent: "center",
+  }}
+>
+  Bienvenue sur ton profil {username}
+</div>
       <div
         style={{
           fontFamily: "Inter-ExtraBold",
