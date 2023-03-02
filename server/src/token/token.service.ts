@@ -20,7 +20,7 @@ class TokenService {
         @InjectRepository(AuthToken)
         private readonly authTokenRepository: Repository<AuthToken>,
         private readonly configService: ConfigService,
-        private readonly jwtService: JwtService,
+        private readonly jwtService: JwtService
     ) {}
 
     async create(name: string, initiator: Account): Promise<AuthTokenAndJwt> {

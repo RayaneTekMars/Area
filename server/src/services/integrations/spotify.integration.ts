@@ -1,9 +1,9 @@
 import Integration from './intergration'
 import { ServiceName } from '../../common/types/service.type'
+import MusicChange from '../triggers/spotify/music-change.trigger'
+import type { SpotifyService } from '../services/spotify.service'
 import type ReactionIntegration from '../reactions/reaction'
 import type TriggerIntegration from '../triggers/trigger'
-import { SpotifyService } from '../services/spotify.service'
-import MusicChange from '../triggers/spotify/music-change.trigger'
 
 class SpotifyIntegration extends Integration {
 

@@ -76,22 +76,6 @@ class CreateIssue extends ReactionIntegration {
                 required: false,
                 default: false
             },
-            /*
-             * {
-             *     name: 'assignees',
-             *     description: 'The assignees of the issue',
-             *     type: '[string]',
-             *     required: false,
-             *     default: false
-             * },
-             * {
-             *     name: 'labels',
-             *     description: 'The labels of the issue',
-             *     type: '[string]',
-             *     required: false,
-             *     default: false
-             * },
-             */
             {
                 name: 'milestone',
                 description: 'The milestone of the issue',
@@ -108,8 +92,6 @@ class CreateIssue extends ReactionIntegration {
         const repositoryUrl = fields.get('repository_url') ?? ''
         const title = fields.get('title') ?? ''
         const body = fields.get('body') ?? ''
-        //const assignees = fields.get('assignees') ?? ''
-        //const labels = fields.get('labels') ?? ''
         const milestone = (fields.get('milestone') === '') ? undefined : fields.get('milestone')
 
         void this.githubService.createIssue(repositoryUrl, title, body, milestone, accessToken)

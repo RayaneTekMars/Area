@@ -1,5 +1,5 @@
 import type { ServiceName } from '../../common/types/service.type'
-import type { Ingredient, IngredientDefinition } from '../../common/types/ingredient.type'
+import type { IngredientDefinition } from '../../common/types/ingredient.type'
 import type { Field, FieldDefinition } from '../../common/types/field.type'
 import type { Trigger, TriggerDefinition } from '../../common/types/trigger.type'
 

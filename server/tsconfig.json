@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es2017",
 
-    "rootDir": "./src",
+    "baseUrl": ".",
     "outDir": "./dist",
 
     "strict": true,

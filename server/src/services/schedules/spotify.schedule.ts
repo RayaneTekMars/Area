@@ -20,7 +20,7 @@ export class SpotifySchedule {
         this.subscriptions = []
     }
 
-    @Interval(3_000)
+    @Interval(3000)
     async detectChangingTrack() {
         console.log('Spotify: Checking for new tracks...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Spotify)
@@ -31,7 +31,7 @@ export class SpotifySchedule {
             console.log(`Spotify: Found ${scenarios.length} scenarios for ${sub.account.id}`)
             for await (const scenario of scenarios) {
                 const tracks = await this.spotifyService.getCurrentTrack(sub.account.id, scenario, sub.accessToken)
-                console.log(`Spotify: Found new track: ${tracks}`)
+                console.log('Spotify: Found new track:', tracks)
                 if (this.subscriptions.includes(sub.account.id)) {
                     for (const track of tracks)
                         void this.spotifyService.triggerNewTrack(sub.account.id, scenario, track)

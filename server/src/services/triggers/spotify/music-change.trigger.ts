@@ -4,27 +4,27 @@ import type { IngredientDefinition } from '../../../common/types/ingredient.type
 import type { Field, FieldDefinition } from '../../../common/types/field.type'
 
 class MusicChange extends TriggerIntegration {
-  
+
       getName(): string {
           return 'MusicChange'
       }
-  
+
       getServiceName(): ServiceName {
           return ServiceName.Spotify
       }
-  
+
       getDescription(): string {
           return 'Trigger when the music is changed'
       }
-  
+
       getFields(): Field[] {
           return []
       }
-  
+
       getFieldsDefinition(): FieldDefinition[] {
           return []
       }
-  
+
       getIngredientsDefinition(): IngredientDefinition[] {
             return [
                 {

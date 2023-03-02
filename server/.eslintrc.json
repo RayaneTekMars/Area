@@ -7,7 +7,7 @@
   },
   "parserOptions": {
     "project": "tsconfig.json",
-    "tsconfigRootDir": "server",
+    "tsconfigRootDir": ".",
     "sourceType": "module"
   },
   "plugins": [
@@ -35,7 +35,7 @@
 
     // eslint -- Suggestions
     "arrow-body-style": ["warn", "as-needed"],
-    "capitalized-comments": ["warn", "always"],
+    "capitalized-comments": "off",
     "complexity": [
       "error", {
         "max": 15
@@ -52,7 +52,7 @@
     ],
     "max-depth": ["error", 3],
     "max-nested-callbacks": ["error", 3],
-    "multiline-comment-style": ["warn", "starred-block"],
+    "multiline-comment-style": "off",
     "new-cap": [
       "error", {
         "capIsNew": false

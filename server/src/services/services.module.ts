@@ -6,12 +6,12 @@ import { TwitterService } from './services/twitter.service'
 import { TwitterSchedule } from './schedules/twitter.schedule'
 import { GithubService } from './services/github.service'
 import { GithubSchedule } from './schedules/github.schedule'
-import { SubscriptionsModule } from '../subscriptions/subscriptions.module'
-import { ScenariosModule } from '../scenarios/scenarios.module'
 import { DiscordService } from './services/discord.service'
 // import { DiscordSchedule } from './schedules/discord.schedule'
 import { SpotifyService } from './services/spotify.service'
 import { SpotifySchedule } from './schedules/spotify.schedule'
+import { ScenariosModule } from '../scenarios/scenarios.module'
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module'
 // import { TwitchService } from './services/twitch.service'
 // import { TwitchSchedule } from './schedules/twitch.schedule'
 
@@ -28,7 +28,7 @@ import { SpotifySchedule } from './schedules/spotify.schedule'
     DiscordService,
     // DiscordSchedule,
     SpotifyService,
-    SpotifySchedule,
+    SpotifySchedule
     // TwitchService,
     // TwitchSchedule
   ],

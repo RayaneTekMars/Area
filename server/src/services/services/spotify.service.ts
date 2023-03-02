@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import SpotifyWebApi from 'spotify-web-api-node'
 import { ServicesService } from '../services.service'
 import SpotifyIntegration from '../integrations/spotify.integration'
-import SpotifyWebApi from 'spotify-web-api-node'
-import { Scenario } from '../../scenarios/entities/scenario.entity'
+import type { Scenario } from '../../scenarios/entities/scenario.entity'
 
 interface Track {
   id: string
   name: string
   artist: string
+}
+
+interface TrackResponse {
+  id: string
+  name: string
+  artists: { name: string }[]
 }
 
 @Injectable()
@@ -21,7 +26,7 @@ export class SpotifyService {
   }[]
 
   constructor(
-    private readonly servicesService: ServicesService,
+    private readonly servicesService: ServicesService
   ) {
     this.servicesService.setIntegration(new SpotifyIntegration(this))
     this.LastTrack = []
@@ -31,7 +36,7 @@ export class SpotifyService {
     const spotifyApi = new SpotifyWebApi({
       accessToken
     })
-    const { body: { item: track } } = await spotifyApi.getMyCurrentPlayingTrack()
+    const { body: { item: track } } = await spotifyApi.getMyCurrentPlayingTrack() as { body: { item: TrackResponse } }
     const scenarioId = scenario.id
     const lastTrack = this.LastTrack.find(
       (x) => x.accountId === accountId && x.scenarioId === scenarioId

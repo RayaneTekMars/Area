@@ -2,7 +2,7 @@ import {
     Controller,
     Get,
     SerializeOptions,
-    UseGuards,
+    UseGuards
 } from '@nestjs/common'
 import {
     ApiBearerAuth,
