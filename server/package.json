@@ -19,13 +19,7 @@
     "test:watch": "yarn run test --watch",
     "test:cov": "yarn run test --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "cross-env NODE_ENV=dev yarn run test --config ./test/jest-e2e.json",
-    "typeorm": "yarn run x ./node_modules/typeorm/cli.js -d ./typeorm.data-source.ts",
-    "typeorm:migration:generate": "yarn run typeorm migration:generate",
-    "typeorm:migration:run": "yarn run typeorm migration:run",
-    "typeorm:migration:revert": "yarn run typeorm migration:revert",
-    "typeorm:seeder:up": "yarn run x scripts/typeorm-seeder-up.ts",
-    "typeorm:seeder:down": "yarn run x scripts/typeorm-seeder-down.ts"
+    "test:e2e": "cross-env NODE_ENV=dev yarn run test --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^9.3.9",
