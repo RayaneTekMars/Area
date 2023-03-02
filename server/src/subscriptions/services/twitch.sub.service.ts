@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import axios from 'axios'
+import type Subscribe from './subscribe'
 
 @Injectable()
-export class TwitchSubscribeService {
+export class TwitchSubscribeService implements Subscribe {
 
     private readonly clientId: string
     private readonly clientSecret: string
@@ -63,7 +64,7 @@ export class TwitchSubscribeService {
         }
 
         try {
-            const response = await axios.post(
+            const responseRefresh = await axios.post(
                 `${this.twitchOAuthUrl}/token`,
                 data,
                 {
@@ -74,16 +75,30 @@ export class TwitchSubscribeService {
                 }
             )
 
+            const accessToken = (responseRefresh.data as { access_token: string }).access_token
+
+            const responseValidate = await axios.get(
+                `${this.twitchOAuthUrl}/validate`,
+                {
+                    headers: {
+                        Authorization: `OAuth ${accessToken}`
+                    }
+                }
+            )
+
             return {
-                accessToken: (response.data as { access_token: string }).access_token,
-                newRefreshToken: (response.data as { refresh_token: string }).refresh_token
+                accessToken,
+                newRefreshToken: (responseRefresh.data as { refresh_token: string }).refresh_token,
+                expiresIn: Number((responseValidate.data as { expires_in: string }).expires_in)
             }
         } catch {
             throw new Error('Error while refreshing access token')
         }
     }
 
-    async revokeAccessToken(accessToken: string) {
+    async revokeAccessToken(refreshToken: string, accessToken: string) {
+        void refreshToken
+
         const data = {
             client_id: this.clientId,
             token: accessToken

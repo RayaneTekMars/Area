@@ -51,7 +51,7 @@ export class GithubSchedule {
         console.log(`Github: Found ${subs.length} subscriptions`)
         for await (const sub of subs)
             try {
-                const { accessToken } = await this.githubSubscribeService.refreshAccessToken(sub.refreshToken)
+                const { accessToken } = await this.githubSubscribeService.refreshAccessToken(sub.refreshToken, sub.accessToken)
                 console.log(`Github: New access token: ${accessToken}`)
                 void this.subscriptionsService.updateSubscription(ServiceName.Github, sub.account.id, accessToken, sub.refreshToken, sub.expiresIn)
             } catch {

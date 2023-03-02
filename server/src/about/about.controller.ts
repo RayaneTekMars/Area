@@ -1,6 +1,7 @@
 import { networkInterfaces } from 'node:os'
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Req } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { Request } from 'express'
 import { AboutDto } from './dto/about.dto'
 import { ServicesService } from '../services/services.service'
 
@@ -20,10 +21,10 @@ export class AboutController {
     }
 
     @Get('/about.json')
-    about(): AboutDto {
+    about(@Req() request: Request): AboutDto {
         return {
             client: {
-                host: this.getHost()
+                host: request.hostname
             },
             server: {
                 current_time: Math.floor(Date.now() / 1000),

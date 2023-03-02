@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import axios from 'axios'
+import type Subscribe from './subscribe'
 
 @Injectable()
-export class SpotifySubscribeService {
+export class SpotifySubscribeService implements Subscribe {
 
     private readonly clientId: string
     private readonly clientSecret: string
@@ -76,6 +77,7 @@ export class SpotifySubscribeService {
 
             return {
                 accessToken: (response.data as { access_token: string }).access_token,
+                newRefreshToken: refreshToken,
                 expiresIn: Number((response.data as { expires_in: string }).expires_in)
             }
         } catch {
@@ -83,7 +85,8 @@ export class SpotifySubscribeService {
         }
     }
 
-    revokeAccessToken(accessToken: string) {
-        void accessToken
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async revokeAccessToken(refreshToken: string) {
+        void refreshToken
     }
 }

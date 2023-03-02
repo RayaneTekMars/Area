@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TwitterApi } from 'twitter-api-v2'
+import type Subscribe from './subscribe'
 
 @Injectable()
-export class TwitterSubscribeService {
+export class TwitterSubscribeService implements Subscribe {
 
     private readonly clientId: string
     private readonly clientSecret: string
@@ -27,48 +28,65 @@ export class TwitterSubscribeService {
     }
 
     getAuthorizeUrl(accountId: string) {
-        const { url, codeVerifier, state } = this.twitterApi.generateOAuth2AuthLink(
-            this.redirectUri,
-            {
-                scope: this.scope.split(' ')
-            }
-        )
+        try {
+            const { url, codeVerifier, state } = this.twitterApi.generateOAuth2AuthLink(
+                this.redirectUri,
+                {
+                    scope: this.scope.split(' ')
+                }
+            )
 
-        this.codeVerifierStateArray.set(accountId, { codeVerifier, state })
+            this.codeVerifierStateArray.set(accountId, { codeVerifier, state })
 
-        return url
-    }
-
-    async authorize(accountId: string, code: string) {
-        const { codeVerifier } = this.codeVerifierStateArray.get(accountId) ?? {
-            codeVerifier: ''
+            return url
+        } catch {
+            throw new Error('Error while generating OAuth2 auth link')
         }
-
-        let { accessToken, refreshToken, expiresIn }
-            = await this.twitterApi.loginWithOAuth2({
-                code,
-                redirectUri: this.redirectUri,
-                codeVerifier
-            })
-
-        this.codeVerifierStateArray.delete(accountId)
-
-        refreshToken ??= ''
-
-        return { accessToken, refreshToken, expiresIn }
     }
 
-    async refreshAccessToken(_refreshToken: string) {
-        const { accessToken, refreshToken, expiresIn }
-            = await this.twitterApi.refreshOAuth2Token(_refreshToken)
+    async authorize(code: string, accountId: string) {
+        try {
+            const { codeVerifier } = this.codeVerifierStateArray.get(accountId) ?? {
+                codeVerifier: ''
+            }
 
-        if (refreshToken === undefined)
-            throw new Error('Refresh token is not provided')
+            let { accessToken, refreshToken, expiresIn }
+                = await this.twitterApi.loginWithOAuth2({
+                    code,
+                    redirectUri: this.redirectUri,
+                    codeVerifier
+                })
 
-        return { accessToken, refreshToken, expiresIn }
+            this.codeVerifierStateArray.delete(accountId)
+
+            refreshToken ??= ''
+
+            return { accessToken, refreshToken, expiresIn }
+        } catch {
+            throw new Error('Error while getting access token')
+        }
+    }
+
+    async refreshAccessToken(refreshToken: string) {
+        try {
+            const { accessToken, refreshToken: newRefreshToken, expiresIn }
+                = await this.twitterApi.refreshOAuth2Token(refreshToken)
+
+            return {
+                accessToken,
+                newRefreshToken: newRefreshToken ?? refreshToken,
+                expiresIn
+            }
+        } catch {
+            throw new Error('Error while refreshing access token')
+        }
     }
 
     async revokeAccessToken(refreshToken: string) {
-        await this.twitterApi.revokeOAuth2Token(refreshToken, 'refresh_token')
+        try {
+            await this.twitterApi.revokeOAuth2Token(refreshToken, 'refresh_token')
+        } catch {
+            throw new Error('Error while revoking access token')
+        }
     }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import axios from 'axios'
+import type Subscribe from './subscribe'
 
 @Injectable()
-export class DiscordSubscribeService {
+export class DiscordSubscribeService implements Subscribe {
 
     private readonly clientId: string
     private readonly clientSecret: string
@@ -87,7 +88,9 @@ export class DiscordSubscribeService {
         }
     }
 
-    async revokeAccessToken(accessToken: string) {
+    async revokeAccessToken(refreshToken: string, accessToken: string) {
+        void refreshToken
+
         const data = {
             client_id: this.clientId,
             client_secret: this.clientSecret,

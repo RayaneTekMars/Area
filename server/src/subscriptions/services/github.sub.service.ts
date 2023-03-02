@@ -3,9 +3,10 @@ import { ConfigService } from '@nestjs/config'
 import { Octokit } from '@octokit/core'
 import { createOAuthAppAuth } from '@octokit/auth-oauth-app'
 import type { OAuthAppUserAuthentication } from '@octokit/auth-oauth-app'
+import type Subscribe from './subscribe'
 
 @Injectable()
-export class GithubSubscribeService {
+export class GithubSubscribeService implements Subscribe {
 
     private readonly clientId: string
     private readonly clientSecret: string
@@ -44,18 +45,24 @@ export class GithubSubscribeService {
         }) as OAuthAppUserAuthentication
 
         return {
-            accessToken: userAuth.token
+            accessToken: userAuth.token,
+            refreshToken: '',
+            expiresIn: Number.POSITIVE_INFINITY
         }
     }
 
-    async refreshAccessToken(accessToken: string) {
+    async refreshAccessToken(refreshToken: string, accessToken: string) {
+        void refreshToken
+
         const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
             client_id: this.clientId,
             access_token: accessToken
         })
 
         return {
-            accessToken: response.data.token
+            accessToken: response.data.token,
+            newRefreshToken: '',
+            expiresIn: Number.POSITIVE_INFINITY
         }
     }
 
