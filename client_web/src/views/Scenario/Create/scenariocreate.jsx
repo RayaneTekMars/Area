@@ -73,10 +73,9 @@ function CreateScenario(
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Success:", data);
+      window.location.href = "http://localhost:8081/scenario";
     })
     .catch((error) => {
-      console.error("Error:", error);
     });
 }
 
