@@ -17,7 +17,7 @@ const GithubButton = () => {
       headers,
     };
 
-    fetch("https://api.automateme.fr/subscriptions/github", requestOptions)
+    fetch("https://api.automateme.fr/subscriptions/Github", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         setUrl(res.data.url);

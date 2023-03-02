@@ -19,7 +19,7 @@ function GithubPage() {
     }
 
     // Envoie de la requête POST
-    fetch('https://api.automateme.fr/subscriptions/github', {
+    fetch('https://api.automateme.fr/subscriptions/Github', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
