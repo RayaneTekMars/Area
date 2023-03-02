@@ -253,6 +253,7 @@ export default function ScenarioPage() {
         <div style={{ display: "flex", flexWrap: "wrap", marginTop: "2%" }}>
           {areas.map((items, index) => {
             return (
+              <div style={{marginLeft: "2%", marginTop: "2%"}}>
               <CardArea
                 name={items[2]}
                 id={items[1]}
@@ -261,6 +262,7 @@ export default function ScenarioPage() {
                 actionService={items[5]}
                 reactionService={items[6]}
               />
+              </div>
             );
           })}
           
