@@ -10,7 +10,7 @@ class SubscriptionData {
 
 }
 
-export class SubscriptionUrlResDto {
+class SubscriptionUrlResDto {
 
     @ApiProperty()
     status: 'success'
@@ -22,7 +22,7 @@ export class SubscriptionUrlResDto {
 
 }
 
-export class SubscriptionResDto {
+class SubscriptionResDto {
 
     @ApiProperty()
     status: 'success'
@@ -34,7 +34,7 @@ export class SubscriptionResDto {
 
 }
 
-export class GetSubscriptionsResDto {
+class GetSubscriptionsResDto {
 
     @ApiProperty()
     status: 'success'
@@ -46,3 +46,5 @@ export class GetSubscriptionsResDto {
 
 }
 
+
+export { SubscriptionUrlResDto, SubscriptionResDto, GetSubscriptionsResDto }

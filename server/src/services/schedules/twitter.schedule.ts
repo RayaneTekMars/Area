@@ -76,9 +76,9 @@ export class TwitterSchedule {
         console.log(`Twitter: Found ${subs.length} subscriptions`)
         for await (const sub of subs)
             try {
-                const { accessToken, refreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
+                const { accessToken, newRefreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
                 console.log(`Twitter: New access token: ${accessToken}`)
-                void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, refreshToken, expiresIn)
+                void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, newRefreshToken, expiresIn)
             } catch {
                 throw new Error('Twitter: Error refreshing access token')
             }
