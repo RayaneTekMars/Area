@@ -13,7 +13,7 @@ function TwitterPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('https://api.automateme.fr/subscriptions/twitter', {
+    fetch('https://api.automateme.fr/subscriptions/Twitter', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

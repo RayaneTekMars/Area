@@ -13,7 +13,7 @@ function SpotifyPage() {
     if (!code)
       throw new Error('Le code est manquant dans l\'URL');
 
-    fetch('https://api.automateme.fr/subscriptions/spotify', {
+    fetch('https://api.automateme.fr/subscriptions/Spotify', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
