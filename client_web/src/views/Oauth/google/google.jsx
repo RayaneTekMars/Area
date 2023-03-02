@@ -27,7 +27,7 @@ function GooglePage() {
       }),
     };
 
-    fetch("http://localhost:8080/auth/login/google/code", requestOptions)
+    fetch("https://api.automateme.fr/auth/login/google/code", requestOptions)
       .then((res) => res.json())
       .then((res) => {
         console.log(res.data);
