@@ -14,7 +14,7 @@ export async function SigninQuery(navigation, email, password) {
     };
 
     const response = await axios.post(
-      "http://localhost:8080/auth/login",
+      "https://api.automateme.fr/auth/login",
       data
     );
 
@@ -41,7 +41,7 @@ export async function SignupQuery(navigation, username, email, password) {
     };
 
     const response = await axios.post(
-      "http://localhost:8080/auth/signup",
+      "https://api.automateme.fr/auth/signup",
       data
     );
 
@@ -100,7 +100,7 @@ export async function PostScenarioQuery(
     };
 
     const response = await axios.post(
-      "http://localhost:8080/scenarios/create",
+      "https://api.automateme.fr/scenarios/create",
       data,
       config
     );
@@ -128,7 +128,7 @@ export async function GetScenariosQuery() {
     };
 
     const response = await axios.get(
-      "http://localhost:8080/scenarios",
+      "https://api.automateme.fr/scenarios",
       config
     );
 
@@ -155,7 +155,7 @@ export async function DeleteScenarioQuery(id) {
     };
 
     const response = await axios.delete(
-      "http://localhost:8080/scenarios/delete/" + id,
+      "https://api.automateme.fr/scenarios/delete/" + id,
       config
     );
 
