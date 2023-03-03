@@ -1,4 +1,4 @@
-// Image.js - Images variables.
+// Image.js - Image variables.
 
 export const Logos = {
   AmmLogo: require("../../assets/images/logos/amm_logo.png"),
