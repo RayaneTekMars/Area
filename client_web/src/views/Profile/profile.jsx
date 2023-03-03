@@ -20,7 +20,7 @@ export default function HomePage() {
   const [tokens, setTokens] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.automateme.fr/me", {
+    fetch("http://localhost:8080/me", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -32,7 +32,7 @@ export default function HomePage() {
         setUsername(data.data.username);
       });
 
-    fetch("https://api.automateme.fr/me/tokens", {
+    fetch("http://localhost:8080/me/tokens", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -47,7 +47,7 @@ export default function HomePage() {
   }, []);
 
   function setAvailableServices() {
-    fetch("https://api.automateme.fr/subscriptions", {
+    fetch("http://localhost:8080/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",

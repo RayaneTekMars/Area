@@ -62,7 +62,7 @@ function CreateScenario(
     },
   };
 
-  fetch("https://api.automateme.fr/scenarios/create", {
+  fetch("http://localhost:8080/scenarios/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -85,7 +85,7 @@ export default function ScenarioPage() {
 
 
   function setAvailableServices() {
-    fetch("https://api.automateme.fr/subscriptions", {
+    fetch("http://localhost:8080/subscriptions", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -188,7 +188,7 @@ export default function ScenarioPage() {
                 </svg>`,
               "spotify",
             ]);
-            serviceReactionArray.push([
+            /*serviceReactionArray.push([
               "Spotify",
               "#1ED760",
               `<svg
@@ -204,7 +204,7 @@ export default function ScenarioPage() {
                   />
                 </svg>`,
               "spotify",
-            ]);
+            ]);*/
           }
           if (service === "Twitch") {
             serviceArray.push([
@@ -231,7 +231,7 @@ export default function ScenarioPage() {
             ]);
           }
           if (service === "Discord") {
-            serviceArray.push([
+            /*serviceArray.push([
               "Discord",
               "#5865F2",
               `<svg width="76" height="59" viewBox="0 0 76 59" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +239,7 @@ export default function ScenarioPage() {
               </svg>
               `,
               "discord",
-            ]);
+            ]);*/
             serviceReactionArray.push([
               "Discord",
               "#5865F2",
@@ -282,7 +282,7 @@ export default function ScenarioPage() {
   const [fieldReaction, setFieldReaction] = useState([]);
 
   function getActions(selectedServiceAction) {
-    fetch(`https://api.automateme.fr/services/${selectedServiceAction}/triggers`, {
+    fetch(`http://localhost:8080/services/${selectedServiceAction}/triggers`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -306,13 +306,15 @@ export default function ScenarioPage() {
         setListParamAction(ingredientsList);
         setFieldAction(fieldsList[0]);
         setParamAction(ingredientsList[0]);
-        setServiceActionName(actionList[0].name);
+        if (actionList.length > 0 && actionList[0].name) {
+          setServiceActionName(actionList[0].name);
+        }
       });
   }
 
   function getReactions(selectedServiceReaction) {
     fetch(
-      `https://api.automateme.fr/services/${selectedServiceReaction}/reactions`,
+      `http://localhost:8080/services/${selectedServiceReaction}/reactions`,
       {
         method: "GET",
         headers: {
@@ -336,7 +338,8 @@ export default function ScenarioPage() {
         setListReaction(reactionList);
         setListFieldReaction(fieldsList);
         setFieldReaction(fieldsList[0]);
-        setServiceReactionName(reactionList[0].name);
+        if (reactionList.length > 0 && reactionList[0].name)
+          setServiceReactionName(reactionList[0].name);
       });
   }
 
