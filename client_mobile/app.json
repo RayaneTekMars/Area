@@ -4,7 +4,7 @@
     "slug": "area",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/amm_logo.png",
+    "icon": "./assets/images/amm_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/amm_splash.png",
@@ -22,7 +22,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/amm_logo.png",
+        "foregroundImage": "./assets/images/amm_icon.png",
         "backgroundColor": "#222222"
       }
     },

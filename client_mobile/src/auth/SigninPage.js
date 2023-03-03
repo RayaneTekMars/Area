@@ -7,8 +7,9 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 // SigninPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { SigninQuery } from "../tools/Query";
 import { FontContext } from "../tools/Utils";
+import { SigninQuery } from "../tools/Query";
+import { Logos, Shapes } from "../tools/Image";
 
 // SigninPage.js - Core function.
 
@@ -25,12 +26,12 @@ export default function SigninPage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appContainers.logoContainer}>
         <Image
-          source={require("../../assets/images/amm_logo_full.png")}
+          source={Logos.AmmLogo}
           style={Style.appComponents.componentLogo}
         />
       </View>
@@ -63,8 +64,8 @@ export default function SigninPage({ navigation }) {
 
       <View style={Style.appButtonContainers.buttonContainer40}>
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
-          onPress={() => SigninQuery(navigation, email, password)}
+          style={Style.appButtonComponents.componentButton}
+          onPress={async () => await SigninQuery(navigation, email, password)}
         >
           <Text style={Style.appTexts.textButton}>Sign In</Text>
         </TouchableOpacity>
@@ -72,7 +73,7 @@ export default function SigninPage({ navigation }) {
         <Text style={Style.appTexts.textBasic20}>or</Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("LoginStack", { screen: "Google" })
           }
@@ -90,7 +91,7 @@ export default function SigninPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

@@ -58,24 +58,29 @@ export async function SignupQuery(navigation, username, email, password) {
   }
 }
 
-export async function SigninGoogleQuery() {}
+// Query.js - Scenario queries.
 
-// Query.js - Services queries.
-
-export async function AddScenarioQuery(navigation) {
+export async function PostScenarioQuery(
+  navigation,
+  scenario,
+  firstService,
+  trigger,
+  secondService,
+  reaction
+) {
   try {
     const bearerToken = await AsyncStorage.getItem("token");
 
     const data = {
-      name: "NewPostForNewFollower",
+      name: scenario,
       trigger: {
-        name: "NewFollower",
-        serviceName: "Twitter",
+        name: trigger,
+        serviceName: firstService,
         params: [],
       },
       reaction: {
-        name: "PostTweet",
-        serviceName: "Twitter",
+        name: reaction,
+        serviceName: secondService,
         params: [
           {
             name: "text",
@@ -103,10 +108,10 @@ export async function AddScenarioQuery(navigation) {
     if (response.status === 200) {
       navigation.navigate("UserStack", { screen: "Dash" });
     } else {
-      alert("Error while creating your scenario.");
+      alert("Error while creating scenario.");
     }
   } catch (error) {
-    alert("Error while creating your scenario.");
+    alert("Error while creating scenario.");
   }
 }
 
@@ -130,10 +135,10 @@ export async function GetScenariosQuery() {
     if (response.status === 200) {
       return response.data.data;
     } else {
-      alert("Error while fetching your scenarios.");
+      alert("Error while fetching scenarios.");
     }
   } catch (error) {
-    alert("Error while fetching your scenarios.");
+    alert("Error while fetching scenarios.");
   }
 }
 
@@ -157,9 +162,180 @@ export async function DeleteScenarioQuery(id) {
     if (response.status === 200) {
       return null;
     } else {
-      alert("Error while deleting your scenario.");
+      alert("Error while deleting scenario.");
     }
   } catch (error) {
-    alert("Error while deleting your scenario.");
+    alert("Error while deleting scenario.");
+  }
+}
+
+// Query.js - Service queries.
+
+export async function GetServicesQuery() {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching services.");
+    }
+  } catch (error) {
+    alert("Error while fetching services.");
+  }
+}
+
+export async function GetServicesLinkedQuery() {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/subscriptions/",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data.data;
+    } else {
+      alert("Error while fetching linked services.");
+    }
+  } catch (error) {
+    alert("Error while fetching linked services.");
+  }
+}
+
+export async function GetServiceLinkQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/subscriptions/" + service,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data.data.url;
+    } else {
+      alert("Error while fetching authentication link.");
+    }
+  } catch (error) {
+    alert("Error while fetching authentication link.");
+  }
+}
+
+export async function PostServiceLinkQuery(navigation, service, code) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const data = {
+      code: code,
+    };
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.post(
+      "https://api.automateme.fr/subscriptions/" + service,
+      data,
+      config
+    );
+
+    if (response.status === 200) {
+      navigation.navigate("UserStack", { screen: "Profile" });
+    } else {
+      alert("Error while validating authentication link.");
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function DeleteServiceQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.delete(
+      "https://api.automateme.fr/subscriptions/" + service,
+      config
+    );
+
+    if (response.status === 200) {
+      return null;
+    } else {
+      alert("Error while deleting service.");
+    }
+  } catch (error) {
+    alert("Error while deleting service.");
+  }
+}
+
+// Query.js - Token query.
+
+export async function PutAccessTokenQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/subscriptions/" + service,
+      config
+    );
+
+    if (response.status === 200) {
+      alert("Access token successfully refreshed.");
+    } else {
+      alert("Error while updating access token.");
+    }
+  } catch (error) {
+    alert("Error while updating access token.");
   }
 }

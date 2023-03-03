@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as Style from "../tools/Style";
 import { FontContext } from "../tools/Utils";
+import { Shapes, Buttons } from "../tools/Image";
 
 // DashPage.js - Core function.
 
@@ -23,10 +24,10 @@ export default function DashPage({ navigation }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const name = await AsyncStorage.getItem("name");
-        setName(name);
+        const nameData = await AsyncStorage.getItem("name");
+        setName(nameData);
       } catch (error) {
-        console.log("[LOG] - Error fetching name: ", error);
+        console.error("[LOG] - Error while fetching name: ", error);
       }
     };
     fetchData();
@@ -35,7 +36,7 @@ export default function DashPage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appTitleContainers.titleContainer30}>
@@ -50,22 +51,22 @@ export default function DashPage({ navigation }) {
 
         <TouchableOpacity
           activeOpacity={1}
-          style={Style.appComponents.componentLargeButton}
+          style={Style.appButtonComponents.componentLargeButton}
           onPress={() => navigation.navigate("UserStack", { screen: "Create" })}
         >
-          <Image source={require("../../assets/images/create_button.png")} />
+          <Image source={Buttons.CreateButton} />
         </TouchableOpacity>
 
         <View style={Style.appShapes.shapeMiddle}>
-          <Image source={require("../../assets/images/grey_bar.png")} />
+          <Image source={Shapes.GreyBar} />
         </View>
 
         <TouchableOpacity
           activeOpacity={1}
-          style={Style.appComponents.componentLargeButton}
+          style={Style.appButtonComponents.componentLargeButton}
           onPress={() => navigation.navigate("UserStack", { screen: "View" })}
         >
-          <Image source={require("../../assets/images/manage_button.png")} />
+          <Image source={Buttons.ManageButton} />
         </TouchableOpacity>
       </View>
 
@@ -75,7 +76,7 @@ export default function DashPage({ navigation }) {
         </Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("UserStack", { screen: "Profile" })
           }
@@ -85,7 +86,7 @@ export default function DashPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

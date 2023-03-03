@@ -7,8 +7,9 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 // SignupPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { SignupQuery } from "../tools/Query";
 import { FontContext } from "../tools/Utils";
+import { SignupQuery } from "../tools/Query";
+import { Logos, Shapes } from "../tools/Image";
 
 // SignupPage.js - Additional function.
 
@@ -37,12 +38,12 @@ export default function SignupPage({ navigation }) {
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appContainers.logoContainer}>
         <Image
-          source={require("../../assets/images/amm_logo_full.png")}
+          source={Logos.AmmLogo}
           style={Style.appComponents.componentLogo}
         />
       </View>
@@ -98,10 +99,10 @@ export default function SignupPage({ navigation }) {
 
       <View style={Style.appButtonContainers.buttonContainer30}>
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
-          onPress={() => {
+          style={Style.appButtonComponents.componentButton}
+          onPress={async () => {
             if (ComparePassword(password, confirm)) {
-              SignupQuery(navigation, username, email, password);
+              await SignupQuery(navigation, username, email, password);
             }
           }}
         >
@@ -110,7 +111,7 @@ export default function SignupPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );

@@ -22,7 +22,7 @@ export default function GooglePage({ navigation }) {
     <View style={Style.appContainers.fullContainer}>
       <View style={Style.appContainers.navigationContainer}>
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("LoginStack", { screen: "SignIn" })
           }

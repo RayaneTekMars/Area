@@ -7,14 +7,15 @@ import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 // ViewPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { Shapes } from "../tools/Image";
 import { FontContext } from "../tools/Utils";
 import { GetScenariosQuery, DeleteScenarioQuery } from "../tools/Query";
 
 // ViewPage.js - Custom component.
 
-function CustomScrollView(props) {
-  const { data, handleEmptyScenario } = props;
-  const [items, setItems] = useState(data || []);
+function CustomViewScrollView(props) {
+  const { scenariosList, handleEmptyScenario } = props;
+  const [items, setItems] = useState(scenariosList || []);
 
   const handleDelete = async (index) => {
     const newItems = [...items];
@@ -28,7 +29,7 @@ function CustomScrollView(props) {
         handleEmptyScenario();
       }
     } catch (error) {
-      console.error("[LOG] - Error deleting scenario: ", error);
+      console.error("[LOG] - Error while deleting scenario: ", error);
     }
   };
 
@@ -38,16 +39,19 @@ function CustomScrollView(props) {
       contentContainerStyle={{ alignItems: "center" }}
     >
       {items.map((item, index) => (
-        <View key={index} style={Style.appComponents.componentCardQuery}>
-          <Text style={Style.appTexts.textCardQuery20}>{item.name}</Text>
-          <Text style={Style.appTexts.textCardQuery15}>
+        <View key={index} style={Style.appComponents.componentCardScenario}>
+          <Text style={Style.appCardTexts.textCard20}>{item.name}</Text>
+
+          <Text style={Style.appCardTexts.textCard15}>
             Trigger ➡️ {item.trigger.name}
           </Text>
-          <Text style={Style.appTexts.textCardQuery15}>
+
+          <Text style={Style.appCardTexts.textCard15}>
             Reaction ⬅️ {item.reaction.name}
           </Text>
+
           <TouchableOpacity
-            style={Style.appComponents.componentDeleteButton}
+            style={Style.appButtonComponents.componentScenarioButton}
             onPress={() => handleDelete(index)}
           >
             <MaterialCommunityIcons name="delete" size={24} color="#FF6666" />
@@ -67,28 +71,28 @@ export default function ViewPage({ navigation }) {
     return null;
   }
 
-  const [scenario, setScenario] = useState([]);
+  const [scenariosList, setScenariosList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const scenario = await GetScenariosQuery();
-        setScenario(scenario);
+        const scenariosData = await GetScenariosQuery();
+        setScenariosList(scenariosData);
       } catch (error) {
-        console.log("[LOG] - Error fetching scenario: ", error);
+        console.error("[LOG] - Error while fetching scenarios: ", error);
       }
     };
     fetchData();
   }, []);
 
   const handleEmptyScenario = () => {
-    setScenario([]);
+    setScenariosList([]);
   };
 
   return (
     <View style={Style.appContainers.globalContainer}>
       <View style={Style.appShapes.shapeRight}>
-        <Image source={require("../../assets/images/amm_shape_right.png")} />
+        <Image source={Shapes.ShapeRight} />
       </View>
 
       <View style={Style.appTitleContainers.titleContainer15}>
@@ -96,10 +100,10 @@ export default function ViewPage({ navigation }) {
         <Text style={Style.appTexts.textSubTitle}>Your own scenarios</Text>
       </View>
 
-      <View style={Style.appContainers.scrollViewContainer}>
-        {scenario.length > 0 ? (
-          <CustomScrollView
-            data={scenario}
+      <View style={Style.appScrollViewContainers.scrollViewContainer70}>
+        {scenariosList.length > 0 ? (
+          <CustomViewScrollView
+            scenariosList={scenariosList}
             handleEmptyScenario={handleEmptyScenario}
           />
         ) : (
@@ -109,7 +113,7 @@ export default function ViewPage({ navigation }) {
             </Text>
 
             <TouchableOpacity
-              style={Style.appComponents.componentButton}
+              style={Style.appButtonComponents.componentButton}
               onPress={() =>
                 navigation.navigate("UserStack", { screen: "Create" })
               }
@@ -121,7 +125,7 @@ export default function ViewPage({ navigation }) {
       </View>
 
       <View style={Style.appShapes.shapeLeft}>
-        <Image source={require("../../assets/images/amm_shape_left.png")} />
+        <Image source={Shapes.ShapeLeft} />
       </View>
     </View>
   );
