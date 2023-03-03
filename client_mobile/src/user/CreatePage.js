@@ -8,7 +8,7 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 import * as Style from "../tools/Style";
 import { Shapes } from "../tools/Image";
-import { CreateScenarioQuery } from "../tools/Query";
+import { PostScenarioQuery } from "../tools/Query";
 import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
 
 // CreatePage.js - Core function.
@@ -118,9 +118,9 @@ export default function CreatePage({ navigation }) {
         <Text style={Style.appTexts.textBasic15}>Done ? Let's go ! 🚀</Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
-          onPress={() =>
-            CreateScenarioQuery(
+          style={Style.appButtonComponents.componentButton}
+          onPress={async () =>
+            await PostScenarioQuery(
               navigation,
               scenario,
               firstService,

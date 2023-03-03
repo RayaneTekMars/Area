@@ -43,7 +43,7 @@ export default function HomePage({ navigation }) {
         </Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("LoginStack", { screen: "SignUp" })
           }
@@ -52,7 +52,7 @@ export default function HomePage({ navigation }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("LoginStack", { screen: "SignIn" })
           }

@@ -21,7 +21,7 @@ export const LoadFonts = ({ children }) => {
         });
         setFontsLoaded(true);
       } catch (error) {
-        console.error(error);
+        console.error("[LOG] - Error while loading font: ", error);
       }
     };
     loadFonts();
@@ -40,7 +40,7 @@ export const resetStorageData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (error) {
-    console.log("[LOG] - Error resetting data: ", error);
+    console.error("[LOG] - Error while resetting data: ", error);
   }
 };
 

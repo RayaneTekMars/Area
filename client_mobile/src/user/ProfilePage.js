@@ -1,6 +1,7 @@
 // ProfilePage.js - Libraries imports.
 
-import { useContext } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect, useContext } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
@@ -8,65 +9,129 @@ import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
 import * as Style from "../tools/Style";
 import { Logos, Shapes } from "../tools/Image";
-import { DeleteServiceAuthLinkQuery } from "../tools/Query";
 import { FontContext, resetStorageData } from "../tools/Utils";
+import {
+  GetServicesQuery,
+  GetServicesLinkedQuery,
+  PutAccessTokenQuery,
+  DeleteServiceQuery,
+} from "../tools/Query";
 
-// ProfilePage.js - Additional function.
+// ProfilePage.js - Custom components.
 
-const serviceDictionary = {
-  github: Logos.GithubLogo,
-  twitch: Logos.TwitchLogo,
-  discord: Logos.DiscordLogo,
-  spotify: Logos.SpotifyLogo,
-  twitter: Logos.TwitterLogo,
-};
-
-function CustomCardService({ navigation, service }) {
-  const serviceLogo = serviceDictionary[service];
+function CustomProfileIcon(props) {
+  const { name, color } = props;
 
   return (
-    <View style={Style.appComponents.componentCardService}>
-      <Image source={serviceLogo} />
-
-      <TouchableOpacity
-        style={Style.appComponents.componentPtdrButton}
-        onPress={() =>
-          navigation.navigate("UserStack", {
-            screen: "Auth",
-            params: { service },
-          })
-        }
-      >
-        <View style={{ flexDirection: "row" }}>
-          <Text style={Style.appTexts.textPtdr}>Link</Text>
-          <MaterialCommunityIcons
-            name="check"
-            size={24}
-            color="#77DD77"
-            style={{ paddingLeft: 5 }}
-          />
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={Style.appComponents.componentPtdrButton}
-        onPress={() => DeleteServiceAuthLinkQuery(service)}
-      >
-        <View style={{ flexDirection: "row" }}>
-          <Text style={Style.appTexts.textPtdrD}>Revoke</Text>
-          <MaterialCommunityIcons
-            name="close"
-            size={24}
-            color="#FF6666"
-            style={{ paddingLeft: 5 }}
-          />
-        </View>
-      </TouchableOpacity>
-    </View>
+    <MaterialCommunityIcons
+      name={name}
+      size={24}
+      color={color}
+      style={{ paddingLeft: 5 }}
+    />
   );
 }
 
-// ProfilePage.js - Function.
+function CustomProfileScrollView(props) {
+  const {
+    navigation,
+    servicesList,
+    servicesLinkedList,
+    setServicesLinkedList,
+  } = props;
+
+  const handleLink = (service) => {
+    navigation.navigate("UserStack", {
+      screen: "Auth",
+      params: { service },
+    });
+  };
+
+  const handleRevoke = async (service) => {
+    const newServicesLinkedList = [...servicesLinkedList];
+    const index = newServicesLinkedList.findIndex(
+      (linkedService) => linkedService.serviceName === service
+    );
+
+    try {
+      await DeleteServiceQuery(service);
+      newServicesLinkedList.splice(index, 1);
+      setServicesLinkedList(newServicesLinkedList);
+    } catch (error) {
+      console.error("[LOG] - Error while deleting service: ", error);
+    }
+  };
+
+  const isServiceLinked = (serviceName) => {
+    return servicesLinkedList.some(
+      (linkedService) => linkedService.serviceName === serviceName
+    );
+  };
+
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ alignItems: "center" }}
+    >
+      {servicesList.map((service) => (
+        <View
+          key={service.name}
+          style={Style.appComponents.componentCardService}
+        >
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <Image source={Logos[service.name + "Logo"]} />
+
+            <View style={Style.appContainers.separateContainer}>
+              {isServiceLinked(service.name) && (
+                <View>
+                  <TouchableOpacity
+                    style={Style.appButtonComponents.componentServiceButton}
+                    onPress={async () =>
+                      await PutAccessTokenQuery(service.name)
+                    }
+                  >
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={Style.appCardTexts.textCardYellow}>
+                        Refresh
+                      </Text>
+                      <CustomProfileIcon name="refresh" color="#FDFD96" />
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={Style.appButtonComponents.componentServiceButton}
+                    onPress={async () => await handleRevoke(service.name)}
+                  >
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={Style.appCardTexts.textCardRed}>Revoke</Text>
+                      <CustomProfileIcon name="close" color="#FF6666" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {!isServiceLinked(service.name) && (
+                <TouchableOpacity
+                  style={Style.appButtonComponents.componentServiceButton}
+                  onPress={() => handleLink(service.name)}
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={Style.appCardTexts.textCardGreen}>
+                      Identify
+                    </Text>
+                    <CustomProfileIcon name="link" color="#77DD77" />
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
+  );
+}
+
+// ProfilePage.js - Core function.
 
 export default function ProfilePage({ navigation }) {
   const fontsLoaded = useContext(FontContext);
@@ -74,6 +139,30 @@ export default function ProfilePage({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
+
+  const isFocused = useIsFocused();
+  const [servicesList, setServicesList] = useState([]);
+  const [servicesLinkedList, setServicesLinkedList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const servicesListData = await GetServicesQuery();
+        const servicesLinkedListData = await GetServicesLinkedQuery();
+        setServicesList(servicesListData);
+        setServicesLinkedList(servicesLinkedListData);
+      } catch (error) {
+        console.error("[LOG] - Error while fetching services: ", error);
+      }
+    };
+    fetchData();
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setServicesLinkedList(servicesLinkedList);
+    }
+  }, [isFocused]);
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -87,23 +176,19 @@ export default function ProfilePage({ navigation }) {
       </View>
 
       <View style={Style.appScrollViewContainers.scrollViewContainer50}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}
-        >
-          <CustomCardService navigation={navigation} service={"twitter"} />
-          <CustomCardService navigation={navigation} service={"discord"} />
-          <CustomCardService navigation={navigation} service={"github"} />
-          <CustomCardService navigation={navigation} service={"spotify"} />
-          <CustomCardService navigation={navigation} service={"twitch"} />
-        </ScrollView>
+        <CustomProfileScrollView
+          navigation={navigation}
+          servicesList={servicesList}
+          servicesLinkedList={servicesLinkedList}
+          setServicesLinkedList={setServicesLinkedList}
+        />
       </View>
 
       <View style={Style.appButtonContainers.buttonContainer20}>
         <Text style={Style.appTexts.textBasic15}>Bye ! 👋</Text>
 
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={async () => {
             await resetStorageData("id", "");
             await resetStorageData("name", "");

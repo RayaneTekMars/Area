@@ -8,10 +8,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import * as Style from "../tools/Style";
 import { FontContext } from "../tools/Utils";
-import {
-  GetServiceAuthLinkQuery,
-  PostServiceAuthLinkQuery,
-} from "../tools/Query";
+import { GetServiceLinkQuery, PostServiceLinkQuery } from "../tools/Query";
 
 // AuthPage.js - Core function.
 
@@ -24,15 +21,18 @@ export default function AuthPage({ navigation, route }) {
 
   const { service } = route.params;
   const [code, setCode] = useState("");
-  const [authLink, setAuthLink] = useState("");
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authLink = await GetServiceAuthLinkQuery(service);
-        setAuthLink(authLink);
+        const linkData = await GetServiceLinkQuery(service);
+        setLink(linkData);
       } catch (error) {
-        console.error("[LOG] - Error fetching authLink: ", error);
+        console.error(
+          "[LOG] - Error while fetching authentication link: ",
+          error
+        );
       }
     };
     fetchData();
@@ -42,12 +42,13 @@ export default function AuthPage({ navigation, route }) {
     const url = navState.url;
     const regex = /[?&]code=([^&]+)/;
     const match = regex.exec(url);
+
     if (match !== null) {
       setCode(match[1]);
     }
   };
 
-  if (!authLink) {
+  if (!link) {
     return (
       <View style={Style.appContainers.fullContainer}>
         <Text style={Style.appTexts.textTitle}>
@@ -58,14 +59,14 @@ export default function AuthPage({ navigation, route }) {
   }
 
   if (code) {
-    PostServiceAuthLinkQuery(navigation, service, code);
+    PostServiceLinkQuery(navigation, service, code);
   }
 
   return (
     <View style={Style.appContainers.fullContainer}>
       <View style={Style.appContainers.navigationContainer}>
         <TouchableOpacity
-          style={Style.appComponents.componentButton}
+          style={Style.appButtonComponents.componentButton}
           onPress={() =>
             navigation.navigate("UserStack", { screen: "Profile" })
           }
@@ -75,7 +76,7 @@ export default function AuthPage({ navigation, route }) {
       </View>
 
       <WebView
-        source={{ uri: authLink }}
+        source={{ uri: link }}
         onNavigationStateChange={handleNavigationStateChange}
       />
     </View>

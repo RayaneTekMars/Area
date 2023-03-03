@@ -6,7 +6,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
-// Style.js - CSS variables.
+// Style.js - Container variables.
 
 export const appContainers = StyleSheet.create({
   fullContainer: {
@@ -63,159 +63,13 @@ export const appContainers = StyleSheet.create({
     position: "absolute",
     top: "30%",
   },
-});
-
-export const appTexts = StyleSheet.create({
-  textBasic15: {
-    color: "#FFFFFF",
-    fontSize: "15rem",
-  },
-  textBasic20: {
-    color: "#FFFFFF",
-    fontSize: "20rem",
-  },
-  textSlogan: {
-    color: "#FFFFFF",
-    fontSize: "25rem",
-    textAlign: "center",
-    fontFamily: "Inter-ExtraBold",
-    margin: "5%",
-  },
-  textButton: {
-    color: "#222222",
-    fontSize: "20rem",
-    fontFamily: "Inter-Bold",
-  },
-  textTitle: {
-    color: "#FFFFFF",
-    fontSize: "30rem",
-    fontFamily: "Inter-Bold",
+  separateContainer: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
     paddingLeft: "5%",
   },
-  textSubTitle: {
-    color: "#FFFFFF",
-    fontSize: "15rem",
-    paddingLeft: "5%",
-  },
-  textCardQuery15: {
-    color: "#222222",
-    fontSize: "15rem",
-    fontFamily: "Inter-Bold",
-    margin: "3%",
-  },
-  textCardQuery20: {
-    color: "#222222",
-    fontSize: "20rem",
-    fontFamily: "Inter-Bold",
-    margin: "5%",
-  },
-  textPtdr: {
-    color: "#77DD77",
-    fontSize: "20rem",
-  },
-  textPtdrD: {
-    color: "#FF6666",
-    fontSize: "20rem",
-  },
 });
-
-export const appComponents = StyleSheet.create({
-  componentLogo: {
-    width: 275,
-    height: 200,
-    resizeMode: "contain",
-  },
-  componentButton: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 20,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  componentField: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 20,
-    borderRadius: 20,
-    paddingVertical: 15,
-    paddingHorizontal: 25,
-    width: "60%",
-  },
-  componentDropdown: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 10,
-    borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    width: "60%",
-  },
-  componentLargeButton: {
-    margin: 40,
-    borderRadius: 30,
-    overflow: "hidden",
-    resizeMode: "contain",
-  },
-  componentCardQuery: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 20,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "90%",
-  },
-  componentDeleteButton: {
-    alignItems: "center",
-    backgroundColor: "#424242",
-    marginTop: 20,
-    marginBottom: 5,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "25%",
-  },
-  componentCardService: {
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 20,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: screenWidth * 0.8,
-  },
-  componentPtdrButton: {
-    alignItems: "center",
-    backgroundColor: "#424242",
-    marginTop: 20,
-    marginBottom: 5,
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-});
-
-export const appShapes = StyleSheet.create({
-  shapeLeft: {
-    position: "absolute",
-    bottom: "0%",
-    left: "0%",
-    zIndex: -1,
-  },
-  shapeMiddle: {
-    position: "absolute",
-    zIndex: -1,
-  },
-  shapeRight: {
-    position: "absolute",
-    top: "0%",
-    right: "0%",
-    zIndex: -1,
-  },
-});
-
-// Style.js - CSS specific containers.
 
 export const appButtonContainers = StyleSheet.create({
   buttonContainer40: {
@@ -296,5 +150,171 @@ export const appScrollViewContainers = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "50%",
+  },
+});
+
+// Style.js - Text variables.
+
+export const appTexts = StyleSheet.create({
+  textBasic15: {
+    color: "#FFFFFF",
+    fontSize: "15rem",
+  },
+  textBasic20: {
+    color: "#FFFFFF",
+    fontSize: "20rem",
+  },
+  textSlogan: {
+    color: "#FFFFFF",
+    fontSize: "25rem",
+    textAlign: "center",
+    fontFamily: "Inter-ExtraBold",
+    margin: "5%",
+  },
+  textButton: {
+    color: "#222222",
+    fontSize: "20rem",
+    fontFamily: "Inter-Bold",
+  },
+  textTitle: {
+    color: "#FFFFFF",
+    fontSize: "30rem",
+    fontFamily: "Inter-Bold",
+    paddingLeft: "5%",
+  },
+  textSubTitle: {
+    color: "#FFFFFF",
+    fontSize: "15rem",
+    paddingLeft: "5%",
+  },
+});
+
+export const appCardTexts = StyleSheet.create({
+  textCard20: {
+    color: "#222222",
+    fontSize: "20rem",
+    fontFamily: "Inter-Bold",
+    margin: "5%",
+  },
+  textCard15: {
+    color: "#222222",
+    fontSize: "15rem",
+    fontFamily: "Inter-Bold",
+    margin: "3%",
+  },
+  textCardGreen: {
+    color: "#77DD77",
+    fontSize: "20rem",
+  },
+  textCardYellow: {
+    color: "#FDFD96",
+    fontSize: "20rem",
+  },
+  textCardRed: {
+    color: "#FF6666",
+    fontSize: "20rem",
+  },
+});
+
+// Style.js - Component variables.
+
+export const appComponents = StyleSheet.create({
+  componentLogo: {
+    width: 275,
+    height: 200,
+    resizeMode: "contain",
+  },
+  componentField: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    width: "60%",
+  },
+  componentDropdown: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 10,
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    width: "60%",
+  },
+  componentCardScenario: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: screenWidth * 0.8,
+  },
+  componentCardService: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width: screenWidth * 0.8,
+  },
+});
+
+export const appButtonComponents = StyleSheet.create({
+  componentButton: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 20,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  componentLargeButton: {
+    margin: 40,
+    borderRadius: 30,
+    overflow: "hidden",
+    resizeMode: "contain",
+  },
+  componentScenarioButton: {
+    alignItems: "center",
+    backgroundColor: "#424242",
+    marginTop: 20,
+    marginBottom: 5,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: "25%",
+  },
+  componentServiceButton: {
+    alignItems: "center",
+    backgroundColor: "#424242",
+    marginTop: 15,
+    marginBottom: 5,
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+});
+
+// Style.js - Shape variables.
+
+export const appShapes = StyleSheet.create({
+  shapeLeft: {
+    position: "absolute",
+    bottom: "0%",
+    left: "0%",
+    zIndex: -1,
+  },
+  shapeMiddle: {
+    position: "absolute",
+    zIndex: -1,
+  },
+  shapeRight: {
+    position: "absolute",
+    top: "0%",
+    right: "0%",
+    zIndex: -1,
   },
 });
