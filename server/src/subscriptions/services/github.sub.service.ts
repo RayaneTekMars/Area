@@ -47,7 +47,7 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: userAuth.token,
             refreshToken: '',
-            expiresIn: Number.POSITIVE_INFINITY
+            expiresIn: 0
         }
     }
 
@@ -62,7 +62,7 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: response.data.token,
             newRefreshToken: '',
-            expiresIn: Number.POSITIVE_INFINITY
+            expiresIn: 0
         }
     }
 
