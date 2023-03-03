@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TwitterApi } from 'twitter-api-v2'
+import { DateTime } from 'luxon'
 import type Subscribe from './subscribe'
 
 @Injectable()
@@ -61,7 +62,12 @@ export class TwitterSubscribeService implements Subscribe {
 
             refreshToken ??= ''
 
-            return { accessToken, refreshToken, expiresIn }
+            return {
+                accessToken,
+                refreshToken,
+                expiresAt: DateTime.now().plus({ seconds: Number(expiresIn) })
+                    .toISO()
+            }
         } catch {
             throw new Error('Error while getting access token')
         }
@@ -75,7 +81,8 @@ export class TwitterSubscribeService implements Subscribe {
             return {
                 accessToken,
                 newRefreshToken: newRefreshToken ?? refreshToken,
-                expiresIn
+                expiresAt: DateTime.now().plus({ seconds: Number(expiresIn) })
+                    .toISO()
             }
         } catch {
             throw new Error('Error while refreshing access token')

@@ -1,13 +1,13 @@
 interface AuthorizeResponse {
     accessToken: string
     refreshToken: string
-    expiresIn: number
+    expiresAt: string | null
 }
 
 interface RefreshResponse {
     accessToken: string
     newRefreshToken: string
-    expiresIn: number
+    expiresAt: string | null
 }
 
 abstract class Subscribe {

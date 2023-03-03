@@ -41,7 +41,7 @@
         "max": 15
       }
     ],
-    "curly": ["warn", "multi", "consistent"],
+    "curly": "off",
     "default-case": "error",
     "default-case-last": "error",
     "eqeqeq": "error",

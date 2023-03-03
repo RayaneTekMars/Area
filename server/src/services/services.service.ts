@@ -4,7 +4,6 @@ import type { Scenario } from '../scenarios/entities/scenario.entity'
 import type { ServiceName } from '../common/types/service.type'
 import type Integration from './integrations/intergration'
 
-
 @Injectable()
 export class ServicesService {
 

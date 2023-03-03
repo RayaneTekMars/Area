@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiOperation, ApiTags, ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiTags, ApiBadRequestResponse, ApiOkResponse, ApiParam } from '@nestjs/swagger'
 import { GetSubscriptionsResDto, SubscriptionResDto, SubscriptionUrlResDto } from './dto/subscriptions.res.dto'
 import { SubscriptionReqDto } from './dto/subscriptions.req.dto'
 import { SubscriptionsService } from './subscriptions.service'
@@ -51,7 +51,8 @@ export class SubscriptionsController {
             status: 'success',
             data: subscriptions.map(subscription => ({
                 id: subscription.id,
-                serviceName: subscription.serviceName
+                serviceName: subscription.serviceName,
+                expiresAt: subscription.expiresAt
             }))
         }
     }
@@ -59,6 +60,7 @@ export class SubscriptionsController {
     @Get(':serviceName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get an AuthLink for the serviceName' })
     @ApiOkResponse({ type: SubscriptionUrlResDto })
     @ApiBadRequestResponse()
@@ -86,6 +88,7 @@ export class SubscriptionsController {
     @Post(':serviceName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Create a subscription to the serviceName' })
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
@@ -95,8 +98,8 @@ export class SubscriptionsController {
             if (!subscribeService)
                 throw new Error('Service not found')
 
-            const { accessToken, refreshToken, expiresIn } = await subscribeService.authorize(body.code, user.id)
-            const subscription = await this.subscriptionsService.createSubscription(serviceName, user, accessToken, refreshToken, expiresIn)
+            const { accessToken, refreshToken, expiresAt } = await subscribeService.authorize(body.code, user.id)
+            const subscription = await this.subscriptionsService.createSubscription(serviceName, user, accessToken, refreshToken, expiresAt)
 
             return {
                 status: 'success',
@@ -114,6 +117,7 @@ export class SubscriptionsController {
     @Put(':serviceName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Update a subscription to the serviceName' })
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()
@@ -127,8 +131,8 @@ export class SubscriptionsController {
             if (!subscription)
                 throw new Error('Subscription not found')
 
-            const { accessToken, newRefreshToken, expiresIn } = await subscribeService.refreshAccessToken(subscription.refreshToken, subscription.accessToken)
-            await this.subscriptionsService.updateSubscription(serviceName, user.id, accessToken, newRefreshToken, expiresIn)
+            const { accessToken, newRefreshToken, expiresAt } = await subscribeService.refreshAccessToken(subscription.refreshToken, subscription.accessToken)
+            await this.subscriptionsService.updateSubscription(serviceName, user.id, accessToken, newRefreshToken, expiresAt)
 
             return {
                 status: 'success',
@@ -146,6 +150,7 @@ export class SubscriptionsController {
     @Delete(':serviceName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Delete a subscription to the serviceName' })
     @ApiOkResponse({ type: SubscriptionResDto })
     @ApiBadRequestResponse()

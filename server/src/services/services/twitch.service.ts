@@ -4,7 +4,6 @@ import TwitchIntegration from '../integrations/twitch.integration'
 import { ServicesService } from '../services.service'
 import type { Scenario } from 'src/scenarios/entities/scenario.entity'
 
-
 interface Stream {
     id: string
     user_name: string

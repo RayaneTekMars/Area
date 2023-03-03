@@ -47,7 +47,8 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: userAuth.token,
             refreshToken: '',
-            expiresIn: 0
+            // eslint-disable-next-line unicorn/no-null
+            expiresAt: null
         }
     }
 
@@ -62,11 +63,12 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: response.data.token,
             newRefreshToken: '',
-            expiresIn: 0
+            // eslint-disable-next-line unicorn/no-null
+            expiresAt: null
         }
     }
 
-    async revokeAccessToken(accessToken: string) {
+    async revokeAccessToken(refreshToken: string, accessToken: string) {
         await this.octokit.request('DELETE /applications/{client_id}/token', {
             client_id: this.clientId,
             access_token: accessToken

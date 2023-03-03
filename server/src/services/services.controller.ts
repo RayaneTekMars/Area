@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiOperation, ApiTags, ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiTags, ApiBadRequestResponse, ApiOkResponse, ApiParam } from '@nestjs/swagger'
 import { GetServicesResDto, GetServiceResDto, GetTriggersResDto, GetTriggerResDto, GetReactionsResDto, GetReactionResDto } from './dto/services.res.dto'
 import { ServicesService } from './services.service'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
@@ -7,7 +7,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { Service, ServiceName } from '../common/types/service.type'
 import { TriggerDefinition } from '../common/types/trigger.type'
 import { ReactionDefinition } from '../common/types/reaction.type'
-
 
 @Controller('services')
 @ApiTags('Services')
@@ -29,6 +28,7 @@ export class ServicesController {
     @Get(':serviceName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get a service' })
     @ApiOkResponse({ type: GetServiceResDto })
     @ApiBadRequestResponse()
@@ -42,6 +42,7 @@ export class ServicesController {
     @Get(':serviceName/triggers')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get all triggers of a service' })
     @ApiOkResponse({ type: GetTriggersResDto })
     @ApiBadRequestResponse()
@@ -55,6 +56,7 @@ export class ServicesController {
     @Get(':serviceName/triggers/:triggerName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get a trigger of a service' })
     @ApiOkResponse({ type: GetTriggerResDto })
     @ApiBadRequestResponse()
@@ -71,6 +73,7 @@ export class ServicesController {
     @Get(':serviceName/reactions')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get all reactions of a service' })
     @ApiOkResponse({ type: GetReactionsResDto })
     @ApiBadRequestResponse()
@@ -84,6 +87,7 @@ export class ServicesController {
     @Get(':serviceName/reactions/:reactionName')
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
+    @ApiParam({ name: 'serviceName', enum: Object.values(ServiceName) })
     @ApiOperation({ summary: 'Get a reaction of a service' })
     @ApiOkResponse({ type: GetReactionResDto })
     @ApiBadRequestResponse()
