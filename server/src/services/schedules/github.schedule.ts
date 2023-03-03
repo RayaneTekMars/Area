@@ -28,7 +28,7 @@ export class GithubSchedule {
         this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
-            console.log(`Github: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            console.log(`Github: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
             for await (const scenario of scenarios) {
                 const commits = await this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
                 console.log(`Github: Found ${commits.length} new commits:`)
@@ -37,7 +37,7 @@ export class GithubSchedule {
                     for (const commit of commits)
                         void this.githubService.triggerNewCommit(sub.account.id, scenario, commit)
                 } else {
-                    console.log('Github: New Subscription')
+                    console.log('Github: New Subscription found')
                     this.subscriptions.push(sub.account.id)
                 }
             }
@@ -49,13 +49,13 @@ export class GithubSchedule {
         console.log('Github: Refreshing Github tokens...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github)
         console.log(`Github: Found ${subs.length} subscriptions`)
-        for await (const sub of subs)
+        for await (const sub of subs) {
             try {
                 const { accessToken } = await this.githubSubscribeService.refreshAccessToken(sub.refreshToken, sub.accessToken)
-                console.log(`Github: New access token: ${accessToken}`)
-                void this.subscriptionsService.updateSubscription(ServiceName.Github, sub.account.id, accessToken, sub.refreshToken, sub.expiresIn)
+                void this.subscriptionsService.updateSubscription(ServiceName.Github, sub.account.id, accessToken, sub.refreshToken, sub.expiresAt)
             } catch {
-                throw new Error('Github: Error refreshing access token')
+                throw new Error('Error refreshing access token')
             }
+        }
     }
 }

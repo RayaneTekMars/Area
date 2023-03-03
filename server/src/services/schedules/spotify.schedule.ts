@@ -28,7 +28,7 @@ export class SpotifySchedule {
         this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Spotify, 'MusicChange')
-            console.log(`Spotify: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            console.log(`Spotify: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
             for await (const scenario of scenarios) {
                 const tracks = await this.spotifyService.getCurrentTrack(sub.account.id, scenario, sub.accessToken)
                 console.log('Spotify: Found new track:', tracks)
@@ -52,7 +52,7 @@ export class SpotifySchedule {
             try {
                 const { accessToken } = await this.spotifySubscribeService.refreshAccessToken(sub.refreshToken)
                 console.log(`Spotify: New access token: ${accessToken}`)
-                void this.subscriptionsService.updateSubscription(ServiceName.Spotify, sub.account.id, accessToken, sub.refreshToken, sub.expiresIn)
+                void this.subscriptionsService.updateSubscription(ServiceName.Spotify, sub.account.id, accessToken, sub.refreshToken, sub.expiresAt)
             } catch {
                 throw new Error('Spotify: Error refreshing access token')
             }

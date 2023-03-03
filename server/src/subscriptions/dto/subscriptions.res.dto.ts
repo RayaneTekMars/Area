@@ -8,6 +8,9 @@ class SubscriptionData {
     @ApiProperty()
     serviceName: string
 
+    @ApiProperty()
+    expiresAt: string | null
+
 }
 
 class SubscriptionUrlResDto {
@@ -45,6 +48,5 @@ class GetSubscriptionsResDto {
     data: SubscriptionData[]
 
 }
-
 
 export { SubscriptionUrlResDto, SubscriptionResDto, GetSubscriptionsResDto }

@@ -5,7 +5,6 @@ import { Subscription } from './entities/subscription.entity'
 import type { ServiceName } from '../common/types/service.type'
 import type { Account } from '../accounts/entities/account.entity'
 
-
 @Injectable()
 export class SubscriptionsService {
 
@@ -58,18 +57,18 @@ export class SubscriptionsService {
         })
     }
 
-    async createSubscription(serviceName: ServiceName, account: Account, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription> {
+    async createSubscription(serviceName: ServiceName, account: Account, accessToken: string, refreshToken: string, expiresAt: string | null): Promise<Subscription> {
         const subscription = new Subscription()
         subscription.serviceName = serviceName
         subscription.account = account
         subscription.accessToken = accessToken
         subscription.refreshToken = refreshToken
-        subscription.expiresIn = expiresIn
+        subscription.expiresAt = expiresAt
 
         return this.subscriptionRepository.save(subscription)
     }
 
-    async updateSubscription(serviceName: ServiceName, accountId: string, accessToken: string, refreshToken: string, expiresIn: number): Promise<Subscription | undefined> {
+    async updateSubscription(serviceName: ServiceName, accountId: string, accessToken: string, refreshToken: string, expiresAt: string | null): Promise<Subscription | undefined> {
 
         const subscription = await this.subscriptionRepository.findOne({
             relations: ['account'],
@@ -86,7 +85,7 @@ export class SubscriptionsService {
 
         subscription.accessToken = accessToken
         subscription.refreshToken = refreshToken
-        subscription.expiresIn = expiresIn
+        subscription.expiresAt = expiresAt
 
         return this.subscriptionRepository.save(subscription)
     }

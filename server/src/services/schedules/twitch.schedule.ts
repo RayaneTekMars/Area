@@ -29,7 +29,7 @@ export class TwitchSchedule {
         this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitch, 'NewStream')
-            console.log(`Twitch: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            console.log(`Twitch: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
             for await (const scenario of scenarios) {
                 const streams = await this.twitchService.getStreams(sub.account.id, scenario, sub.accessToken)
                 console.log('Twitch: Found new stream:', streams)

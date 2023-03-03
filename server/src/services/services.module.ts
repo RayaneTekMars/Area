@@ -15,7 +15,6 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module'
 // import { TwitchService } from './services/twitch.service'
 // import { TwitchSchedule } from './schedules/twitch.schedule'
 
-
 @Module({
   imports: [ScheduleModule.forRoot(), ScenariosModule, SubscriptionsModule],
   controllers: [ServicesController],

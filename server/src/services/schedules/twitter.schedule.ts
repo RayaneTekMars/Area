@@ -30,7 +30,7 @@ export class TwitterSchedule {
         this.subscriptionsNewFollowers = this.subscriptionsNewFollowers.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewFollower')
-            console.log(`Twitter: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
             for await (const scenario of scenarios) {
                 const followers = await this.twitterService.getNewFollowers(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${followers.length} new followers`)
@@ -53,7 +53,7 @@ export class TwitterSchedule {
         console.log(`Twitter: Found ${subs.length} subscriptions`)
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewDirectMessage')
-            console.log(`Twitter: Found ${scenarios.length} scenarios for ${sub.account.id}`)
+            console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
             for await (const scenario of scenarios) {
                 const messages = await this.twitterService.getNewDirectMessages(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${messages.length} new direct messages`)
@@ -76,9 +76,9 @@ export class TwitterSchedule {
         console.log(`Twitter: Found ${subs.length} subscriptions`)
         for await (const sub of subs)
             try {
-                const { accessToken, newRefreshToken, expiresIn } = await this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
+                const { accessToken, newRefreshToken, expiresAt } = await this.twitterSubscribeService.refreshAccessToken(sub.refreshToken)
                 console.log(`Twitter: New access token: ${accessToken}`)
-                void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, newRefreshToken, expiresIn)
+                void this.subscriptionsService.updateSubscription(ServiceName.Twitter, sub.account.id, accessToken, newRefreshToken, expiresAt)
             } catch {
                 throw new Error('Twitter: Error refreshing access token')
             }

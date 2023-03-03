@@ -18,7 +18,10 @@ export class Subscription {
     @PrimaryColumn()
     id: string
 
-    @Column()
+    @Column({
+        type: 'enum',
+        enum: ServiceName
+    })
     serviceName: ServiceName
 
     @ManyToOne(() => Account, (account) => account.id, { eager: true })
@@ -31,8 +34,8 @@ export class Subscription {
     @Column()
     refreshToken: string
 
-    @Column()
-    expiresIn: number
+    @Column({ type: String, nullable: true })
+    expiresAt!: string | null
 
     @BeforeInsert()
     beforeInsert() {

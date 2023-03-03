@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import axios from 'axios'
+import { DateTime } from 'luxon'
 import type Subscribe from './subscribe'
 
 @Injectable()
@@ -48,7 +49,8 @@ export class TwitchSubscribeService implements Subscribe {
             return {
                 accessToken: (response.data as { access_token: string }).access_token,
                 refreshToken: (response.data as { refresh_token: string }).refresh_token,
-                expiresIn: Number((response.data as { expires_in: string }).expires_in)
+                expiresAt: DateTime.now().plus({ seconds: (response.data as { expires_in: number }).expires_in })
+                    .toISO()
             }
         } catch {
             throw new Error('Error while getting access token')
@@ -89,7 +91,8 @@ export class TwitchSubscribeService implements Subscribe {
             return {
                 accessToken,
                 newRefreshToken: (responseRefresh.data as { refresh_token: string }).refresh_token,
-                expiresIn: Number((responseValidate.data as { expires_in: string }).expires_in)
+                expiresAt: DateTime.now().plus({ seconds: (responseValidate.data as { expires_in: number }).expires_in })
+                    .toISO()
             }
         } catch {
             throw new Error('Error while refreshing access token')
