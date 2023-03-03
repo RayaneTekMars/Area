@@ -231,7 +231,7 @@ export default function ScenarioPage() {
             ]);
           }
           if (service === "Discord") {
-            /*serviceArray.push([
+            serviceArray.push([
               "Discord",
               "#5865F2",
               `<svg width="76" height="59" viewBox="0 0 76 59" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +239,7 @@ export default function ScenarioPage() {
               </svg>
               `,
               "discord",
-            ]);*/
+            ]);
             serviceReactionArray.push([
               "Discord",
               "#5865F2",
