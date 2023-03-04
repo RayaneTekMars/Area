@@ -9,7 +9,7 @@ import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
 import * as Style from "../tools/Style";
 import { Logos, Shapes } from "../tools/Image";
-import { FontContext, resetStorageData } from "../tools/Utils";
+import { FontContext, ResetStorageData } from "../tools/Utils";
 import {
   GetServicesQuery,
   GetServicesLinkedQuery,
@@ -190,9 +190,9 @@ export default function ProfilePage({ navigation }) {
         <TouchableOpacity
           style={Style.appButtonComponents.componentButton}
           onPress={async () => {
-            await resetStorageData("id", "");
-            await resetStorageData("name", "");
-            await resetStorageData("token", "");
+            await ResetStorageData("id", "");
+            await ResetStorageData("name", "");
+            await ResetStorageData("token", "");
             navigation.navigate("LoginStack", { screen: "Home" });
           }}
         >
