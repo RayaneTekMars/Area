@@ -62,8 +62,6 @@ async function SignupAction() {
 
 
 async function SigninAction() {
-  console.log(document.getElementById("emaillogin").value);
-  console.log(document.getElementById("passwordlogin").value);
   const data = {
     email: document.getElementById("emaillogin").value,
     password: document.getElementById("passwordlogin").value,
