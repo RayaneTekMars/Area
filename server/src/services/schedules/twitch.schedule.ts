@@ -9,7 +9,7 @@ import { TwitchService } from '../services/twitch.service'
 
 @Injectable()
 export class TwitchSchedule {
-    subscriptions: string[]
+    scenarios: string[]
 
     constructor(
         private readonly twitchService: TwitchService,
@@ -17,7 +17,7 @@ export class TwitchSchedule {
         private readonly subscriptionsService: SubscriptionsService,
         private readonly twitchSubscribeService: TwitchSubscribeService
     ) {
-        this.subscriptions = []
+        this.scenarios = []
     }
 
     @Interval(6000)
@@ -25,19 +25,19 @@ export class TwitchSchedule {
         console.log('Twitch: Checking for new streams...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitch)
         console.log(`Twitch: Found ${subs.length} subscriptions`)
-        this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitch, 'NewStream')
             console.log(`Twitch: Found ${scenarios.length} scenarios for "${sub.account.username}"`)
+            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const streams = await this.twitchService.getStreamOfUser(sub.account.id, scenario, sub.accessToken)
                 console.log('Twitch: Found new stream:', streams)
-                if (this.subscriptions.includes(sub.account.id)) {
+                if (this.scenarios.includes(scenario.id)) {
                     for (const stream of streams)
                         void this.twitchService.triggerNewStream(sub.account.id, scenario, stream)
                 } else {
-                    console.log('Twitch: New Subscription')
-                    this.subscriptions.push(sub.account.id)
+                    console.log('Twitch: New stream scenario')
+                    this.scenarios.push(scenario.id)
                 }
             }
         }

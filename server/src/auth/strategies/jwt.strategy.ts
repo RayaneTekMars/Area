@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 import { PassportStrategy } from '@nestjs/passport'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Account } from '../../about/accounts/entities/account.entity'
+import { Account } from '../../accounts/entities/account.entity'
 import { AuthToken } from '../../token/entities/auth-token.entity'
 import type { FullJwtContent } from '../../token/types/jwt.type'
 

@@ -36,16 +36,6 @@ class CreateIssue extends ReactionIntegration {
                 name: 'body',
                 value: ''
             },
-            /*
-             * {
-             *     name: 'assignees',
-             *     value: ''
-             * },
-             * {
-             *     name: 'labels',
-             *     value: ''
-             * },
-             */
             {
                 name: 'milestone',
                 value: ''

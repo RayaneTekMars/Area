@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import bcrypt from 'bcrypt'
 import { Repository } from 'typeorm'
 import { LocalCredentials } from '../entities/local-credentials.entity'
-import type { Account } from '../../about/accounts/entities/account.entity'
+import type { Account } from '../../accounts/entities/account.entity'
 
 @Injectable()
 class LocalCredentialsService {

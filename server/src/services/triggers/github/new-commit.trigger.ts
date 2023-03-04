@@ -82,22 +82,22 @@ class NewCommit extends TriggerIntegration {
                 type: 'string'
             },
             {
-                name: 'authorName',
+                name: 'author_name',
                 description: 'The name of the author',
                 type: 'string'
             },
             {
-                name: 'authorEmail',
+                name: 'author_email',
                 description: 'The email of the author',
                 type: 'string'
             },
             {
-                name: 'committerName',
+                name: 'committer_name',
                 description: 'The name of the committer',
                 type: 'string'
             },
             {
-                name: 'committerEmail',
+                name: 'committer_email',
                 description: 'The email of the committer',
                 type: 'string'
             }

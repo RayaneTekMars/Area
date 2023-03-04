@@ -8,7 +8,7 @@ import {
     Unique
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
-import { Account } from '../../about/accounts/entities/account.entity'
+import { Account } from '../../accounts/entities/account.entity'
 import { ServiceName } from '../../common/types/service.type'
 
 @Entity()

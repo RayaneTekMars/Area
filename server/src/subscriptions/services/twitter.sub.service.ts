@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TwitterApi } from 'twitter-api-v2'
@@ -40,7 +41,8 @@ export class TwitterSubscribeService implements Subscribe {
             this.codeVerifierStateArray.set(accountId, { codeVerifier, state })
 
             return url
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while generating OAuth2 auth link')
         }
     }
@@ -68,7 +70,8 @@ export class TwitterSubscribeService implements Subscribe {
                 expiresAt: DateTime.now().plus({ seconds: Number(expiresIn) })
                     .toISO()
             }
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while getting access token')
         }
     }
@@ -84,7 +87,8 @@ export class TwitterSubscribeService implements Subscribe {
                 expiresAt: DateTime.now().plus({ seconds: Number(expiresIn) })
                     .toISO()
             }
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while refreshing access token')
         }
     }
@@ -92,7 +96,8 @@ export class TwitterSubscribeService implements Subscribe {
     async revokeAccessToken(refreshToken: string) {
         try {
             await this.twitterApi.revokeOAuth2Token(refreshToken, 'refresh_token')
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while revoking access token')
         }
     }

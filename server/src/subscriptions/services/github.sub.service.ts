@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable unicorn/no-null */
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -39,38 +40,51 @@ export class GithubSubscribeService implements Subscribe {
     }
 
     async authorize(code: string) {
-        const userAuth = await this.octokit.auth({
-            type: 'oauth-user',
-            code,
-            redirectUrl: this.redirectUrl
-        }) as OAuthAppUserAuthentication
+        try {
+            const userAuth = await this.octokit.auth({
+                type: 'oauth-user',
+                code,
+                redirectUrl: this.redirectUrl
+            }) as OAuthAppUserAuthentication
 
-        return {
-            accessToken: userAuth.token,
-            refreshToken: '',
-            expiresAt: null
+            return {
+                accessToken: userAuth.token,
+                refreshToken: '',
+                expiresAt: null
+            }
+        } catch (error) {
+            console.error(error)
+            throw new Error('Error while getting access token')
         }
     }
 
     async refreshAccessToken(refreshToken: string, accessToken: string) {
-        void refreshToken
+        try {
+            const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
+                client_id: this.clientId,
+                access_token: accessToken
+            })
 
-        const response = await this.octokit.request('PATCH /applications/{client_id}/token', {
-            client_id: this.clientId,
-            access_token: accessToken
-        })
-
-        return {
-            accessToken: response.data.token,
-            newRefreshToken: '',
-            expiresAt: null
+            return {
+                accessToken: response.data.token,
+                newRefreshToken: '',
+                expiresAt: null
+            }
+        } catch (error) {
+            console.error(error)
+            throw new Error('Error while getting access token')
         }
     }
 
     async revokeAccessToken(refreshToken: string, accessToken: string) {
-        await this.octokit.request('DELETE /applications/{client_id}/token', {
-            client_id: this.clientId,
-            access_token: accessToken
-        })
+        try {
+            await this.octokit.request('DELETE /applications/{client_id}/token', {
+                client_id: this.clientId,
+                access_token: accessToken
+            })
+        } catch (error) {
+            console.error(error)
+            throw new Error('Error while revoking access token')
+        }
     }
 }

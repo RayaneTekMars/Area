@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Scenario } from './entities/scenario.entity'
 import type { ScenarioReqDto } from './dto/scenario.req.dto'
-import type { Account } from '../about/accounts/entities/account.entity'
+import type { Account } from '../accounts/entities/account.entity'
 
 @Injectable()
 export class ScenariosService {

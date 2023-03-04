@@ -51,17 +51,17 @@ class NewDirectMessage extends TriggerIntegration {
                 type: 'string'
             },
             {
-                name: 'senderId',
+                name: 'sender_id',
                 description: 'The id of the sender',
                 type: 'string'
             },
             {
-                name: 'senderName',
+                name: 'sender_name',
                 description: 'The name of the sender',
                 type: 'string'
             },
             {
-                name: 'senderUsername',
+                name: 'sender_username',
                 description: 'The username of the sender',
                 type: 'string'
             }

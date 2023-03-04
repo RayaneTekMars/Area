@@ -53,22 +53,22 @@ export class TwitchService {
 
             const { data: streams } = await twitchApi.getStreams({ channel: username })
 
-            const newStreams = streams.filter((x) => x.id !== lastStream)
+            const newStreams: Stream[] = streams.filter((x) => x.id !== lastStream)
+                .map((x) => ({
+                    id: x.id,
+                    username: x.user_name,
+                    url: `https://twitch.tv/${x.user_name}`,
+                    title: x.title,
+                    game: x.game_name,
+                    startedAt: new Date(x.started_at)
+                }))
 
             this.LastStream = [
                 ...this.LastStream.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
                 { accountId, scenarioId, streamId: newStreams[0]?.id ?? lastStream }
             ]
 
-            return newStreams.map((x) => ({
-                id: x.id,
-                username: x.user_name,
-                url: `https://twitch.tv/${x.user_name}`,
-                title: x.title,
-                game: x.game_name,
-                startedAt: new Date(x.started_at)
-            }))
-
+            return newStreams
         } catch (error) {
             console.error(error)
         }
@@ -82,9 +82,8 @@ export class TwitchService {
             ['url', stream.url],
             ['title', stream.title],
             ['game', stream.game],
-            ['startedAt', stream.startedAt.toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })]
+            ['started_at', stream.startedAt.toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })]
         ])
-
         await this.servicesService.run(accountId, scenario, ingredients)
     }
 }

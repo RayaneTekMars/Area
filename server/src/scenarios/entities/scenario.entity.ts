@@ -7,7 +7,7 @@ import {
     PrimaryColumn
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
-import { Account } from '../../about/accounts/entities/account.entity'
+import { Account } from '../../accounts/entities/account.entity'
 import { Reaction } from '../../common/types/reaction.type'
 import { Trigger } from '../../common/types/trigger.type'
 

@@ -61,7 +61,7 @@ class NewStream extends TriggerIntegration {
                 type: 'string'
             },
             {
-                name: 'startedAt',
+                name: 'started_at',
                 description: 'The date when the stream started',
                 type: 'string'
             }
