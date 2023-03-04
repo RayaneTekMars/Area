@@ -47,14 +47,15 @@ export const ResetStorageData = async (key, value) => {
 // Utils.js - Google variable.
 
 export const GoogleData = {
-  clientId: "372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com",
+  clientId:
+    "372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com",
   scopes: [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid",
   ],
   redirectUri: "https://www.automateme.fr/oauth/google",
-}
+};
 
 // Utils.js - Dropdown variables.
 
