@@ -9,7 +9,7 @@ import { DiscordSubscribeService } from '../../subscriptions/services/discord.su
 
 @Injectable()
 export class DiscordSchedule {
-    subscriptions: string[]
+    scenarios: string[]
 
     constructor(
         private readonly discordService: DiscordService,
@@ -17,7 +17,7 @@ export class DiscordSchedule {
         private readonly subscriptionsService: SubscriptionsService,
         private readonly discordSubscribeService: DiscordSubscribeService
     ) {
-        this.subscriptions = []
+        this.scenarios = []
     }
 
     @Interval(1000)
@@ -25,20 +25,20 @@ export class DiscordSchedule {
         console.log('Discord: Checking for new messages...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Discord)
         console.log(`Discord: Found ${subs.length} subscriptions`)
-        this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Discord, 'NewMessage')
             console.log(`Discord: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const messages = await this.discordService.getNewMessages(sub.account.id, scenario)
                 console.log(`Discord: Found ${messages.length} new messages:`)
                 console.log(messages)
-                if (this.subscriptions.includes(sub.account.id)) {
+                if (this.scenarios.includes(scenario.id)) {
                     for (const message of messages)
                         void this.discordService.triggerNewMessage(sub.account.id, scenario, message)
                 } else {
-                    console.log('Discord: New Subscription found')
-                    this.subscriptions.push(sub.account.id)
+                    console.log('Discord: New message scenario')
+                    this.scenarios.push(scenario.id)
                 }
             }
         }

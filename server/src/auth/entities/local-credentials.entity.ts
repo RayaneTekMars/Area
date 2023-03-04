@@ -9,7 +9,7 @@ import {
     PrimaryColumn,
     UpdateDateColumn
 } from 'typeorm'
-import { Account } from '../../about/accounts/entities/account.entity'
+import { Account } from '../../accounts/entities/account.entity'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 
 @Entity()

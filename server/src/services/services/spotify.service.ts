@@ -45,19 +45,15 @@ export class SpotifyService {
             if (!track)
                 return []
 
-            const newTrack = track.id !== lastTrack
-
-            if (newTrack) {
+            if (track.id !== lastTrack) {
                 this.LastTrack = [
                     ...this.LastTrack.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                     { accountId, scenarioId, trackId: track.id }
                 ]
+                return [{ id: track.id, name: track.name, artist: track.artists[0].name }]
             }
 
-            return newTrack
-                ? [{ id: track.id, name: track.name, artist: track.artists[0].name }]
-                : []
-
+            return []
         } catch (error) {
             console.error(error)
         }
@@ -70,7 +66,6 @@ export class SpotifyService {
             ['artist', track.artist],
             ['id', track.id]
         ])
-
         await this.servicesService.run(accountId, scenario, ingredients)
     }
 }

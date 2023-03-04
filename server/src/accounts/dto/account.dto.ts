@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { EntityType } from '../../../common/enums/entity-type.enum'
+import { EntityType } from '../../common/enums/entity-type.enum'
 
 class AccountDto {
 

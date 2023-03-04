@@ -20,6 +20,7 @@ export class DiscordService {
     LastMessage: {
         accountId: string
         scenarioId: string
+        channelId: string
         messageId: number
     }[]
 
@@ -51,14 +52,14 @@ export class DiscordService {
             const channelId = scenario.trigger.fields.find((x) => x.name === 'channel_id')?.value ?? ''
             const scenarioId = scenario.id
 
-            const lastMessage = this.LastMessage.find(
+            const { messageId: lastMessage, channelId: lastChannel } = this.LastMessage.find(
                 (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            )?.messageId ?? 0
+            ) ?? { messageId: 0, channelId: '' }
 
             const discordChannel = await this.client.channels.fetch(channelId)
             if (discordChannel instanceof Discord.TextChannel) {
                 const messages = await discordChannel.messages.fetch({ limit: 100 })
-                const newMessages = messages.filter((x) => Number(x.id) > lastMessage && !x.author.bot)
+                const newMessages: Message[] = messages.filter((x) => Number(x.id) > lastMessage && !x.author.bot)
                     .map((x) => ({
                         id: x.id,
                         content: x.content,
@@ -69,10 +70,10 @@ export class DiscordService {
 
                 this.LastMessage = [
                     ...this.LastMessage.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
-                    { accountId, scenarioId, messageId: Number(newMessages[0]?.id ?? lastMessage) }
+                    { accountId, scenarioId, channelId, messageId: Number(newMessages[0]?.id ?? (lastChannel === channelId) ? lastMessage : 0) }
                 ]
 
-                return newMessages
+                return (lastChannel === channelId) ? newMessages : []
             }
             console.error('Channel is not a text channel')
             return []
@@ -90,7 +91,6 @@ export class DiscordService {
             ['channel_id', message.channelId],
             ['channel_name', message.channelName]
         ])
-
         await this.servicesService.run(accountId, scenario, ingredients)
     }
 

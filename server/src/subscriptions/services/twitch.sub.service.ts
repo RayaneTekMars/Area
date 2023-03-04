@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import axios from 'axios'
@@ -52,7 +53,8 @@ export class TwitchSubscribeService implements Subscribe {
                 expiresAt: DateTime.now().plus({ seconds: (response.data as { expires_in: number }).expires_in })
                     .toISO()
             }
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while getting access token')
         }
     }
@@ -94,14 +96,13 @@ export class TwitchSubscribeService implements Subscribe {
                 expiresAt: DateTime.now().plus({ seconds: (responseValidate.data as { expires_in: number }).expires_in })
                     .toISO()
             }
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while refreshing access token')
         }
     }
 
     async revokeAccessToken(refreshToken: string, accessToken: string) {
-        void refreshToken
-
         const data = {
             client_id: this.clientId,
             token: accessToken
@@ -118,7 +119,8 @@ export class TwitchSubscribeService implements Subscribe {
                     }
                 }
             )
-        } catch {
+        } catch (error) {
+            console.error(error)
             throw new Error('Error while revoking access token')
         }
     }

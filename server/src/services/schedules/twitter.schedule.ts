@@ -9,8 +9,8 @@ import { TwitterSubscribeService } from '../../subscriptions/services/twitter.su
 
 @Injectable()
 export class TwitterSchedule {
-    subscriptionsNewFollowers: string[]
-    subscriptionsNewDirectMessages: string[]
+    scenariosNewFollowers: string[]
+    scenariosNewDirectMessages: string[]
 
     constructor(
         private readonly twitterService: TwitterService,
@@ -18,8 +18,8 @@ export class TwitterSchedule {
         private readonly subscriptionsService: SubscriptionsService,
         private readonly twitterSubscribeService: TwitterSubscribeService
     ) {
-        this.subscriptionsNewFollowers = []
-        this.subscriptionsNewDirectMessages = []
+        this.scenariosNewFollowers = []
+        this.scenariosNewDirectMessages = []
     }
 
     @Interval(60_000)
@@ -27,20 +27,20 @@ export class TwitterSchedule {
         console.log('Twitter: Checking for new followers...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitter)
         console.log(`Twitter: Found ${subs.length} subscriptions`)
-        this.subscriptionsNewFollowers = this.subscriptionsNewFollowers.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewFollower')
             console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            this.scenariosNewFollowers = this.scenariosNewFollowers.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const followers = await this.twitterService.getNewFollowers(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${followers.length} new followers`)
                 console.log(followers)
-                if (this.subscriptionsNewFollowers.includes(sub.account.id)) {
+                if (this.scenariosNewFollowers.includes(scenario.id)) {
                     for (const follower of followers)
                         void this.twitterService.triggerNewFollower(sub.account.id, scenario, follower)
                 } else {
-                    console.log('Twitter: New Subscription for Followers')
-                    this.subscriptionsNewFollowers.push(sub.account.id)
+                    console.log('Twitter: New followers scenario')
+                    this.scenariosNewFollowers.push(scenario.id)
                 }
             }
         }
@@ -54,16 +54,17 @@ export class TwitterSchedule {
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewDirectMessage')
             console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            this.scenariosNewDirectMessages = this.scenariosNewDirectMessages.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const messages = await this.twitterService.getNewDirectMessages(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${messages.length} new direct messages`)
                 console.log(messages)
-                if (this.subscriptionsNewDirectMessages.includes(sub.account.id)) {
+                if (this.scenariosNewDirectMessages.includes(scenario.id)) {
                     for (const message of messages)
                         void this.twitterService.triggerNewDirectMessage(sub.account.id, scenario, message)
                 } else {
-                    console.log('Twitter: New Subscription for Direct Messages')
-                    this.subscriptionsNewDirectMessages.push(sub.account.id)
+                    console.log('Twitter: New direct messages scenario')
+                    this.scenariosNewDirectMessages.push(scenario.id)
                 }
             }
         }

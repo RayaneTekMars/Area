@@ -7,9 +7,9 @@ import {
     PrimaryColumn,
     UpdateDateColumn
 } from 'typeorm'
-import { EntityType } from '../../../common/enums/entity-type.enum'
-import { getSecureRandomString } from '../../../common/helpers/random.helper'
-import { AuthToken } from '../../../token/entities/auth-token.entity'
+import { EntityType } from '../../common/enums/entity-type.enum'
+import { getSecureRandomString } from '../../common/helpers/random.helper'
+import { AuthToken } from '../../token/entities/auth-token.entity'
 
 @Entity()
 class Account {

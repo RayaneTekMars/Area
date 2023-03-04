@@ -27,3 +27,28 @@
         ]
     }
 }
+
+{
+    "name": "AREA 11",
+    "trigger": {
+        "name": "MusicChange",
+        "serviceName": "Spotify",
+        "description": "Triggers when the music changes",
+        "fields": []
+    },
+    "reaction": {
+        "name": "PostChannelMessage",
+        "serviceName": "Discord",
+        "description": "Post a message to a channel",
+        "fields": [
+            {
+                "name": "channel",
+                "value": "1079788025602646038"
+            },
+            {
+                "name": "content",
+                "value": "{{track}} by {{artist}"
+            }
+        ]
+    }
+}

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/swagger'
 import { TokenService } from './token.service'
 import { GetAuthTokensResDto } from './dto/get-auth-tokens.res.dto'
-import { Account } from '../about/accounts/entities/account.entity'
+import { Account } from '../accounts/entities/account.entity'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
 

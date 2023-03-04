@@ -9,7 +9,7 @@ import { GithubSubscribeService } from '../../subscriptions/services/github.sub.
 
 @Injectable()
 export class GithubSchedule {
-    subscriptions: string[]
+    scenarios: string[]
 
     constructor(
         private readonly githubService: GithubService,
@@ -17,7 +17,7 @@ export class GithubSchedule {
         private readonly subscriptionsService: SubscriptionsService,
         private readonly githubSubscribeService: GithubSubscribeService
     ) {
-        this.subscriptions = []
+        this.scenarios = []
     }
 
     @Interval(60_000)
@@ -25,20 +25,20 @@ export class GithubSchedule {
         console.log('Github: Checking for new commits...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Github)
         console.log(`Github: Found ${subs.length} subscriptions`)
-        this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Github, 'NewCommit')
             console.log(`Github: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const commits = await this.githubService.getNewCommits(sub.account.id, scenario, sub.accessToken)
                 console.log(`Github: Found ${commits.length} new commits:`)
                 console.log(commits)
-                if (this.subscriptions.includes(sub.account.id)) {
+                if (this.scenarios.includes(scenario.id)) {
                     for (const commit of commits)
                         void this.githubService.triggerNewCommit(sub.account.id, scenario, commit)
                 } else {
-                    console.log('Github: New Subscription found')
-                    this.subscriptions.push(sub.account.id)
+                    console.log('Github: New commit scenario')
+                    this.scenarios.push(scenario.id)
                 }
             }
         }

@@ -9,7 +9,7 @@ import { SpotifySubscribeService } from '../../subscriptions/services/spotify.su
 
 @Injectable()
 export class SpotifySchedule {
-    subscriptions: string[]
+    scenarios: string[]
 
     constructor(
         private readonly spotifyService: SpotifyService,
@@ -17,7 +17,7 @@ export class SpotifySchedule {
         private readonly subscriptionsService: SubscriptionsService,
         private readonly spotifySubscribeService: SpotifySubscribeService
     ) {
-        this.subscriptions = []
+        this.scenarios = []
     }
 
     @Interval(5000)
@@ -25,19 +25,19 @@ export class SpotifySchedule {
         console.log('Spotify: Checking for new tracks...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Spotify)
         console.log(`Spotify: Found ${subs.length} subscriptions`)
-        this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Spotify, 'MusicChange')
             console.log(`Spotify: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const tracks = await this.spotifyService.getCurrentTrack(sub.account.id, scenario, sub.accessToken)
                 console.log('Spotify: Found new track:', tracks)
-                if (this.subscriptions.includes(sub.account.id)) {
+                if (this.scenarios.includes(scenario.id)) {
                     for (const track of tracks)
                         void this.spotifyService.triggerNewTrack(sub.account.id, scenario, track)
                 } else {
-                    console.log('Spotify: New Subscription')
-                    this.subscriptions.push(sub.account.id)
+                    console.log('Spotify: New track scenario')
+                    this.scenarios.push(scenario.id)
                 }
             }
         }
