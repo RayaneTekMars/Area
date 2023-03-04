@@ -18,11 +18,24 @@ class NewMessage extends TriggerIntegration {
     }
 
     getFields(): Field[] {
-        return []
+        return [
+            {
+                name: 'channel_id',
+                value: ''
+            }
+        ]
     }
 
     getFieldsDefinition(): FieldDefinition[] {
-        return []
+        return [
+            {
+                name: 'channel_id',
+                description: 'The id of the channel',
+                type: 'string',
+                required: true,
+                default: false
+            }
+        ]
     }
 
     getIngredientsDefinition(): IngredientDefinition[] {
@@ -43,8 +56,13 @@ class NewMessage extends TriggerIntegration {
                 type: 'string'
             },
             {
-                name: 'channel',
-                description: 'The channel the message was sent in',
+                name: 'channel_id',
+                description: 'The id of the channel the message was sent in',
+                type: 'string'
+            },
+            {
+                name: 'channel_name',
+                description: 'The name of the channel the message was sent in',
                 type: 'string'
             }
         ]

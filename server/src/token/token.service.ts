@@ -6,7 +6,7 @@ import ms from 'ms'
 import { Repository } from 'typeorm'
 import { AuthToken } from './entities/auth-token.entity'
 import type { JwtPayload } from './types/jwt.type'
-import type { Account } from '../accounts/entities/account.entity'
+import type { Account } from '../about/accounts/entities/account.entity'
 
 interface AuthTokenAndJwt {
     authToken: AuthToken

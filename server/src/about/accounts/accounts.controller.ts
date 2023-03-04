@@ -14,8 +14,8 @@ import {
 import { AccountsService } from './accounts.service'
 import { Account } from './entities/account.entity'
 import { GetAccountResDto } from './dto/get-account.res.dto'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
-import { CurrentUser } from '../common/decorators/current-user.decorator'
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard'
+import { CurrentUser } from '../../common/decorators/current-user.decorator'
 
 @Controller('/')
 @ApiTags('Accounts')

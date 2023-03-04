@@ -8,7 +8,7 @@ import {
     Unique
 } from 'typeorm'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
-import { Account } from '../../accounts/entities/account.entity'
+import { Account } from '../../about/accounts/entities/account.entity'
 import { ServiceName } from '../../common/types/service.type'
 
 @Entity()
@@ -16,26 +16,26 @@ import { ServiceName } from '../../common/types/service.type'
 export class Subscription {
 
     @PrimaryColumn()
-    id: string
+        id: string
 
     @Column({
         type: 'enum',
         enum: ServiceName
     })
-    serviceName: ServiceName
+        serviceName: ServiceName
 
     @ManyToOne(() => Account, (account) => account.id, { eager: true })
     @JoinColumn()
-    account: Account
+        account: Account
 
     @Column()
-    accessToken: string
+        accessToken: string
 
     @Column()
-    refreshToken: string
+        refreshToken: string
 
     @Column({ type: String, nullable: true })
-    expiresAt!: string | null
+        expiresAt!: string | null
 
     @BeforeInsert()
     beforeInsert() {

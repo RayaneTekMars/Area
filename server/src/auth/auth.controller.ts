@@ -7,7 +7,7 @@ import { LoginWithGoogleCodeReqDto } from './dto/login-with-google-code.req.dto'
 import { SignupReqDto } from './dto/signup.req.dto'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
-import { Account } from '../accounts/entities/account.entity'
+import { Account } from '../about/accounts/entities/account.entity'
 import { TokenService } from '../token/token.service'
 
 @Controller('/auth')

@@ -36,9 +36,7 @@ export class TwitterService {
         id: number
     }[]
 
-    constructor(
-        private readonly servicesService: ServicesService
-    ) {
+    constructor(private readonly servicesService: ServicesService) {
         this.Followers = []
         this.LastDirectMessage = []
         this.servicesService.setIntegration(new TwitterIntegration(this))
@@ -69,7 +67,6 @@ export class TwitterService {
             }))
 
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error(error)
         }
         return []
@@ -101,7 +98,7 @@ export class TwitterService {
 
             this.LastDirectMessage = [
                 ...this.LastDirectMessage.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
-                { accountId, scenarioId, userId, id: Number(dmEvent.events[0]?.id ?? '0') }
+                { accountId, scenarioId, userId, id: Number(dmEvent.events[0]?.id ?? lastDirectMessage) }
             ]
 
             if (username.length > 0) {
@@ -127,7 +124,6 @@ export class TwitterService {
             }))
 
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error(error)
         }
         return []
@@ -158,7 +154,6 @@ export class TwitterService {
             const twitterApi = new TwitterApi(accessToken)
             await twitterApi.v2.tweet(tweet)
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error(error)
         }
     }
@@ -170,7 +165,6 @@ export class TwitterService {
 
             await twitterApi.v2.sendDmToParticipant(recipientId, { text })
         } catch (error) {
-            // eslint-disable-next-line no-console
             console.error(error)
         }
     }

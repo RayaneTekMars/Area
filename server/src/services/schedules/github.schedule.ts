@@ -53,7 +53,8 @@ export class GithubSchedule {
             try {
                 const { accessToken } = await this.githubSubscribeService.refreshAccessToken(sub.refreshToken, sub.accessToken)
                 void this.subscriptionsService.updateSubscription(ServiceName.Github, sub.account.id, accessToken, sub.refreshToken, sub.expiresAt)
-            } catch {
+            } catch (error) {
+                console.error(error)
                 throw new Error('Error refreshing access token')
             }
         }

@@ -9,10 +9,10 @@ import { GoogleApiService } from './services/google-api.service'
 import { LocalCredentialsService } from './services/local-credentials.service'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { LocalStrategy } from './strategies/local.strategy'
-import { Account } from '../accounts/entities/account.entity'
+import { Account } from '../about/accounts/entities/account.entity'
 import { TokenModule } from '../token/token.module'
 import { AuthToken } from '../token/entities/auth-token.entity'
-import { AccountsModule } from '../accounts/accounts.module'
+import { AccountsModule } from '../about/accounts/accounts.module'
 
 @Module({
     imports: [

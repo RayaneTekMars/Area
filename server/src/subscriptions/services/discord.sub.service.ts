@@ -25,7 +25,7 @@ export class DiscordSubscribeService implements Subscribe {
         const clientId: string = this.configService.get('DISCORD_OAUTH2_CLIENT_ID') ?? ''
         const redirectUri: string = this.configService.get('DISCORD_OAUTH2_CALLBACK_URL') ?? ''
 
-        return `${this.discordOAuthUrl}?client_id=${clientId}&permissions=3072&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(this.scope)}`
+        return `${this.discordOAuthUrl}?client_id=${clientId}&permissions=8&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(this.scope)}`
     }
 
     async authorize(code: string) {

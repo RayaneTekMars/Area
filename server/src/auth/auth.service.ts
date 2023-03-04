@@ -5,9 +5,9 @@ import { GoogleCredentials } from './entities/google-credentials.entity'
 import { LocalCredentials } from './entities/local-credentials.entity'
 import { GoogleApiService } from './services/google-api.service'
 import { LocalCredentialsService } from './services/local-credentials.service'
-import { AccountsService } from '../accounts/accounts.service'
+import { AccountsService } from '../about/accounts/accounts.service'
 import type { SignupReqDto } from './dto/signup.req.dto'
-import type { Account } from '../accounts/entities/account.entity'
+import type { Account } from '../about/accounts/entities/account.entity'
 
 @Injectable()
 class AuthService {

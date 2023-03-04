@@ -8,26 +8,26 @@ import { GithubSubscribeService } from './services/github.sub.service'
 import { DiscordSubscribeService } from './services/discord.sub.service'
 import { SpotifySubscribeService } from './services/spotify.sub.service'
 import { TwitchSubscribeService } from './services/twitch.sub.service'
-import { Account } from '../accounts/entities/account.entity'
+import { Account } from '../about/accounts/entities/account.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subscription, Account])],
-  controllers: [SubscriptionsController],
-  providers: [
-    SubscriptionsService,
-    TwitterSubscribeService,
-    GithubSubscribeService,
-    DiscordSubscribeService,
-    SpotifySubscribeService,
-    TwitchSubscribeService
-  ],
-  exports: [
-    SubscriptionsService,
-    TwitterSubscribeService,
-    GithubSubscribeService,
-    DiscordSubscribeService,
-    SpotifySubscribeService,
-    TwitchSubscribeService
-  ]
+    imports: [TypeOrmModule.forFeature([Subscription, Account])],
+    controllers: [SubscriptionsController],
+    providers: [
+        SubscriptionsService,
+        TwitterSubscribeService,
+        GithubSubscribeService,
+        DiscordSubscribeService,
+        SpotifySubscribeService,
+        TwitchSubscribeService
+    ],
+    exports: [
+        SubscriptionsService,
+        TwitterSubscribeService,
+        GithubSubscribeService,
+        DiscordSubscribeService,
+        SpotifySubscribeService,
+        TwitchSubscribeService
+    ]
 })
 export class SubscriptionsModule {}
