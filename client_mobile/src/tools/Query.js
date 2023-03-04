@@ -5,32 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Query.js - Login queries.
 
-export async function SigninQuery(navigation, email, password) {
-  try {
-    const data = {
-      email: email,
-      password: password,
-      authTokenName: "",
-    };
-
-    const response = await axios.post(
-      "https://api.automateme.fr/auth/login",
-      data
-    );
-
-    if (response.status === 200) {
-      await AsyncStorage.setItem("id", response.data.data.account.id);
-      await AsyncStorage.setItem("token", response.data.data.bearerToken);
-      await AsyncStorage.setItem("name", response.data.data.account.username);
-      navigation.navigate("UserStack", { screen: "Dash" });
-    } else {
-      alert("Error while connecting to your account.");
-    }
-  } catch (error) {
-    alert("Error while connecting to your account.");
-  }
-}
-
 export async function SignupQuery(navigation, username, email, password) {
   try {
     const data = {
@@ -51,10 +25,61 @@ export async function SignupQuery(navigation, username, email, password) {
       await AsyncStorage.setItem("name", response.data.data.account.username);
       navigation.navigate("UserStack", { screen: "Dash" });
     } else {
-      alert("Error while creating your account.");
+      alert("Error while creating account.");
     }
   } catch (error) {
-    alert("Error while creating your account.");
+    alert("Error while creating account.");
+  }
+}
+
+export async function SigninQuery(navigation, email, password) {
+  try {
+    const data = {
+      email: email,
+      password: password,
+      authTokenName: "",
+    };
+
+    const response = await axios.post(
+      "https://api.automateme.fr/auth/login",
+      data
+    );
+
+    if (response.status === 200) {
+      await AsyncStorage.setItem("id", response.data.data.account.id);
+      await AsyncStorage.setItem("token", response.data.data.bearerToken);
+      await AsyncStorage.setItem("name", response.data.data.account.username);
+      navigation.navigate("UserStack", { screen: "Dash" });
+    } else {
+      alert("Error while connecting account.");
+    }
+  } catch (error) {
+    alert("Error while connecting account.");
+  }
+}
+
+export async function SigninGoogleQuery(navigation, code) {
+  try {
+    const data = {
+      code: code,
+      authTokenName: "",
+    };
+
+    const response = await axios.post(
+      "https://api.automateme.fr/auth/login/google/code",
+      data
+    );
+
+    if (response.status === 200) {
+      await AsyncStorage.setItem("id", response.data.data.account.id);
+      await AsyncStorage.setItem("token", response.data.data.bearerToken);
+      await AsyncStorage.setItem("name", response.data.data.account.username);
+      navigation.navigate("UserStack", { screen: "Dash" });
+    } else {
+      alert("Error while connecting Google account.");
+    }
+  } catch (error) {
+    alert("Error while connecting Google account.");
   }
 }
 

@@ -2,11 +2,12 @@
 
 import { WebView } from "react-native-webview";
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 
 // AuthPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
+import { Shapes } from "../tools/Image";
 import { FontContext } from "../tools/Utils";
 import { GetServiceLinkQuery, PostServiceLinkQuery } from "../tools/Query";
 
@@ -50,10 +51,18 @@ export default function AuthPage({ navigation, route }) {
 
   if (!link) {
     return (
-      <View style={Style.appContainers.fullContainer}>
-        <Text style={Style.appTexts.textTitle}>
+      <View style={Style.appContainers.globalContainer}>
+        <View style={Style.appShapes.shapeRight}>
+          <Image source={Shapes.ShapeRight} />
+        </View>
+
+        <Text style={Style.appTexts.textBasic20}>
           Loading authentication link...
         </Text>
+
+        <View style={Style.appShapes.shapeLeft}>
+          <Image source={Shapes.ShapeLeft} />
+        </View>
       </View>
     );
   }

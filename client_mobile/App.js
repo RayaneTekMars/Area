@@ -14,10 +14,9 @@ import ViewPage from "./src/user/ViewPage";
 import CreatePage from "./src/user/CreatePage";
 import ProfilePage from "./src/user/ProfilePage";
 
-// App.js - WebViews imports.
+// App.js - WebView import.
 
 import AuthPage from "./src/external/AuthPage";
-import GooglePage from "./src/external/GooglePage";
 
 // App.js - Tool import.
 
@@ -40,7 +39,6 @@ function LoginStack() {
       <Sub.Screen name="Home" component={HomePage} />
       <Sub.Screen name="SignIn" component={SigninPage} />
       <Sub.Screen name="SignUp" component={SignupPage} />
-      <Sub.Screen name="Google" component={GooglePage} />
     </Sub.Navigator>
   );
 }

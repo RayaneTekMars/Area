@@ -36,12 +36,25 @@ export const LoadFonts = ({ children }) => {
 
 // Utils.js - Storage variable.
 
-export const resetStorageData = async (key, value) => {
+export const ResetStorageData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (error) {
     console.error("[LOG] - Error while resetting data: ", error);
   }
+};
+
+// Utils.js - Google variable.
+
+export const GoogleData = {
+  clientId:
+    "372680138588-itighfhngdv70clkqmshedgmlpf4rn89.apps.googleusercontent.com",
+  scopes: [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid",
+  ],
+  redirectUri: "https://www.automateme.fr/oauth/google",
 };
 
 // Utils.js - Dropdown variables.

@@ -1,15 +1,16 @@
 // SigninPage.js - Libraries imports.
 
 import { useState, useContext } from "react";
+import * as AuthSession from "expo-auth-session";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 
 // SigninPage.js - Tools imports.
 
 import * as Style from "../tools/Style";
-import { FontContext } from "../tools/Utils";
-import { SigninQuery } from "../tools/Query";
 import { Logos, Shapes } from "../tools/Image";
+import { FontContext, GoogleData } from "../tools/Utils";
+import { SigninQuery, SigninGoogleQuery } from "../tools/Query";
 
 // SigninPage.js - Core function.
 
@@ -22,6 +23,34 @@ export default function SigninPage({ navigation }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleGoogleSignin = async (navigation) => {
+    const config = {
+      clientId: GoogleData.clientId,
+      scopes: GoogleData.scopes,
+      redirectUri: GoogleData.redirectUri,
+    };
+
+    const link =
+      `https://accounts.google.com/o/oauth2/v2/auth` +
+      `?scope=${encodeURIComponent(config.scopes.join(" "))}` +
+      `&access_type=offline` +
+      `&response_type=code` +
+      `&redirect_uri=${encodeURIComponent(config.redirectUri)}` +
+      `&client_id=${config.clientId}`;
+
+    const { type, params } = await AuthSession.startAsync({ authUrl: link });
+
+    if (type === "success") {
+      const { code } = params;
+
+      try {
+        await SigninGoogleQuery(navigation, code);
+      } catch (error) {
+        console.error("[LOG] - Error while connecting Google account: ", error);
+      }
+    }
+  };
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -74,9 +103,7 @@ export default function SigninPage({ navigation }) {
 
         <TouchableOpacity
           style={Style.appButtonComponents.componentButton}
-          onPress={() =>
-            navigation.navigate("LoginStack", { screen: "Google" })
-          }
+          onPress={async () => await handleGoogleSignin(navigation)}
         >
           <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
