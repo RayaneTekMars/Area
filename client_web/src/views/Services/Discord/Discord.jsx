@@ -8,12 +8,12 @@ import DiscordButton from "../../../components/discordButton";
 import Tooltip from '@mui/material/Tooltip';
 
 export default function DiscordPage() {
-  let actions = [];
+  let actions = ["NewMessage"];
   let reactions = [
     "PostChannelMessage",
   ];
 
-  let descriptionActions = [];
+  let descriptionActions = ["Trigger when a new message is sent in a channel"];
   let descriptionReactions = [
     "Post a message to a channel",
   ];

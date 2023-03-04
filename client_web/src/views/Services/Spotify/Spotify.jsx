@@ -11,15 +11,12 @@ export default function SpotifyPage() {
   let actions = [
     "MusicChange",
   ];
-  let reactions = [
-    "Reaction 1",
-  ];
+  let reactions = [];
 
   let descriptionActions = [
     "Trigger when the music is changed",
   ];
   let descriptionReactions = [
-    "Description reaction 1",
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#1ED760";
