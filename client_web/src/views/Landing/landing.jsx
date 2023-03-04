@@ -199,19 +199,6 @@ export default function LandingPage() {
             >
               <GoogleButton />
             </div>
-
-            <div style={{ marginTop: "1%" }}>
-              <Button
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  borderRadius: "50px",
-                  width: "50%",
-                }}
-              >
-                Sign in with github
-              </Button>
-            </div>
           </Box>
         </Modal>
       </div>
