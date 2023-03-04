@@ -9,21 +9,15 @@ import Tooltip from '@mui/material/Tooltip';
 
 export default function TwitchPage() {
   let actions = [
-    "Action 1",
-    "Action 2",
+    "NewStream",
   ];
   let reactions = [
-    "Reaction 1",
-    "Reaction 2",
   ];
 
   let descriptionActions = [
-    "Description action 1",
-    "Description action 2",
+    "Trigger when a new stream is live",
   ];
   let descriptionReactions = [
-    "Description reaction 1",
-    "Description reaction 2",
   ];
   useEffect(() => {
     document.body.style.backgroundColor = "#9146FF";
