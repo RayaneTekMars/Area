@@ -2,7 +2,7 @@
 
 import { WebView } from "react-native-webview";
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 
 // AuthPage.js - Tools imports.
 
