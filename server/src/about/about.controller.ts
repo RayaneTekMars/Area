@@ -14,9 +14,9 @@ export class AboutController {
     private getHost = () => {
         const interfaces = networkInterfaces()
         for (const interfaceName of Object.keys(interfaces))
-          for (const net of interfaces[interfaceName] ?? [])
-            if (net.family === 'IPv4' && !net.internal)
-              return net.address
+            for (const net of interfaces[interfaceName] ?? [])
+                if (net.family === 'IPv4' && !net.internal)
+                    return net.address
         return '127.0.0.1'
     }
 

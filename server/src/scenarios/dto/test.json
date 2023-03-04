@@ -1,13 +1,13 @@
 {
-    "name": "When I get a DM, i post it to a discord channel",
+    "name": "Post Disocrd message when new massage on a discord channel",
     "trigger": {
-        "name": "NewDirectMessage",
-        "serviceName": "Twitter",
-        "description": "Triggers when a new direct message is received",
+        "name": "NewMessage",
+        "serviceName": "Discord",
+        "description": "When a new message is posted in a channel",
         "fields": [
             {
-                "name": "username",
-                "value": ""
+                "name": "channel_id",
+                "value": "1079788025602646038"
             }
         ]
     },
@@ -17,12 +17,12 @@
         "description": "Post a message to a channel",
         "fields": [
             {
-                "name": "channel",
-                "value": "1079788025602646038"
+                "name": "channel_id",
+                "value": "{{channel_id}}"
             },
             {
                 "name": "content",
-                "value": "You have a new DM from {{senderName}}: {{text}}"
+                "value": "New message from {{author}} in <#{{channel_id}}> ({{channel_name}}): {{content}}"
             }
         ]
     }

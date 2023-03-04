@@ -5,7 +5,7 @@ import { ScenarioReqDto } from './dto/scenario.req.dto'
 import { ScenarioResDto, GetScenarioResDto, GetScenariosResDto } from './dto/scenario.res.dto'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { CurrentUser } from '../common/decorators/current-user.decorator'
-import { Account } from '../accounts/entities/account.entity'
+import { Account } from '../about/accounts/entities/account.entity'
 
 @Controller('scenarios')
 @ApiTags('Scenarios')

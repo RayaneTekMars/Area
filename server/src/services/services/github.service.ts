@@ -24,6 +24,7 @@ interface Commit {
 
 @Injectable()
 export class GithubService {
+
     Commits: {
         accountId: string
         scenarioId: string
@@ -31,9 +32,7 @@ export class GithubService {
         commits: string[]
     }[]
 
-    constructor(
-        private readonly servicesService: ServicesService
-    ) {
+    constructor(private readonly servicesService: ServicesService) {
         this.Commits = []
         this.servicesService.setIntegration(new GithubIntegration(this))
     }

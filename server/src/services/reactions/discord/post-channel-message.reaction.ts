@@ -25,7 +25,7 @@ class PostChannelMessage extends ReactionIntegration {
     getFields(): Field[] {
         return [
             {
-                name: 'channel',
+                name: 'channel_id',
                 value: ''
             },
             {
@@ -38,7 +38,7 @@ class PostChannelMessage extends ReactionIntegration {
     getFieldsDefinition(): FieldDefinition[] {
         return [
             {
-                name: 'channel',
+                name: 'channel_id',
                 description: 'The id of the channel',
                 type: 'string',
                 required: true,
@@ -56,7 +56,7 @@ class PostChannelMessage extends ReactionIntegration {
 
     run(fields: Map<string, string>, accessToken: string): void {
         console.log('PostChannelMessage', fields, accessToken)
-        void this.discordService.postChannelMessage(fields.get('channel') ?? '', fields.get('content') ?? '')
+        void this.discordService.postChannelMessage(fields.get('channel_id') ?? '', fields.get('content') ?? '')
     }
 
 }

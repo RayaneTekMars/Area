@@ -1,5 +1,4 @@
-/* eslint-disable max-depth */
-/* eslint-disable no-console */
+/* eslint-disable max-depth, no-console */
 import { Injectable } from '@nestjs/common'
 import { Interval } from '@nestjs/schedule'
 import { ServiceName } from 'src/common/types/service.type'
@@ -21,7 +20,7 @@ export class TwitchSchedule {
         this.subscriptions = []
     }
 
-    @Interval(60_000)
+    @Interval(6000)
     async handleNewStreams() {
         console.log('Twitch: Checking for new streams...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitch)
@@ -29,9 +28,9 @@ export class TwitchSchedule {
         this.subscriptions = this.subscriptions.filter((x) => subs.map((y) => y.account.id).includes(x))
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitch, 'NewStream')
-            console.log(`Twitch: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            console.log(`Twitch: Found ${scenarios.length} scenarios for "${sub.account.username}"`)
             for await (const scenario of scenarios) {
-                const streams = await this.twitchService.getStreams(sub.account.id, scenario, sub.accessToken)
+                const streams = await this.twitchService.getStreamOfUser(sub.account.id, scenario, sub.accessToken)
                 console.log('Twitch: Found new stream:', streams)
                 if (this.subscriptions.includes(sub.account.id)) {
                     for (const stream of streams)
@@ -40,6 +39,21 @@ export class TwitchSchedule {
                     console.log('Twitch: New Subscription')
                     this.subscriptions.push(sub.account.id)
                 }
+            }
+        }
+    }
+
+    @Interval(1_800_000)
+    async refreshAccessToken() {
+        console.log('Twitch: Refreshing Twitch tokens...')
+        const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Twitch)
+        console.log(`Twitch: Found ${subs.length} subscriptions`)
+        for await (const sub of subs) {
+            try {
+                const { accessToken } = await this.twitchSubscribeService.refreshAccessToken(sub.refreshToken)
+                void this.subscriptionsService.updateSubscription(ServiceName.Twitch, sub.account.id, accessToken, sub.refreshToken, sub.expiresAt)
+            } catch {
+                throw new Error('Twitch: Error refreshing access token')
             }
         }
     }

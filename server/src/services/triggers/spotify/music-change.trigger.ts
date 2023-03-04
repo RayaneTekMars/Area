@@ -5,45 +5,45 @@ import type { Field, FieldDefinition } from '../../../common/types/field.type'
 
 class MusicChange extends TriggerIntegration {
 
-      getName(): string {
-          return 'MusicChange'
-      }
+    getName(): string {
+        return 'MusicChange'
+    }
 
-      getServiceName(): ServiceName {
-          return ServiceName.Spotify
-      }
+    getServiceName(): ServiceName {
+        return ServiceName.Spotify
+    }
 
-      getDescription(): string {
-          return 'Trigger when the music is changed'
-      }
+    getDescription(): string {
+        return 'Trigger when the music is changed'
+    }
 
-      getFields(): Field[] {
-          return []
-      }
+    getFields(): Field[] {
+        return []
+    }
 
-      getFieldsDefinition(): FieldDefinition[] {
-          return []
-      }
+    getFieldsDefinition(): FieldDefinition[] {
+        return []
+    }
 
-      getIngredientsDefinition(): IngredientDefinition[] {
-            return [
-                {
-                    name: 'name',
-                    type: 'string',
-                    description: 'The track that is playing'
-                },
-                {
-                    name: 'artist',
-                    type: 'string',
-                    description: 'The artist of the track'
-                },
-                {
-                    name: 'id',
-                    type: 'string',
-                    description: 'The id of the track'
-                }
-            ]
-        }
+    getIngredientsDefinition(): IngredientDefinition[] {
+        return [
+            {
+                name: 'track',
+                type: 'string',
+                description: 'The track that is playing'
+            },
+            {
+                name: 'artist',
+                type: 'string',
+                description: 'The artist of the track'
+            },
+            {
+                name: 'id',
+                type: 'string',
+                description: 'The id of the track'
+            }
+        ]
+    }
 }
 
 export default MusicChange

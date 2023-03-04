@@ -1,6 +1,6 @@
 import { BeforeInsert, Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import { Account } from '../../accounts/entities/account.entity'
+import { Account } from '../../about/accounts/entities/account.entity'
 import { EntityType } from '../../common/enums/entity-type.enum'
 import { getSecureRandomString } from '../../common/helpers/random.helper'
 

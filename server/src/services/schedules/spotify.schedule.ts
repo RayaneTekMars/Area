@@ -20,7 +20,7 @@ export class SpotifySchedule {
         this.subscriptions = []
     }
 
-    @Interval(3000)
+    @Interval(5000)
     async detectChangingTrack() {
         console.log('Spotify: Checking for new tracks...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Spotify)
@@ -48,13 +48,14 @@ export class SpotifySchedule {
         console.log('Spotify: Refreshing Github tokens...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Spotify)
         console.log(`Spotify: Found ${subs.length} subscriptions`)
-        for await (const sub of subs)
+        for await (const sub of subs) {
             try {
                 const { accessToken } = await this.spotifySubscribeService.refreshAccessToken(sub.refreshToken)
-                console.log(`Spotify: New access token: ${accessToken}`)
                 void this.subscriptionsService.updateSubscription(ServiceName.Spotify, sub.account.id, accessToken, sub.refreshToken, sub.expiresAt)
-            } catch {
+            } catch (error) {
+                console.error(error)
                 throw new Error('Spotify: Error refreshing access token')
             }
-  }
+        }
+    }
 }

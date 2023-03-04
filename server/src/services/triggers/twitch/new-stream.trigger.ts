@@ -46,6 +46,11 @@ class NewStream extends TriggerIntegration {
                 type: 'string'
             },
             {
+                name: 'url',
+                description: 'The url of the stream',
+                type: 'string'
+            },
+            {
                 name: 'title',
                 description: 'The title of the stream',
                 type: 'string'
@@ -53,11 +58,6 @@ class NewStream extends TriggerIntegration {
             {
                 name: 'game',
                 description: 'The game of the stream',
-                type: 'string'
-            },
-            {
-                name: 'viewers',
-                description: 'The number of viewers',
                 type: 'string'
             },
             {

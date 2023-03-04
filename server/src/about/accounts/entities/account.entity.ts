@@ -7,9 +7,9 @@ import {
     PrimaryColumn,
     UpdateDateColumn
 } from 'typeorm'
-import { EntityType } from '../../common/enums/entity-type.enum'
-import { getSecureRandomString } from '../../common/helpers/random.helper'
-import { AuthToken } from '../../token/entities/auth-token.entity'
+import { EntityType } from '../../../common/enums/entity-type.enum'
+import { getSecureRandomString } from '../../../common/helpers/random.helper'
+import { AuthToken } from '../../../token/entities/auth-token.entity'
 
 @Entity()
 class Account {
@@ -17,19 +17,19 @@ class Account {
     type = EntityType.Account
 
     @PrimaryColumn()
-    id: string
+        id: string
 
     @Column()
-    username: string
+        username: string
 
     @OneToMany(() => AuthToken, (authToken) => authToken.account)
-    authTokens: AuthToken[]
+        authTokens: AuthToken[]
 
     @UpdateDateColumn()
-    updatedAt: string
+        updatedAt: string
 
     @CreateDateColumn()
-    createdAt: string
+        createdAt: string
 
     @BeforeInsert()
     beforeInsert() {

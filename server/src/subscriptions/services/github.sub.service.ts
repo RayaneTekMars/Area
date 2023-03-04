@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-null */
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Octokit } from '@octokit/core'
@@ -27,8 +28,8 @@ export class GithubSubscribeService implements Subscribe {
         this.octokit = new Octokit({
             authStrategy: createOAuthAppAuth,
             auth: {
-              clientId: this.clientId,
-              clientSecret: this.clientSecret
+                clientId: this.clientId,
+                clientSecret: this.clientSecret
             }
         })
     }
@@ -47,7 +48,6 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: userAuth.token,
             refreshToken: '',
-            // eslint-disable-next-line unicorn/no-null
             expiresAt: null
         }
     }
@@ -63,7 +63,6 @@ export class GithubSubscribeService implements Subscribe {
         return {
             accessToken: response.data.token,
             newRefreshToken: '',
-            // eslint-disable-next-line unicorn/no-null
             expiresAt: null
         }
     }
