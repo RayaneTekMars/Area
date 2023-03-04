@@ -44,7 +44,7 @@ async function SignupAction() {
   };
   try {
     const response = await axios.post(
-      "http://localhost:8080/auth/signup",
+      "https://api.automateme.fr/auth/signup",
       data
     );
     if (response.status === 200) {
@@ -69,7 +69,7 @@ async function SigninAction() {
   };
   try {
     const response = await axios.post(
-      "http://localhost:8080/auth/login",
+      "https://api.automateme.fr/auth/login",
       data
     );
     if (response.status === 200) {
