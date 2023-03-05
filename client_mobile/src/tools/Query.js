@@ -390,6 +390,63 @@ export async function GetServiceReactionsQuery(service) {
   }
 }
 
+export async function GetTriggerParamsQuery(service, trigger) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/triggers/" + trigger,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching trigger parameters.");
+    }
+  } catch (error) {
+    alert("Error while fetching trigger parameters.");
+  }
+}
+
+export async function GetReactionParamsQuery(service, reaction) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" +
+        service +
+        "/reactions/" +
+        reaction,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching reaction parameters.");
+    }
+  } catch (error) {
+    alert("Error while fetching reaction parameters.");
+  }
+}
+
 // Query.js - Token query.
 
 export async function PutAccessTokenQuery(service) {

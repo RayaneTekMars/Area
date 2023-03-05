@@ -3,7 +3,15 @@
 import { useIsFocused } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
 import SelectDropdown from "react-native-select-dropdown";
-import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+  Button,
+} from "react-native";
 
 // CreatePage.js - Tools imports.
 
@@ -15,7 +23,65 @@ import {
   GetServicesLinkedQuery,
   GetServiceTriggersQuery,
   GetServiceReactionsQuery,
+  GetTriggerParamsQuery,
+  GetReactionParamsQuery,
 } from "../tools/Query";
+
+// CreatePage.js - Custom component.
+
+function CustomCreateModal(props) {
+  const { type, name, service, modalVisible, setModalVisible } = props;
+
+  console.log("[LOG] - Name: ", name);
+  console.log("[LOG] - Service: ", service);
+
+  const [params, setParams] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (type === "trigger" && name.length > 0) {
+          const paramsListData = await GetTriggerParamsQuery(service, name);
+          setParams(paramsListData);
+        } else if (type === "reaction" && name.length > 0) {
+          const paramsListData = await GetReactionParamsQuery(service, name);
+          setParams(paramsListData);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching params: ", error);
+      }
+    };
+    fetchData();
+  }, [service, name]);
+
+  console.log("[LOG] - Params: ", params);
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(false);
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+        }}
+      >
+        <View style={{ backgroundColor: "#fff", padding: 20 }}>
+          <Text>Hello, I am a modal!</Text>
+          <Text>{params.length}</Text>
+          <Button title="Close" onPress={() => setModalVisible(false)} />
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 // CreatePage.js - Core function.
 
@@ -28,6 +94,8 @@ export default function CreatePage({ navigation }) {
 
   const isFocused = useIsFocused();
   const [servicesLinkedList, setServicesLinkedList] = useState([]);
+  const [triggerModalVisible, setTriggerModalVisible] = useState(false);
+  const [reactionModalVisible, setReactionModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,8 +129,7 @@ export default function CreatePage({ navigation }) {
       try {
         if (firstService) {
           const triggersListData = await GetServiceTriggersQuery(firstService);
-          const triggersList = triggersListData.map((item) => item.name);
-          setTriggers(triggersList);
+          setTriggers(triggersListData);
         }
       } catch (error) {
         console.error("[LOG] - Error while fetching triggers: ", error);
@@ -78,8 +145,7 @@ export default function CreatePage({ navigation }) {
           const reactionsListData = await GetServiceReactionsQuery(
             secondService
           );
-          const reactionsList = reactionsListData.map((item) => item.name);
-          setReactions(reactionsList);
+          setReactions(reactionsListData);
         }
       } catch (error) {
         console.error("[LOG] - Error while fetching reactions: ", error);
@@ -129,13 +195,23 @@ export default function CreatePage({ navigation }) {
 
               {firstService.length > 0 ? (
                 <SelectDropdown
-                  data={triggers}
+                  data={triggers.map((item) => item.name)}
                   defaultButtonText={"Trigger"}
                   dropdownStyle={{ borderRadius: 20 }}
                   buttonStyle={Style.appComponents.componentDropdown}
                   buttonTextStyle={Style.appTexts.textButton}
                   onSelect={(selectedItem) => {
-                    setTrigger(selectedItem);
+                    const trigger = triggers.find(
+                      (trigger) => trigger.name === selectedItem
+                    );
+                    const fieldsAreEmpty = trigger.fields.length === 0;
+
+                    if (fieldsAreEmpty) {
+                      setTrigger(selectedItem);
+                    } else {
+                      setTriggerModalVisible(true);
+                      setTrigger(selectedItem);
+                    }
                   }}
                   buttonTextAfterSelection={(selectedItem) => {
                     return selectedItem;
@@ -143,6 +219,16 @@ export default function CreatePage({ navigation }) {
                   rowTextForSelection={(item) => {
                     return item;
                   }}
+                />
+              ) : null}
+
+              {firstService.length > 0 && trigger.length > 0 ? (
+                <CustomCreateModal
+                  type="trigger"
+                  name={trigger}
+                  service={firstService}
+                  modalVisible={triggerModalVisible}
+                  setModalVisible={setTriggerModalVisible}
                 />
               ) : null}
 
@@ -165,13 +251,23 @@ export default function CreatePage({ navigation }) {
 
               {secondService.length > 0 ? (
                 <SelectDropdown
-                  data={reactions}
+                  data={reactions.map((item) => item.name)}
                   defaultButtonText={"Reaction"}
                   dropdownStyle={{ borderRadius: 20 }}
                   buttonStyle={Style.appComponents.componentDropdown}
                   buttonTextStyle={Style.appTexts.textButton}
                   onSelect={(selectedItem) => {
-                    setReaction(selectedItem);
+                    const reaction = reactions.find(
+                      (reaction) => reaction.name === selectedItem
+                    );
+                    const fieldsAreEmpty = reaction.fields.length === 0;
+
+                    if (fieldsAreEmpty) {
+                      setReaction(selectedItem);
+                    } else {
+                      setReactionModalVisible(true);
+                      setReaction(selectedItem);
+                    }
                   }}
                   buttonTextAfterSelection={(selectedItem) => {
                     return selectedItem;
@@ -182,6 +278,16 @@ export default function CreatePage({ navigation }) {
                 />
               ) : null}
             </View>
+
+            {secondService.length > 0 && reaction.length > 0 ? (
+              <CustomCreateModal
+                type="reaction"
+                name={reaction}
+                service={secondService}
+                modalVisible={reactionModalVisible}
+                setModalVisible={setReactionModalVisible}
+              />
+            ) : null}
 
             <View style={Style.appButtonContainers.buttonContainer35}>
               <Text style={Style.appTexts.textBasic15}>
