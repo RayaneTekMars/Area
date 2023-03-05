@@ -91,7 +91,9 @@ export async function PostScenarioQuery(
   firstService,
   trigger,
   secondService,
-  reaction
+  reaction,
+  triggerFields,
+  reactionFields
 ) {
   try {
     const bearerToken = await AsyncStorage.getItem("token");
@@ -101,18 +103,12 @@ export async function PostScenarioQuery(
       trigger: {
         name: trigger,
         serviceName: firstService,
-        params: [],
+        fields: triggerFields,
       },
       reaction: {
         name: reaction,
         serviceName: secondService,
-        params: [
-          {
-            name: "text",
-            value: "Hello World",
-            required: true,
-          },
-        ],
+        fields: reactionFields,
       },
     };
 
@@ -333,6 +329,117 @@ export async function DeleteServiceQuery(service) {
     }
   } catch (error) {
     alert("Error while deleting service.");
+  }
+}
+
+export async function GetServiceTriggersQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/triggers",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching service triggers.");
+    }
+  } catch (error) {
+    alert("Error while fetching service triggers.");
+  }
+}
+
+export async function GetServiceReactionsQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/reactions",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching service reactions.");
+    }
+  } catch (error) {
+    alert("Error while fetching service reactions.");
+  }
+}
+
+export async function GetTriggerParamsQuery(service, trigger) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/triggers/" + trigger,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching trigger parameters.");
+    }
+  } catch (error) {
+    alert("Error while fetching trigger parameters.");
+  }
+}
+
+export async function GetReactionParamsQuery(service, reaction) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" +
+        service +
+        "/reactions/" +
+        reaction,
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching reaction parameters.");
+    }
+  } catch (error) {
+    alert("Error while fetching reaction parameters.");
   }
 }
 

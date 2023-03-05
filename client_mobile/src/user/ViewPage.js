@@ -76,8 +76,8 @@ export default function ViewPage({ navigation }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const scenariosData = await GetScenariosQuery();
-        setScenariosList(scenariosData);
+        const scenariosListData = await GetScenariosQuery();
+        setScenariosList(scenariosListData);
       } catch (error) {
         console.error("[LOG] - Error while fetching scenarios: ", error);
       }
@@ -107,7 +107,7 @@ export default function ViewPage({ navigation }) {
             handleEmptyScenario={handleEmptyScenario}
           />
         ) : (
-          <View style={Style.appContainers.emptyContainer}>
+          <View style={Style.appEmptyComponents.componentEmpty30}>
             <Text style={Style.appTexts.textBasic15}>
               It seems to be empty here 👻
             </Text>

@@ -1,15 +1,161 @@
 // CreatePage.js - Libraries imports.
 
-import { useState, useContext } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { useState, useEffect, useContext } from "react";
 import SelectDropdown from "react-native-select-dropdown";
-import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+} from "react-native";
 
 // CreatePage.js - Tools imports.
 
 import * as Style from "../tools/Style";
 import { Shapes } from "../tools/Image";
-import { PostScenarioQuery } from "../tools/Query";
-import { FontContext, Services, Triggers, Reactions } from "../tools/Utils";
+import { FontContext } from "../tools/Utils";
+import {
+  PostScenarioQuery,
+  GetServicesLinkedQuery,
+  GetServiceTriggersQuery,
+  GetServiceReactionsQuery,
+  GetTriggerParamsQuery,
+  GetReactionParamsQuery,
+} from "../tools/Query";
+
+// CreatePage.js - Additional functions.
+
+function transformInput(input) {
+  const transformed = [];
+  input.forEach((item) => {
+    item.forEach((field) => {
+      transformed.push({
+        name: field.name,
+        value: field.value,
+      });
+    });
+  });
+  return transformed;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// CreatePage.js - Custom component.
+
+function CustomCreateModal(props) {
+  const {
+    type,
+    name,
+    service,
+    modalVisible,
+    setModalVisible,
+    handleReactionsSave,
+    handleTriggersSave,
+  } = props;
+
+  const [params, setParams] = useState([]);
+  const [fields, setFields] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (type === "trigger" && name.length > 0) {
+          const paramsListData = await GetTriggerParamsQuery(service, name);
+          setParams(paramsListData);
+        } else if (type === "reaction" && name.length > 0) {
+          const paramsListData = await GetReactionParamsQuery(service, name);
+          setParams(paramsListData);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching params: ", error);
+      }
+    };
+    fetchData();
+  }, [service, name]);
+
+  if (params.length === 0) {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View style={Style.appContainers.modalContainer}>
+          <View style={Style.appComponents.componentCardScenario}>
+            <Text style={Style.appCardTexts.textCardBlack}>Loading...</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  const paramNames = params.fields.map((field) => field.name);
+
+  const handleFieldChange = (index, value, name) => {
+    const updatedFields = [...fields];
+    updatedFields[index] = { value, name };
+    setFields(updatedFields);
+  };
+
+  const handleSave = () => {
+    if (type === "trigger") {
+      handleTriggersSave(fields);
+    } else if (type === "reaction") {
+      handleReactionsSave(fields);
+    }
+    setModalVisible(false);
+  };
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(false);
+      }}
+    >
+      <View style={Style.appContainers.modalContainer}>
+        <View style={Style.appComponents.componentCardScenario}>
+          <View style={{ margin: 5 }}>
+            <Text style={Style.appCardTexts.textCardBlack}>
+              Select your parameters ⚙️
+            </Text>
+          </View>
+
+          <View style={{ padding: 20 }}>
+            {paramNames.map((name, index) => (
+              <TextInput
+                key={index}
+                editable={true}
+                style={Style.appComponents.componentModalField}
+                placeholder={capitalizeFirstLetter(name)}
+                placeholderTextColor="#000"
+                onChangeText={(value) => handleFieldChange(index, value, name)}
+                value={fields[index] ? fields[index].value : ""}
+              />
+            ))}
+          </View>
+
+          <TouchableOpacity
+            style={Style.appButtonComponents.componentServiceButton}
+            onPress={() => handleSave()}
+          >
+            <Text style={Style.appTexts.textButtonLight}>Save</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+}
 
 // CreatePage.js - Core function.
 
@@ -20,11 +166,78 @@ export default function CreatePage({ navigation }) {
     return null;
   }
 
+  const [triggerFields, setTriggerFields] = useState([]);
+  const [reactionFields, setReactionFields] = useState([]);
+
+  function handleTriggersSave(newData) {
+    setTriggerFields([...triggerFields, newData]);
+  }
+
+  function handleReactionsSave(newData) {
+    setReactionFields([...reactionFields, newData]);
+  }
+
+  const isFocused = useIsFocused();
+  const [servicesLinkedList, setServicesLinkedList] = useState([]);
+  const [triggerModalVisible, setTriggerModalVisible] = useState(false);
+  const [reactionModalVisible, setReactionModalVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const servicesLinkedListData = await GetServicesLinkedQuery();
+        setServicesLinkedList(servicesLinkedListData);
+      } catch (error) {
+        console.error("[LOG] - Error while fetching services: ", error);
+      }
+    };
+    fetchData();
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setServicesLinkedList(servicesLinkedList);
+    }
+  }, [isFocused]);
+
   const [scenario, setScenario] = useState("");
   const [firstService, setFirstService] = useState("");
   const [trigger, setTrigger] = useState("");
   const [secondService, setSecondService] = useState("");
   const [reaction, setReaction] = useState("");
+
+  const [triggers, setTriggers] = useState([]);
+  const [reactions, setReactions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (firstService) {
+          const triggersListData = await GetServiceTriggersQuery(firstService);
+          setTriggers(triggersListData);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching triggers: ", error);
+      }
+    };
+    fetchData();
+  }, [firstService]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (secondService) {
+          const reactionsListData = await GetServiceReactionsQuery(
+            secondService
+          );
+          setReactions(reactionsListData);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching reactions: ", error);
+      }
+    };
+    fetchData();
+  }, [secondService]);
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -37,102 +250,173 @@ export default function CreatePage({ navigation }) {
         <Text style={Style.appTexts.textSubTitle}>Your unique scenario</Text>
       </View>
 
-      <View style={Style.appContainers.cardContainer}>
-        <TextInput
-          style={Style.appComponents.componentField}
-          placeholder="Scenario name"
-          onChangeText={(userInput) => setScenario(userInput)}
-          value={scenario}
-        />
+      <>
+        {servicesLinkedList.length > 0 ? (
+          <>
+            <View style={Style.appContainers.cardContainer}>
+              <TextInput
+                style={Style.appComponents.componentField}
+                placeholder="Scenario name"
+                onChangeText={(userInput) => setScenario(userInput)}
+                value={scenario}
+              />
 
-        <SelectDropdown
-          data={Services}
-          defaultButtonText={"First service"}
-          dropdownStyle={{ borderRadius: 20 }}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem) => {
-            setFirstService(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
+              <SelectDropdown
+                data={servicesLinkedList.map((item) => item.serviceName)}
+                defaultButtonText={"First service"}
+                dropdownStyle={{ borderRadius: 20 }}
+                buttonStyle={Style.appComponents.componentDropdown}
+                buttonTextStyle={Style.appTexts.textButton}
+                onSelect={(selectedItem) => {
+                  setFirstService(selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item) => {
+                  return item;
+                }}
+              />
 
-        <SelectDropdown
-          data={Triggers}
-          defaultButtonText={"Trigger"}
-          dropdownStyle={{ borderRadius: 20 }}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem) => {
-            setTrigger(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
+              {firstService.length > 0 ? (
+                <SelectDropdown
+                  data={triggers.map((item) => item.name)}
+                  defaultButtonText={"Trigger"}
+                  dropdownStyle={{ borderRadius: 20 }}
+                  buttonStyle={Style.appComponents.componentDropdown}
+                  buttonTextStyle={Style.appTexts.textButton}
+                  onSelect={(selectedItem) => {
+                    const trigger = triggers.find(
+                      (trigger) => trigger.name === selectedItem
+                    );
+                    const fieldsAreEmpty = trigger.fields.length === 0;
 
-        <SelectDropdown
-          data={Services}
-          defaultButtonText={"Second service"}
-          dropdownStyle={{ borderRadius: 20 }}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem) => {
-            setSecondService(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
+                    if (fieldsAreEmpty) {
+                      setTrigger(selectedItem);
+                    } else {
+                      setTriggerModalVisible(true);
+                      setTrigger(selectedItem);
+                    }
+                  }}
+                  buttonTextAfterSelection={(selectedItem) => {
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item) => {
+                    return item;
+                  }}
+                />
+              ) : null}
 
-        <SelectDropdown
-          data={Reactions}
-          defaultButtonText={"Reaction"}
-          dropdownStyle={{ borderRadius: 20 }}
-          buttonStyle={Style.appComponents.componentDropdown}
-          buttonTextStyle={Style.appTexts.textButton}
-          onSelect={(selectedItem) => {
-            setReaction(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item) => {
-            return item;
-          }}
-        />
-      </View>
+              {firstService.length > 0 && trigger.length > 0 ? (
+                <CustomCreateModal
+                  type="trigger"
+                  name={trigger}
+                  service={firstService}
+                  modalVisible={triggerModalVisible}
+                  setModalVisible={setTriggerModalVisible}
+                  handleTriggersSave={handleTriggersSave}
+                />
+              ) : null}
 
-      <View style={Style.appButtonContainers.buttonContainer35}>
-        <Text style={Style.appTexts.textBasic15}>Done ? Let's go ! 🚀</Text>
+              <SelectDropdown
+                data={servicesLinkedList.map((item) => item.serviceName)}
+                defaultButtonText={"Second service"}
+                dropdownStyle={{ borderRadius: 20 }}
+                buttonStyle={Style.appComponents.componentDropdown}
+                buttonTextStyle={Style.appTexts.textButton}
+                onSelect={(selectedItem) => {
+                  setSecondService(selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item) => {
+                  return item;
+                }}
+              />
 
-        <TouchableOpacity
-          style={Style.appButtonComponents.componentButton}
-          onPress={async () =>
-            await PostScenarioQuery(
-              navigation,
-              scenario,
-              firstService,
-              trigger,
-              secondService,
-              reaction
-            )
-          }
-        >
-          <Text style={Style.appTexts.textButton}>Add scenario</Text>
-        </TouchableOpacity>
-      </View>
+              {secondService.length > 0 ? (
+                <SelectDropdown
+                  data={reactions.map((item) => item.name)}
+                  defaultButtonText={"Reaction"}
+                  dropdownStyle={{ borderRadius: 20 }}
+                  buttonStyle={Style.appComponents.componentDropdown}
+                  buttonTextStyle={Style.appTexts.textButton}
+                  onSelect={(selectedItem) => {
+                    const reaction = reactions.find(
+                      (reaction) => reaction.name === selectedItem
+                    );
+                    const fieldsAreEmpty = reaction.fields.length === 0;
+
+                    if (fieldsAreEmpty) {
+                      setReaction(selectedItem);
+                    } else {
+                      setReactionModalVisible(true);
+                      setReaction(selectedItem);
+                    }
+                  }}
+                  buttonTextAfterSelection={(selectedItem) => {
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item) => {
+                    return item;
+                  }}
+                />
+              ) : null}
+            </View>
+
+            {secondService.length > 0 && reaction.length > 0 ? (
+              <CustomCreateModal
+                type="reaction"
+                name={reaction}
+                service={secondService}
+                modalVisible={reactionModalVisible}
+                setModalVisible={setReactionModalVisible}
+                handleReactionsSave={handleReactionsSave}
+              />
+            ) : null}
+
+            <View style={Style.appButtonContainers.buttonContainer35}>
+              <Text style={Style.appTexts.textBasic15}>
+                Done ? Let's go ! 🚀
+              </Text>
+
+              <TouchableOpacity
+                style={Style.appButtonComponents.componentButton}
+                onPress={async () =>
+                  await PostScenarioQuery(
+                    navigation,
+                    scenario,
+                    firstService,
+                    trigger,
+                    secondService,
+                    reaction,
+                    transformInput(triggerFields),
+                    transformInput(reactionFields)
+                  )
+                }
+              >
+                <Text style={Style.appTexts.textButton}>Add scenario</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        ) : (
+          <View style={Style.appContainers.emptyContainer}>
+            <View style={Style.appEmptyComponents.componentEmpty20}>
+              <Text style={Style.appTexts.textBasic15}>No apps found 🔌</Text>
+
+              <TouchableOpacity
+                style={Style.appButtonComponents.componentButton}
+                onPress={() =>
+                  navigation.navigate("UserStack", { screen: "Profile" })
+                }
+              >
+                <Text style={Style.appTexts.textButton}>Parameters</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </>
 
       <View style={Style.appShapes.shapeLeft}>
         <Image source={Shapes.ShapeLeft} />

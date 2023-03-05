@@ -60,14 +60,20 @@ export const appContainers = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
-    top: "30%",
+    width: "100%",
+    height: "70%",
   },
   separateContainer: {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     paddingLeft: "5%",
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 
@@ -176,6 +182,11 @@ export const appTexts = StyleSheet.create({
     fontSize: "20rem",
     fontFamily: "Inter-Bold",
   },
+  textButtonLight: {
+    color: "#FFFFFF",
+    fontSize: "20rem",
+    fontFamily: "Inter-Bold",
+  },
   textTitle: {
     color: "#FFFFFF",
     fontSize: "30rem",
@@ -212,6 +223,10 @@ export const appCardTexts = StyleSheet.create({
   },
   textCardRed: {
     color: "#FF6666",
+    fontSize: "20rem",
+  },
+  textCardBlack: {
+    color: "#222222",
     fontSize: "20rem",
   },
 });
@@ -260,6 +275,16 @@ export const appComponents = StyleSheet.create({
     paddingHorizontal: 20,
     width: screenWidth * 0.8,
   },
+  componentModalField: {
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#222222",
+    margin: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: 250,
+    height: 40,
+  },
 });
 
 export const appButtonComponents = StyleSheet.create({
@@ -295,6 +320,23 @@ export const appButtonComponents = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+});
+
+export const appEmptyComponents = StyleSheet.create({
+  componentEmpty30: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "30%",
+  },
+  componentEmpty20: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "20%",
   },
 });
 

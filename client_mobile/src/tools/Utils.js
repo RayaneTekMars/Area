@@ -56,11 +56,3 @@ export const GoogleData = {
   ],
   redirectUri: "https://www.automateme.fr/oauth/google",
 };
-
-// Utils.js - Dropdown variables.
-
-export const Services = ["Twitter", "Discord", "Spotify", "Github"];
-
-export const Triggers = ["New Follower"];
-
-export const Reactions = ["Post Tweet"];
