@@ -228,7 +228,6 @@ export default function ScenarioPage() {
 
   const [selectedServiceAction, setServiceAction] = useState("");
   const [selectedServiceReaction, setServiceReaction] = useState("");
-  const [params, setParams] = useState([]);
 
 
   const changeSelectedServiceAction = (newService) => {
@@ -331,11 +330,13 @@ export default function ScenarioPage() {
   }
 
   const handleChipClick = (event, param) => {
-    const updatedParams = [...params];
-    const index = updatedParams.findIndex((p) => p.name === param.name);
-    updatedParams[index] = { ...updatedParams[index], value: "{{" + param.name + "}}" };
-    setParams(updatedParams);
+    //add chip value to my clipboard
+    navigator.clipboard.writeText("{{" + param + "}}");
+    // display a message to the user to let them know that the value has been copied
+    window.alert(`"${param.value}" has been copied to your clipboard.`);
   };
+  
+  
 
   const handleTextFieldChangeParamAction = (index, value) => {
     const newParamAction = [...paramAction];
@@ -678,7 +679,7 @@ export default function ScenarioPage() {
                   key={index}
                   label={param.name}
                   variant="outlined"
-                  onClick={(event) => handleChipClick(event, param)}
+                  onClick={(event) => handleChipClick(event, param.name)}
                   style={{
                     margin: "4px",
                     backgroundColor: "white",
