@@ -63,8 +63,6 @@ export class TwitterService {
                     username: `@${username}`
                 }))
 
-            console.log('this.Followers before:', this.Followers)
-
             this.Followers = [
                 ...this.Followers.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, followers: followers.map((x) => x.id) }

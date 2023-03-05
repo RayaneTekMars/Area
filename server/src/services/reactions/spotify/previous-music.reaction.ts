@@ -50,7 +50,7 @@ class PreviousMusic extends ReactionIntegration {
 
     run(fields: Map<string, string>, accessToken: string): void {
         console.log('PreviousMusic', fields, accessToken)
-        const deviceId = fields.get('device') ?? ''
+        const deviceId = fields.get('device_id') ?? ''
         void this.spotifyService.previousMusic(deviceId, accessToken)
     }
 

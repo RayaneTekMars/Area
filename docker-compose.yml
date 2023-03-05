@@ -90,28 +90,14 @@ services:
       - pg-tier
       - api-tier
 
-  # client_mobile:
-  #   build: ./client_mobile
-  #   volumes:
-  #     - client_volume:/app
-
   client_web:
     build: ./client_web
     ports:
       - "8081:8081"
     depends_on:
       - server
-      # - client_mobile
     networks:
       - api-tier
-    # volumes:
-    #   - client_volume:/app
-
-# volumes:
-#   client_volume:
-#     driver: bridge
-#     driver_opts:
-#       size: "5GiB"
 
 networks:
   pg-tier:
