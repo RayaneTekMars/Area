@@ -1,16 +1,18 @@
-import { Field, FieldDefinition } from "src/common/types/field.type";
-import { ServiceName } from "src/common/types/service.type";
-import { SpotifyService } from "src/services/services/spotify.service";
-import ReactionIntegration from "../reaction";
+/* eslint-disable no-console */
+import { ServiceName } from 'src/common/types/service.type'
+import ReactionIntegration from '../reaction'
+import type { IngredientDefinition } from 'src/common/types/ingredient.type'
+import type { Field, FieldDefinition } from 'src/common/types/field.type'
+import type { SpotifyService } from 'src/services/services/spotify.service'
 
 class PreviousMusic extends ReactionIntegration {
 
     constructor(private readonly spotifyService: SpotifyService) {
-        super();
+        super()
     }
 
     getName(): string {
-        return 'NextMusic';
+        return 'PreviousMusic'
     }
 
     getServiceName(): ServiceName {
@@ -18,16 +20,16 @@ class PreviousMusic extends ReactionIntegration {
     }
 
     getDescription(): string {
-        return 'Next music';
+        return 'Previous music'
     }
 
     getFields(): Field[] {
         return [
             {
                 name: 'device_id',
-                value: '',
-            },
-        ];
+                value: ''
+            }
+        ]
     }
 
     getFieldsDefinition(): FieldDefinition[] {
@@ -37,22 +39,21 @@ class PreviousMusic extends ReactionIntegration {
                 description: 'The device to play the music on',
                 type: 'string',
                 required: false,
-                default: false,
-            },
-        ];
+                default: false
+            }
+        ]
     }
 
-    getIngredientsDefinition(): any[] {
-        return [];
+    getIngredientsDefinition(): IngredientDefinition[] {
+        return []
     }
 
-    async run(fields: Map<string, string>, accessToken: string): Promise<void> {
-        console.log('Spotify: Next music');
-        
-        const deviceId = fields.get('device') ?? '';
-        void this.spotifyService.previousMusic(deviceId, accessToken);
+    run(fields: Map<string, string>, accessToken: string): void {
+        console.log('PreviousMusic', fields, accessToken)
+        const deviceId = fields.get('device') ?? ''
+        void this.spotifyService.previousMusic(deviceId, accessToken)
     }
 
 }
 
-export default PreviousMusic;
+export default PreviousMusic

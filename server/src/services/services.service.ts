@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Injectable } from '@nestjs/common'
 import { SubscriptionsService } from '../subscriptions/subscriptions.service'
 import type { Scenario } from '../scenarios/entities/scenario.entity'
@@ -28,27 +29,31 @@ export class ServicesService {
     }
 
     async run(accountId: string, scenario: Scenario, ingredients: Map<string, string>): Promise<void> {
-        const serviceIntergration = this.getIntegrationByName(scenario.reaction.serviceName)
-        if (!serviceIntergration)
-            return
-        const subscription = await this.subscriptionsService
-            .getSubscriptionsByAccountIdAndServiceName(
-                accountId,
-                scenario.reaction.serviceName
-            )
-        if (!subscription)
-            return
-        const reactionIntegration = serviceIntergration.getReactionByName(scenario.reaction.name)
-        if (!reactionIntegration)
-            return
-        const fields = new Map<string, string>()
-        for (let { name, value } of scenario.reaction.fields) {
-            value = value.replace(
-                /{{(.*?)}}/g,
-                (_, p1: string) => ingredients.get(p1) ?? `{{${p1}}}`
-            )
-            fields.set(name, value)
+        try {
+            const serviceIntergration = this.getIntegrationByName(scenario.reaction.serviceName)
+            if (!serviceIntergration)
+                return
+            const subscription = await this.subscriptionsService
+                .getSubscriptionsByAccountIdAndServiceName(
+                    accountId,
+                    scenario.reaction.serviceName
+                )
+            if (!subscription)
+                return
+            const reactionIntegration = serviceIntergration.getReactionByName(scenario.reaction.name)
+            if (!reactionIntegration)
+                return
+            const fields = new Map<string, string>()
+            for (let { name, value } of scenario.reaction.fields) {
+                value = value.replace(
+                    /{{(.*?)}}/g,
+                    (_, p1: string) => ingredients.get(p1) ?? `{{${p1}}}`
+                )
+                fields.set(name, value)
+            }
+            reactionIntegration.run(fields, subscription.accessToken)
+        } catch (error) {
+            console.error(error)
         }
-        reactionIntegration.run(fields, subscription.accessToken)
     }
 }
