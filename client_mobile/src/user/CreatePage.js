@@ -26,10 +26,37 @@ import {
   GetReactionParamsQuery,
 } from "../tools/Query";
 
+// CreatePage.js - Additional functions.
+
+function transformInput(input) {
+  const transformed = [];
+  input.forEach((item) => {
+    item.forEach((field) => {
+      transformed.push({
+        name: field.name,
+        value: field.value,
+      });
+    });
+  });
+  return transformed;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // CreatePage.js - Custom component.
 
 function CustomCreateModal(props) {
-  const { type, name, service, modalVisible, setModalVisible } = props;
+  const {
+    type,
+    name,
+    service,
+    modalVisible,
+    setModalVisible,
+    handleReactionsSave,
+    handleTriggersSave,
+  } = props;
 
   const [params, setParams] = useState([]);
   const [fields, setFields] = useState([]);
@@ -61,16 +88,9 @@ function CustomCreateModal(props) {
           setModalVisible(false);
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View style={{ backgroundColor: "#fff", padding: 20 }}>
-            <Text>Loading...</Text>
+        <View style={Style.appContainers.modalContainer}>
+          <View style={Style.appComponents.componentCardScenario}>
+            <Text style={Style.appCardTexts.textCardBlack}>Loading...</Text>
           </View>
         </View>
       </Modal>
@@ -87,9 +107,9 @@ function CustomCreateModal(props) {
 
   const handleSave = () => {
     if (type === "trigger") {
-      props.handleTriggersSave(fields);
+      handleTriggersSave(fields);
     } else if (type === "reaction") {
-      props.handleReactionsSave(fields);
+      handleReactionsSave(fields);
     }
     setModalVisible(false);
   };
@@ -109,17 +129,8 @@ function CustomCreateModal(props) {
             {paramNames.map((name, index) => (
               <TextInput
                 key={index}
-                style={{
-                  height: 40,
-                  width: 200,
-                  margin: 10,
-                  borderColor: "gray",
-                  borderRadius: 30,
-                  paddingVertical: 20,
-                  paddingHorizontal: 20,
-                  borderWidth: 1,
-                }}
-                placeholder={name}
+                style={Style.appComponents.componentModalField}
+                placeholder={capitalizeFirstLetter(name)}
                 placeholderTextColor="#000"
                 onChangeText={(value) => handleFieldChange(index, value, name)}
                 value={fields[index] ? fields[index].value : ""}
@@ -137,19 +148,6 @@ function CustomCreateModal(props) {
       </View>
     </Modal>
   );
-}
-
-function transformInput(input) {
-  const transformed = [];
-  input.forEach((item) => {
-    item.forEach((field) => {
-      transformed.push({
-        name: field.name,
-        value: field.value,
-      });
-    });
-  });
-  return transformed;
 }
 
 // CreatePage.js - Core function.

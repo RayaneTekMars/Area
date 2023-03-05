@@ -225,6 +225,10 @@ export const appCardTexts = StyleSheet.create({
     color: "#FF6666",
     fontSize: "20rem",
   },
+  textCardBlack: {
+    color: "#222222",
+    fontSize: "20rem",
+  },
 });
 
 // Style.js - Component variables.
@@ -270,6 +274,16 @@ export const appComponents = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     width: screenWidth * 0.8,
+  },
+  componentModalField: {
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#222222",
+    margin: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: 250,
+    height: 40,
   },
 });
 
