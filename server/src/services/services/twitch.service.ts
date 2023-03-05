@@ -47,13 +47,14 @@ export class TwitchService {
             if (!username)
                 return []
 
-            const lastStream = this.LastStream.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            )?.streamId ?? ''
+            const { scenarioId: lastScenarioId, streamId: lastStreamId }
+                = this.LastStream.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', streamId: '' }
 
             const { data: streams } = await twitchApi.getStreams({ channel: username })
 
-            const newStreams: Stream[] = streams.filter((x) => x.id !== lastStream)
+            const newStreams: Stream[] = streams.filter((x) => x.id !== lastStreamId)
                 .map((x) => ({
                     id: x.id,
                     username: x.user_name,
@@ -65,10 +66,11 @@ export class TwitchService {
 
             this.LastStream = [
                 ...this.LastStream.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
-                { accountId, scenarioId, streamId: newStreams[0]?.id ?? lastStream }
+                { accountId, scenarioId, streamId: newStreams[0]?.id ?? lastStreamId }
             ]
 
-            return newStreams
+            if (lastScenarioId === scenarioId)
+                return newStreams
         } catch (error) {
             console.error(error)
         }

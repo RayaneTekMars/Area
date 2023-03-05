@@ -52,9 +52,10 @@ export class DiscordService {
             const channelId = scenario.trigger.fields.find((x) => x.name === 'channel_id')?.value ?? ''
             const scenarioId = scenario.id
 
-            const { messageId: lastMessage, channelId: lastChannel } = this.LastMessage.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            ) ?? { messageId: 0, channelId: '' }
+            const { scenarioId: lastScenarioId, channelId: lastChannel, messageId: lastMessage }
+                = this.LastMessage.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', channelId: '', messageId: 0 }
 
             const discordChannel = await this.client.channels.fetch(channelId)
             if (discordChannel instanceof Discord.TextChannel) {
@@ -73,10 +74,11 @@ export class DiscordService {
                     { accountId, scenarioId, channelId, messageId: Number(newMessages[0]?.id ?? ((lastChannel === channelId) ? lastMessage : 0)) }
                 ]
 
-                return (lastChannel === channelId) ? newMessages : []
+                if (lastScenarioId === scenarioId && lastChannel === channelId)
+                    return newMessages
+            } else {
+                console.error('Channel is not a text channel')
             }
-            console.error('Channel is not a text channel')
-            return []
         } catch (error) {
             console.error(error)
         }

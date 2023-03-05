@@ -51,9 +51,10 @@ export class GithubService {
             if (!owner || !repo)
                 return []
 
-            const { commits: lastCommits, repositoryUrl: lastRepositoryUrl } = this.Commits.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            ) ?? { commits: [] as string[], repositoryUrl: '' }
+            const { scenarioId: lastScenarioId, repositoryUrl: lastRepositoryUrl, commits: lastCommits }
+                = this.Commits.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', repositoryUrl: '', commits: [] as string[] }
 
             const { data: commits } = await octokit.request('GET /repos/{owner}/{repo}/commits', {
                 owner,
@@ -83,7 +84,8 @@ export class GithubService {
                 { accountId, scenarioId, repositoryUrl, commits: commits.map((x) => x.sha) }
             ]
 
-            return (lastRepositoryUrl === repositoryUrl) ? newCommits : []
+            if (lastScenarioId === scenarioId && lastRepositoryUrl === repositoryUrl)
+                return newCommits
         } catch (error) {
             console.error(error)
         }

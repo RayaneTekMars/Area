@@ -38,6 +38,7 @@ export class TwitterService {
     constructor(private readonly servicesService: ServicesService) {
         this.Followers = []
         this.LastDirectMessage = []
+        console.log('TwitterService constructor')
         this.servicesService.setIntegration(new TwitterIntegration(this))
     }
 
@@ -55,19 +56,22 @@ export class TwitterService {
 
             const { data: followers } = await twitterApi.v2.followers(userId, { max_results: 1000 })
             const newFollowers: Follower[] = followers
-                .filter((x) => lastFollowers.includes(x.id))
+                .filter((x) => !lastFollowers.includes(x.id))
                 .map(({ id, name, username }) => ({
                     id,
                     name,
                     username: `@${username}`
                 }))
 
+            console.log('this.Followers before:', this.Followers)
+
             this.Followers = [
                 ...this.Followers.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, followers: followers.map((x) => x.id) }
             ]
 
-            return (lastScenarioId === scenarioId) ? newFollowers : []
+            if (lastScenarioId === scenarioId)
+                return newFollowers
         } catch (error) {
             console.error(error)
         }
@@ -119,7 +123,6 @@ export class TwitterService {
 
             if (lastScenarioId === scenarioId && lastSenderId === senderId)
                 return newDirectMessages
-            return []
         } catch (error) {
             console.error(error)
         }

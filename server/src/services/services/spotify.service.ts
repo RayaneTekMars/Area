@@ -36,24 +36,24 @@ export class SpotifyService {
             const spotifyApi = new SpotifyWebApi({ accessToken })
             const scenarioId = scenario.id
 
-            const lastTrack = this.LastTrack.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            )?.trackId ?? ''
+            const { scenarioId: lastScenarioId, trackId: lastTrackId }
+                = this.LastTrack.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', trackId: '' }
 
             const { body: { item: track } } = await spotifyApi.getMyCurrentPlayingTrack() as { body: { item: TrackResponse | undefined } }
 
             if (!track)
                 return []
 
-            if (track.id !== lastTrack) {
+            if (track.id !== lastTrackId) {
                 this.LastTrack = [
                     ...this.LastTrack.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                     { accountId, scenarioId, trackId: track.id }
                 ]
-                return [{ id: track.id, name: track.name, artist: track.artists[0].name }]
+                if (lastScenarioId === scenarioId)
+                    return [{ id: track.id, name: track.name, artist: track.artists[0].name }]
             }
-
-            return []
         } catch (error) {
             console.error(error)
         }

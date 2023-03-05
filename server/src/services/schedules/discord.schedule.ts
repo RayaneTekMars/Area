@@ -9,16 +9,13 @@ import { DiscordSubscribeService } from '../../subscriptions/services/discord.su
 
 @Injectable()
 export class DiscordSchedule {
-    scenarios: string[]
 
     constructor(
         private readonly discordService: DiscordService,
         private readonly scenariosService: ScenariosService,
         private readonly subscriptionsService: SubscriptionsService,
         private readonly discordSubscribeService: DiscordSubscribeService
-    ) {
-        this.scenarios = []
-    }
+    ) {}
 
     @Interval(5000)
     async handleNewMessages() {
@@ -28,18 +25,12 @@ export class DiscordSchedule {
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Discord, 'NewMessage')
             console.log(`Discord: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
-            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const messages = await this.discordService.getNewMessages(sub.account.id, scenario)
                 console.log(`Discord: Found ${messages.length} new messages:`)
                 console.log(messages)
-                if (this.scenarios.includes(scenario.id)) {
-                    for (const message of messages)
-                        void this.discordService.triggerNewMessage(sub.account.id, scenario, message)
-                } else {
-                    console.log('Discord: New message scenario')
-                    this.scenarios.push(scenario.id)
-                }
+                for (const message of messages)
+                    void this.discordService.triggerNewMessage(sub.account.id, scenario, message)
             }
         }
     }

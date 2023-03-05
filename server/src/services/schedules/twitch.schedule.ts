@@ -9,16 +9,13 @@ import { TwitchService } from '../services/twitch.service'
 
 @Injectable()
 export class TwitchSchedule {
-    scenarios: string[]
 
     constructor(
         private readonly twitchService: TwitchService,
         private readonly scenariosService: ScenariosService,
         private readonly subscriptionsService: SubscriptionsService,
         private readonly twitchSubscribeService: TwitchSubscribeService
-    ) {
-        this.scenarios = []
-    }
+    ) {}
 
     @Interval(6000)
     async handleNewStreams() {
@@ -28,17 +25,12 @@ export class TwitchSchedule {
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitch, 'NewStream')
             console.log(`Twitch: Found ${scenarios.length} scenarios for "${sub.account.username}"`)
-            this.scenarios = this.scenarios.filter((x) => scenarios.map((y) => y.id).includes(x))
             for await (const scenario of scenarios) {
                 const streams = await this.twitchService.getStreamOfUser(sub.account.id, scenario, sub.accessToken)
                 console.log('Twitch: Found new stream:', streams)
-                if (this.scenarios.includes(scenario.id)) {
-                    for (const stream of streams)
-                        void this.twitchService.triggerNewStream(sub.account.id, scenario, stream)
-                } else {
-                    console.log('Twitch: New stream scenario')
-                    this.scenarios.push(scenario.id)
-                }
+                console.log(streams)
+                for (const stream of streams)
+                    void this.twitchService.triggerNewStream(sub.account.id, scenario, stream)
             }
         }
     }
