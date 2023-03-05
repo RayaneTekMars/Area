@@ -333,7 +333,7 @@ export default function ScenarioPage() {
     //add chip value to my clipboard
     navigator.clipboard.writeText("{{" + param + "}}");
     // display a message to the user to let them know that the value has been copied
-    window.alert(`"${param.value}" has been copied to your clipboard.`);
+    window.alert(`"${param}" has been copied to your clipboard.`);
   };
   
   
