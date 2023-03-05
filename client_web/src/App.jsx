@@ -55,7 +55,7 @@ const App = () => (
               }}
             >
               <a
-                href="./index.css"
+                href="./automateme.apk"
                 download
                 style={{
                   textDecoration: "none",
