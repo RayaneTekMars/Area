@@ -125,10 +125,17 @@ function CustomCreateModal(props) {
     >
       <View style={Style.appContainers.modalContainer}>
         <View style={Style.appComponents.componentCardScenario}>
-          <View style={{ backgroundColor: "#fff", padding: 20 }}>
+          <View style={{ margin: 5 }}>
+            <Text style={Style.appCardTexts.textCardBlack}>
+              Select your parameters ⚙️
+            </Text>
+          </View>
+
+          <View style={{ padding: 20 }}>
             {paramNames.map((name, index) => (
               <TextInput
                 key={index}
+                editable={true}
                 style={Style.appComponents.componentModalField}
                 placeholder={capitalizeFirstLetter(name)}
                 placeholderTextColor="#000"
