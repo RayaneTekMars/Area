@@ -94,7 +94,7 @@ export default function ScenarioPage() {
       .then(() => {
         let serviceArray = [];
         let serviceReactionArray = [];
-        let services = [];
+        let services = data.data.map((item) => item.serviceName);
         services.map((service) => {
           if (service === "Twitter") {
             serviceArray.push([
