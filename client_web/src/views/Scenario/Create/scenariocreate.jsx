@@ -73,7 +73,7 @@ function CreateScenario(
   })
     .then((response) => response.json())
     .then((data) => {
-      window.location.href = "http://localhost:8081/scenario";
+      window.location.href = "https://www.automateme.fr/scenario";
     })
     .catch((error) => {
     });
