@@ -69,6 +69,12 @@ export const appContainers = StyleSheet.create({
     flexDirection: "column",
     paddingLeft: "5%",
   },
+  modalContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
 });
 
 export const appButtonContainers = StyleSheet.create({
@@ -173,6 +179,11 @@ export const appTexts = StyleSheet.create({
   },
   textButton: {
     color: "#222222",
+    fontSize: "20rem",
+    fontFamily: "Inter-Bold",
+  },
+  textButtonLight: {
+    color: "#FFFFFF",
     fontSize: "20rem",
     fontFamily: "Inter-Bold",
   },

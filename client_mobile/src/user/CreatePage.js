@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
-  Button,
 } from "react-native";
 
 // CreatePage.js - Tools imports.
@@ -32,10 +31,8 @@ import {
 function CustomCreateModal(props) {
   const { type, name, service, modalVisible, setModalVisible } = props;
 
-  console.log("[LOG] - Name: ", name);
-  console.log("[LOG] - Service: ", service);
-
   const [params, setParams] = useState([]);
+  const [fields, setFields] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +51,48 @@ function CustomCreateModal(props) {
     fetchData();
   }, [service, name]);
 
-  console.log("[LOG] - Params: ", params);
+  if (params.length === 0) {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <View style={{ backgroundColor: "#fff", padding: 20 }}>
+            <Text>Loading...</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  const paramNames = params.fields.map((field) => field.name);
+
+  const handleFieldChange = (index, value, name) => {
+    const updatedFields = [...fields];
+    updatedFields[index] = { value, name };
+    setFields(updatedFields);
+  };
+
+  const handleSave = () => {
+    if (type === "trigger") {
+      props.handleTriggersSave(fields);
+    } else if (type === "reaction") {
+      props.handleReactionsSave(fields);
+    }
+    setModalVisible(false);
+  };
 
   return (
     <Modal
@@ -65,18 +103,36 @@ function CustomCreateModal(props) {
         setModalVisible(false);
       }}
     >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <View style={{ backgroundColor: "#fff", padding: 20 }}>
-          <Text>Hello, I am a modal!</Text>
-          <Text>{params.length}</Text>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
+      <View style={Style.appContainers.modalContainer}>
+        <View style={Style.appComponents.componentCardScenario}>
+          <View style={{ backgroundColor: "#fff", padding: 20 }}>
+            {paramNames.map((name, index) => (
+              <TextInput
+                key={index}
+                style={{
+                  height: 40,
+                  width: 200,
+                  margin: 10,
+                  borderColor: "gray",
+                  borderRadius: 30,
+                  paddingVertical: 20,
+                  paddingHorizontal: 20,
+                  borderWidth: 1,
+                }}
+                placeholder={name}
+                placeholderTextColor="#000"
+                onChangeText={(value) => handleFieldChange(index, value, name)}
+                value={fields[index] ? fields[index].value : ""}
+              />
+            ))}
+          </View>
+
+          <TouchableOpacity
+            style={Style.appButtonComponents.componentServiceButton}
+            onPress={() => handleSave()}
+          >
+            <Text style={Style.appTexts.textButtonLight}>Save</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -90,6 +146,17 @@ export default function CreatePage({ navigation }) {
 
   if (!fontsLoaded) {
     return null;
+  }
+
+  const [triggerFields, setTriggerFields] = useState([]);
+  const [reactionFields, setReactionFields] = useState([]);
+
+  function handleTriggersSave(newData) {
+    setTriggerFields([...triggerFields, newData]);
+  }
+
+  function handleReactionsSave(newData) {
+    setReactionFields([...reactionFields, newData]);
   }
 
   const isFocused = useIsFocused();
@@ -229,6 +296,7 @@ export default function CreatePage({ navigation }) {
                   service={firstService}
                   modalVisible={triggerModalVisible}
                   setModalVisible={setTriggerModalVisible}
+                  handleTriggersSave={handleTriggersSave}
                 />
               ) : null}
 
@@ -286,6 +354,7 @@ export default function CreatePage({ navigation }) {
                 service={secondService}
                 modalVisible={reactionModalVisible}
                 setModalVisible={setReactionModalVisible}
+                handleReactionsSave={handleReactionsSave}
               />
             ) : null}
 
@@ -303,7 +372,9 @@ export default function CreatePage({ navigation }) {
                     firstService,
                     trigger,
                     secondService,
-                    reaction
+                    reaction,
+                    triggerFields,
+                    reactionFields
                   )
                 }
               >

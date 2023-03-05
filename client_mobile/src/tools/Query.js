@@ -91,7 +91,9 @@ export async function PostScenarioQuery(
   firstService,
   trigger,
   secondService,
-  reaction
+  reaction,
+  triggerFields,
+  reactionFields
 ) {
   try {
     const bearerToken = await AsyncStorage.getItem("token");
@@ -101,18 +103,12 @@ export async function PostScenarioQuery(
       trigger: {
         name: trigger,
         serviceName: firstService,
-        params: [],
+        fields: triggerFields,
       },
       reaction: {
         name: reaction,
         serviceName: secondService,
-        params: [
-          {
-            name: "text",
-            value: "Hello World",
-            required: true,
-          },
-        ],
+        fields: reactionFields,
       },
     };
 
