@@ -94,7 +94,7 @@ export default function ScenarioPage() {
       .then(() => {
         let serviceArray = [];
         let serviceReactionArray = [];
-        let services = ["Twitter", "Github", "Twitch", "Discord", "Spotify"];
+        let services = [];
         services.map((service) => {
           if (service === "Twitter") {
             serviceArray.push([
@@ -328,6 +328,10 @@ export default function ScenarioPage() {
     setFieldReaction(fieldList[index]);
   }
 
+  function handleChipClick(event, label) {
+    navigator.clipboard.writeText(label);
+  }
+
   const handleTextFieldChangeParamAction = (index, value) => {
     const newParamAction = [...paramAction];
     newParamAction[index].value = value;
@@ -420,7 +424,7 @@ export default function ScenarioPage() {
           <div style={{ marginTop: "5%" }}>
             <Typography
               style={{
-                fontFamily: "Avenir",
+                fontFamily: "Roboto",
                 fontWeight: "900",
                 fontSize: "32px",
                 color: "#fff",
@@ -434,7 +438,7 @@ export default function ScenarioPage() {
           <div style={{ marginTop: "5%" }}>
             <Typography
               style={{
-                fontFamily: "Avenir",
+                fontFamily: "Roboto",
                 fontWeight: "900",
                 fontSize: "20px",
                 color: "#fff",
@@ -545,23 +549,10 @@ export default function ScenarioPage() {
       </div>
 
       <div>
-        {paramAction.map((param, index) => (
-          <Chip
-            key={index}
-            label={param.name}
-            variant="outlined"
-            style={{
-              margin: "4px",
-              backgroundColor: "white",
-            }}
-          />
-        ))}
-      </div>
-      <div>
         <div style={{ marginTop: "5%" }}>
           <Typography
             style={{
-              fontFamily: "Avenir",
+              fontFamily: "Roboto",
               fontWeight: "900",
               fontSize: "32px",
               color: "#fff",
@@ -575,7 +566,7 @@ export default function ScenarioPage() {
         <div style={{ marginTop: "5%" }}>
           <Typography
             style={{
-              fontFamily: "Avenir",
+              fontFamily: "Roboto",
               fontWeight: "900",
               fontSize: "20px",
               color: "#fff",
@@ -583,7 +574,8 @@ export default function ScenarioPage() {
               marginTop: "5%",
             }}
           >
-            Choisissez un service que vous souhaitez utiliser pour votre réaction
+            Choisissez un service que vous souhaitez utiliser pour votre
+            réaction
           </Typography>
         </div>
       </div>
@@ -679,6 +671,20 @@ export default function ScenarioPage() {
                 style: { display: "none" },
               }}
             />
+            <div style={{margintTop: "2%"}}>
+              {paramAction.map((param, index) => (
+                <Chip
+                  key={index}
+                  label={param.name}
+                  variant="outlined"
+                  onClick={(event) => handleChipClick(event, param.name)}
+                  style={{
+                    margin: "4px",
+                    backgroundColor: "white",
+                  }}
+                />
+              ))}
+            </div>
           </div>
         ))}
       </div>
