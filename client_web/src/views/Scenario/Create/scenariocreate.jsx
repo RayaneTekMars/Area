@@ -186,6 +186,23 @@ export default function ScenarioPage() {
                 </svg>`,
               "spotify",
             ]);
+            serviceReactionArray.push([
+              "Spotify",
+              "#1ED760",
+              `<svg
+                  width="65"
+                  height="65"
+                  viewBox="0 0 65 65"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M32.4985 0.107178C14.6045 0.107178 0.0978851 14.6134 0.0978851 32.5074C0.0978851 50.4021 14.6045 64.9072 32.4985 64.9072C50.3943 64.9072 64.8994 50.4021 64.8994 32.5074C64.8994 14.6146 50.3943 0.108725 32.4981 0.108725L32.4985 0.107178ZM47.3571 46.8375C46.7768 47.7893 45.5309 48.0911 44.5792 47.5069C36.9718 42.8602 27.3952 41.8078 16.1169 44.3846C15.0301 44.6322 13.9468 43.9512 13.6991 42.864C13.4504 41.7768 14.1286 40.6935 15.2181 40.4459C27.5604 37.625 38.1473 38.8402 46.6878 44.0596C47.6396 44.6438 47.9414 45.8858 47.3571 46.8375ZM51.3229 38.0142C50.5917 39.2039 49.0363 39.5792 47.8485 38.848C39.1393 33.4936 25.8634 31.9433 15.5621 35.0702C14.2261 35.4738 12.8151 34.7208 12.4096 33.3872C12.0072 32.0512 12.7605 30.6429 14.0942 30.2366C25.8611 26.6663 40.4896 28.3957 50.4911 34.5417C51.6789 35.273 52.0542 36.8279 51.3229 38.0142ZM51.6634 28.8275C41.2208 22.625 23.992 22.0547 14.0218 25.0807C12.4208 25.5663 10.7277 24.6625 10.2425 23.0615C9.75735 21.4597 10.6604 19.7677 12.2626 19.281C23.7076 15.8066 42.7336 16.4779 54.7563 23.6151C56.1995 24.4698 56.6715 26.3296 55.8164 27.7678C54.9652 29.2078 53.1003 29.6826 51.6649 28.8275H51.6634Z"
+                    fill="white"
+                  />
+                </svg>`,
+              "spotify",
+            ]);
           }
           if (service === "Twitch") {
             serviceArray.push([
@@ -228,7 +245,6 @@ export default function ScenarioPage() {
 
   const [selectedServiceAction, setServiceAction] = useState("");
   const [selectedServiceReaction, setServiceReaction] = useState("");
-
 
   const changeSelectedServiceAction = (newService) => {
     setServiceAction(newService);
@@ -335,8 +351,6 @@ export default function ScenarioPage() {
     // display a message to the user to let them know that the value has been copied
     window.alert(`"${param}" has been copied to your clipboard.`);
   };
-  
-  
 
   const handleTextFieldChangeParamAction = (index, value) => {
     const newParamAction = [...paramAction];
@@ -632,6 +646,20 @@ export default function ScenarioPage() {
           alignItems: "center",
         }}
       >
+        <div style={{ margintTop: "2%" }}>
+          {paramAction.map((param, index) => (
+            <Chip
+              key={index}
+              label={param.name}
+              variant="outlined"
+              onClick={(event) => handleChipClick(event, param.name)}
+              style={{
+                margin: "4px",
+                backgroundColor: "white",
+              }}
+            />
+          ))}
+        </div>
         {fieldReaction.map((param, index) => (
           <div
             key={index}
@@ -673,20 +701,6 @@ export default function ScenarioPage() {
                 style: { display: "none" },
               }}
             />
-            <div style={{ margintTop: "2%" }}>
-              {paramAction.map((param, index) => (
-                <Chip
-                  key={index}
-                  label={param.name}
-                  variant="outlined"
-                  onClick={(event) => handleChipClick(event, param.name)}
-                  style={{
-                    margin: "4px",
-                    backgroundColor: "white",
-                  }}
-                />
-              ))}
-            </div>
           </div>
         ))}
       </div>
