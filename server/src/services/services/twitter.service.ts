@@ -48,13 +48,14 @@ export class TwitterService {
             const scenarioId = scenario.id
 
             const { data: { id: userId } } = await twitterApi.v2.me()
-            const lastFollowers = this.Followers.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            )?.followers ?? []
+            const { scenarioId: lastScenarioId, followers: lastFollowers }
+                = this.Followers.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', followers: [] as string[] }
 
-            const { data: followers } = await twitterApi.v2.followers(userId)
+            const { data: followers } = await twitterApi.v2.followers(userId, { max_results: 1000 })
             const newFollowers: Follower[] = followers
-                .filter((x) => !lastFollowers.includes(x.id))
+                .filter((x) => lastFollowers.includes(x.id))
                 .map(({ id, name, username }) => ({
                     id,
                     name,
@@ -66,7 +67,7 @@ export class TwitterService {
                 { accountId, scenarioId, followers: followers.map((x) => x.id) }
             ]
 
-            return newFollowers
+            return (lastScenarioId === scenarioId) ? newFollowers : []
         } catch (error) {
             console.error(error)
         }
@@ -81,9 +82,10 @@ export class TwitterService {
             const { data: { id: userId } } = await twitterApi.v2.me()
             const username = scenario.trigger.fields.find((x) => x.name === 'username')?.value ?? ''
 
-            const { id: lastDirectMessage, senderId: lastSenderId } = this.LastDirectMessage.find(
-                (x) => x.accountId === accountId && x.scenarioId === scenarioId
-            ) ?? { id: 0, senderId: '' }
+            const { scenarioId: lastScenarioId, senderId: lastSenderId, id: lastDirectMessage }
+                = this.LastDirectMessage.find(
+                    (x) => x.accountId === accountId && x.scenarioId === scenarioId
+                ) ?? { scenarioId: '', senderId: '', id: 0 }
 
             const dmEvent = await twitterApi.v2.listDmEvents({
                 'dm_event.fields': 'id,text,sender_id',
@@ -115,7 +117,9 @@ export class TwitterService {
                 { accountId, scenarioId, senderId, id: Number(dmEvent.events[0]?.id ?? ((lastSenderId === senderId) ? lastDirectMessage : 0)) }
             ]
 
-            return (lastSenderId === senderId) ? newDirectMessages : []
+            if (lastScenarioId === scenarioId && lastSenderId === senderId)
+                return newDirectMessages
+            return []
         } catch (error) {
             console.error(error)
         }
