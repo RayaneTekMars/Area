@@ -20,7 +20,7 @@ export class DiscordSchedule {
         this.scenarios = []
     }
 
-    @Interval(1000)
+    @Interval(5000)
     async handleNewMessages() {
         console.log('Discord: Checking for new messages...')
         const subs = await this.subscriptionsService.getSubscriptionsByServiceName(ServiceName.Discord)
