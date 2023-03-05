@@ -10,7 +10,12 @@ import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 import * as Style from "../tools/Style";
 import { Shapes } from "../tools/Image";
 import { FontContext } from "../tools/Utils";
-import { PostScenarioQuery, GetServicesLinkedQuery } from "../tools/Query";
+import {
+  PostScenarioQuery,
+  GetServicesLinkedQuery,
+  GetServiceTriggersQuery,
+  GetServiceReactionsQuery,
+} from "../tools/Query";
 
 // CreatePage.js - Core function.
 
@@ -47,6 +52,41 @@ export default function CreatePage({ navigation }) {
   const [trigger, setTrigger] = useState("");
   const [secondService, setSecondService] = useState("");
   const [reaction, setReaction] = useState("");
+
+  const [triggers, setTriggers] = useState([]);
+  const [reactions, setReactions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (firstService) {
+          const triggersListData = await GetServiceTriggersQuery(firstService);
+          const triggersList = triggersListData.map((item) => item.name);
+          setTriggers(triggersList);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching triggers: ", error);
+      }
+    };
+    fetchData();
+  }, [firstService]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (secondService) {
+          const reactionsListData = await GetServiceReactionsQuery(
+            secondService
+          );
+          const reactionsList = reactionsListData.map((item) => item.name);
+          setReactions(reactionsList);
+        }
+      } catch (error) {
+        console.error("[LOG] - Error while fetching reactions: ", error);
+      }
+    };
+    fetchData();
+  }, [secondService]);
 
   return (
     <View style={Style.appContainers.globalContainer}>
@@ -89,7 +129,7 @@ export default function CreatePage({ navigation }) {
 
               {firstService.length > 0 ? (
                 <SelectDropdown
-                  data={[]}
+                  data={triggers}
                   defaultButtonText={"Trigger"}
                   dropdownStyle={{ borderRadius: 20 }}
                   buttonStyle={Style.appComponents.componentDropdown}
@@ -125,7 +165,7 @@ export default function CreatePage({ navigation }) {
 
               {secondService.length > 0 ? (
                 <SelectDropdown
-                  data={[]}
+                  data={reactions}
                   defaultButtonText={"Reaction"}
                   dropdownStyle={{ borderRadius: 20 }}
                   buttonStyle={Style.appComponents.componentDropdown}

@@ -336,6 +336,60 @@ export async function DeleteServiceQuery(service) {
   }
 }
 
+export async function GetServiceTriggersQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/triggers",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching service triggers.");
+    }
+  } catch (error) {
+    alert("Error while fetching service triggers.");
+  }
+}
+
+export async function GetServiceReactionsQuery(service) {
+  try {
+    const bearerToken = await AsyncStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: "Bearer " + bearerToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.get(
+      "https://api.automateme.fr/services/" + service + "/reactions",
+      config
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      alert("Error while fetching service reactions.");
+    }
+  } catch (error) {
+    alert("Error while fetching service reactions.");
+  }
+}
+
 // Query.js - Token query.
 
 export async function PutAccessTokenQuery(service) {
