@@ -30,11 +30,14 @@ export class TwitterSchedule {
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewFollower')
             console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            console.log('scenariosNewFollowers before:', this.scenariosNewFollowers)
             this.scenariosNewFollowers = this.scenariosNewFollowers.filter((x) => scenarios.map((y) => y.id).includes(x))
+            console.log('scenariosNewFollowers after:', this.scenariosNewFollowers)
             for await (const scenario of scenarios) {
                 const followers = await this.twitterService.getNewFollowers(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${followers.length} new followers`)
                 console.log(followers)
+                console.log('scenario.id:', scenario.id)
                 if (this.scenariosNewFollowers.includes(scenario.id)) {
                     for (const follower of followers)
                         void this.twitterService.triggerNewFollower(sub.account.id, scenario, follower)
@@ -54,7 +57,9 @@ export class TwitterSchedule {
         for await (const sub of subs) {
             const scenarios = await this.scenariosService.getScenariosByTrigger(sub.account.id, ServiceName.Twitter, 'NewDirectMessage')
             console.log(`Twitter: Found ${scenarios.length} scenarios for the user "${sub.account.username}"`)
+            console.log('scenariosNewDirectMessages before:', this.scenariosNewDirectMessages)
             this.scenariosNewDirectMessages = this.scenariosNewDirectMessages.filter((x) => scenarios.map((y) => y.id).includes(x))
+            console.log('scenariosNewDirectMessages after:', this.scenariosNewDirectMessages)
             for await (const scenario of scenarios) {
                 const messages = await this.twitterService.getNewDirectMessages(sub.account.id, scenario, sub.accessToken)
                 console.log(`Twitter: Found ${messages.length} new direct messages`)
