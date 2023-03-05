@@ -8,6 +8,7 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment:
+      # POSTGRES
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -20,19 +21,21 @@ services:
     restart: on-failure
     ports:
       - ${ADMINER_PORT}:8080
+    depends_on:
+      - postgres_db
     networks:
       - pg-tier
 
   server:
     build: ./server
+    restart: on-failure
     ports:
-      - ${APP_PORT}:8080
+      - ${APP_PORT}:${APP_PORT}
     depends_on:
       - postgres_db
     environment:
-
       # SERVER
-      APP_PORT: 8080
+      APP_PORT: ${APP_PORT}
 
       # SWAGGER
       IS_SWAGGER_DOC_VISIBLE: ${IS_SWAGGER_DOC_VISIBLE}
@@ -81,14 +84,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: postgres_db
-
-    volumes:
-      - ./server:/app
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     networks:
       - pg-tier
       - api-tier
-
 
   # client_mobile:
   #   build: ./client_mobile
@@ -116,4 +116,3 @@ networks:
     driver: bridge
   api-tier:
     driver: bridge
-

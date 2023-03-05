@@ -1,7 +1,5 @@
-import { networkInterfaces } from 'node:os'
-import { Controller, Get, Req } from '@nestjs/common'
+import { Controller, Get, Ip } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { Request } from 'express'
 import { AboutDto } from './dto/about.dto'
 import { ServicesService } from '../services/services.service'
 
@@ -11,20 +9,11 @@ export class AboutController {
 
     constructor(private readonly servicesService: ServicesService) {}
 
-    private getHost = () => {
-        const interfaces = networkInterfaces()
-        for (const interfaceName of Object.keys(interfaces))
-            for (const net of interfaces[interfaceName] ?? [])
-                if (net.family === 'IPv4' && !net.internal)
-                    return net.address
-        return '127.0.0.1'
-    }
-
     @Get('/about.json')
-    about(@Req() request: Request): AboutDto {
+    about(@Ip() ip: string): AboutDto {
         return {
             client: {
-                host: request.hostname
+                host: ip
             },
             server: {
                 current_time: Math.floor(Date.now() / 1000),

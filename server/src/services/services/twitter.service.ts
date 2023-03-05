@@ -62,7 +62,7 @@ export class TwitterService {
                 }))
 
             this.Followers = [
-                ...this.Followers.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                ...this.Followers.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, followers: followers.map((x) => x.id) }
             ]
 
@@ -111,7 +111,7 @@ export class TwitterService {
                 }))
 
             this.LastDirectMessage = [
-                ...this.LastDirectMessage.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                ...this.LastDirectMessage.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, senderId, id: Number(dmEvent.events[0]?.id ?? (lastSenderId === senderId) ? lastDirectMessage : 0) }
             ]
 

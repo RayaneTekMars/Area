@@ -69,7 +69,7 @@ export class DiscordService {
                     }))
 
                 this.LastMessage = [
-                    ...this.LastMessage.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                    ...this.LastMessage.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                     { accountId, scenarioId, channelId, messageId: Number(newMessages[0]?.id ?? (lastChannel === channelId) ? lastMessage : 0) }
                 ]
 

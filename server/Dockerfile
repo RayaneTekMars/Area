@@ -1,7 +1,7 @@
 FROM node:lts as builder
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy app files
 COPY . .
@@ -15,7 +15,7 @@ RUN yarn build
 FROM node:lts-slim
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy production dependencies
 COPY package.json yarn.lock ./
@@ -27,7 +27,7 @@ ENV NODE_ENV production
 RUN yarn install --production
 
 # Copy built app
-COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /app/dist ./dist
 
 # Expose port 8080
 EXPOSE 8080

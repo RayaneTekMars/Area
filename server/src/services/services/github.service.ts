@@ -79,7 +79,7 @@ export class GithubService {
                 }))
 
             this.Commits = [
-                ...this.Commits.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                ...this.Commits.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, repositoryUrl, commits: commits.map((x) => x.sha) }
             ]
 

@@ -64,7 +64,7 @@ export class TwitchService {
                 }))
 
             this.LastStream = [
-                ...this.LastStream.filter((x) => x.accountId !== accountId && x.scenarioId !== scenarioId),
+                ...this.LastStream.filter((x) => !(x.accountId === accountId && x.scenarioId === scenarioId)),
                 { accountId, scenarioId, streamId: newStreams[0]?.id ?? lastStream }
             ]
 
