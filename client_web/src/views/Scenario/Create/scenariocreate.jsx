@@ -228,6 +228,8 @@ export default function ScenarioPage() {
 
   const [selectedServiceAction, setServiceAction] = useState("");
   const [selectedServiceReaction, setServiceReaction] = useState("");
+  const [params, setParams] = useState([]);
+
 
   const changeSelectedServiceAction = (newService) => {
     setServiceAction(newService);
@@ -328,9 +330,12 @@ export default function ScenarioPage() {
     setFieldReaction(fieldList[index]);
   }
 
-  function handleChipClick(event, label) {
-    navigator.clipboard.writeText(label);
-  }
+  const handleChipClick = (event, param) => {
+    const updatedParams = [...params];
+    const index = updatedParams.findIndex((p) => p.name === param.name);
+    updatedParams[index] = { ...updatedParams[index], value: "{{" + param.name + "}}" };
+    setParams(updatedParams);
+  };
 
   const handleTextFieldChangeParamAction = (index, value) => {
     const newParamAction = [...paramAction];
@@ -424,7 +429,6 @@ export default function ScenarioPage() {
           <div style={{ marginTop: "5%" }}>
             <Typography
               style={{
-                fontFamily: "Roboto",
                 fontWeight: "900",
                 fontSize: "32px",
                 color: "#fff",
@@ -438,7 +442,6 @@ export default function ScenarioPage() {
           <div style={{ marginTop: "5%" }}>
             <Typography
               style={{
-                fontFamily: "Roboto",
                 fontWeight: "900",
                 fontSize: "20px",
                 color: "#fff",
@@ -552,7 +555,6 @@ export default function ScenarioPage() {
         <div style={{ marginTop: "5%" }}>
           <Typography
             style={{
-              fontFamily: "Roboto",
               fontWeight: "900",
               fontSize: "32px",
               color: "#fff",
@@ -566,7 +568,6 @@ export default function ScenarioPage() {
         <div style={{ marginTop: "5%" }}>
           <Typography
             style={{
-              fontFamily: "Roboto",
               fontWeight: "900",
               fontSize: "20px",
               color: "#fff",
@@ -671,13 +672,13 @@ export default function ScenarioPage() {
                 style: { display: "none" },
               }}
             />
-            <div style={{margintTop: "2%"}}>
+            <div style={{ margintTop: "2%" }}>
               {paramAction.map((param, index) => (
                 <Chip
                   key={index}
                   label={param.name}
                   variant="outlined"
-                  onClick={(event) => handleChipClick(event, param.name)}
+                  onClick={(event) => handleChipClick(event, param)}
                   style={{
                     margin: "4px",
                     backgroundColor: "white",
