@@ -39,6 +39,10 @@ All the developer docs and user docs can be found [here](https://docs.automateme
 
 [Mobile](https://docs.automateme.fr/)
 
+## API documentation
+
+[AutoMateMeAPI](/server/api.md)
+
 ## Authors
 
 - Rayane ELOUDJEDI - [GitHub](https://github.com/RayaneTekMars)

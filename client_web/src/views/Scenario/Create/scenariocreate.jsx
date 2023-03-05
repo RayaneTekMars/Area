@@ -23,11 +23,11 @@ function CreateScenario(
   reactionFields
 ) {
   actionFields = actionFields.map((field) => {
-    return { name: field.name, value: field.value };
+    return { name: field.name, value: field.value ?? "" };
   });
 
   reactionFields = reactionFields.map((field) => {
-    return { name: field.name, value: field.value };
+    return { name: field.name, value: field.value ?? "" };
   });
 
   let actionDescription = "";
@@ -52,7 +52,6 @@ function CreateScenario(
       serviceName: selectedServiceAction,
       description: actionDescription,
       fields: actionFields,
-      ingredients: actionIngredients,
     },
     reaction: {
       name: selectedServiceReactionName,
@@ -543,7 +542,7 @@ export default function ScenarioPage() {
               {param.name}
             </Typography>
             <TextField
-              value={param.value ?? ""}
+              value={param.value}
               onChange={(event) =>
                 handleTextFieldChangeFieldAction(index, event.target.value)
               }
@@ -682,7 +681,7 @@ export default function ScenarioPage() {
               {param.name}
             </Typography>
             <TextField
-              value={param.value ?? ""}
+              value={param.value}
               onChange={(event) =>
                 handleTextFieldChangeFieldReaction(index, event.target.value)
               }
