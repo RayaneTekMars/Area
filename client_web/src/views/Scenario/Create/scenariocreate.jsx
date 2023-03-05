@@ -91,7 +91,7 @@ export default function ScenarioPage() {
       },
     })
       .then((res) => res.json())
-      .then(() => {
+      .then((data) => {
         let serviceArray = [];
         let serviceReactionArray = [];
         let services = data.data.map((item) => item.serviceName);
