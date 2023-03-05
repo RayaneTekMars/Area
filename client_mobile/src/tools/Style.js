@@ -60,8 +60,8 @@ export const appContainers = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
-    top: "30%",
+    width: "100%",
+    height: "70%",
   },
   separateContainer: {
     display: "flex",
@@ -295,6 +295,23 @@ export const appButtonComponents = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+});
+
+export const appEmptyComponents = StyleSheet.create({
+  componentEmpty30: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "30%",
+  },
+  componentEmpty20: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "20%",
   },
 });
 
