@@ -74,7 +74,7 @@ const MainNavbar = () => {
               }}
               startIcon={<AccountCircleIcon />}
             >
-              Profile
+              Profil
             </Button>
           </Link>
         </Grid>
