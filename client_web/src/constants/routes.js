@@ -16,3 +16,4 @@ export const SERVICE_TWITCH = '/services/twitch';
 export const SERVICE_GITHUB = '/services/github';
 export const SERVICE_TWITTER = '/services/twitter';
 export const SCENARIO_CREATE = '/scenario/create';
+export const DOWNLOAD_APK = '/automateme.apk';
