@@ -694,10 +694,13 @@ export default function ScenarioPage() {
       <div>
         <Button
           style={{
+            fontWeight: "900",
             color: "black",
-            borderRadius: "50px",
+            borderRadius: "10px",
+            fontSize: "18px",
             backgroundColor: "white",
-            marginTop: "15%",
+            marginTop: "25%",
+            marginBottom: "25%",
           }}
           onClick={() =>
             CreateScenario(
@@ -713,7 +716,7 @@ export default function ScenarioPage() {
             )
           }
         >
-          Créer
+          Créer le scénario
         </Button>
       </div>
     </div>
