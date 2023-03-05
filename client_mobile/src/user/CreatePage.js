@@ -139,6 +139,19 @@ function CustomCreateModal(props) {
   );
 }
 
+function transformInput(input) {
+  const transformed = [];
+  input.forEach((item) => {
+    item.forEach((field) => {
+      transformed.push({
+        name: field.name,
+        value: field.value,
+      });
+    });
+  });
+  return transformed;
+}
+
 // CreatePage.js - Core function.
 
 export default function CreatePage({ navigation }) {
@@ -373,8 +386,8 @@ export default function CreatePage({ navigation }) {
                     trigger,
                     secondService,
                     reaction,
-                    triggerFields,
-                    reactionFields
+                    transformInput(triggerFields),
+                    transformInput(reactionFields)
                   )
                 }
               >
