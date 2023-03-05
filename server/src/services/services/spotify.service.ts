@@ -68,4 +68,22 @@ export class SpotifyService {
         ])
         await this.servicesService.run(accountId, scenario, ingredients)
     }
+
+    async nextMusic(deviceId: string, accessToken: string) {
+        try {
+            const spotifyApi = new SpotifyWebApi({ accessToken })
+            await spotifyApi.skipToNext({ device_id: deviceId })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async previousMusic(deviceId: string, accessToken: string) {
+        try {
+            const spotifyApi = new SpotifyWebApi({ accessToken })
+            await spotifyApi.skipToPrevious({ device_id: deviceId })
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
