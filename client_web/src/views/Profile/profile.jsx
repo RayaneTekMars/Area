@@ -43,7 +43,6 @@ export default function HomePage() {
       .then((data) => {
         setTokens(data.data.authTokens);
       });
-
   }, []);
 
   function setAvailableServices() {
@@ -153,17 +152,95 @@ export default function HomePage() {
     <div>
       <MainNavbar />
       <div
-  style={{
-    fontFamily: "Inter-ExtraBold",
-    color: "white",
-    fontSize: "2rem",
-    marginTop: "10%",
-    display: "flex",
-    justifyContent: "center",
-  }}
->
-  Welcome on your profile {username}
-</div>
+        style={{
+          fontFamily: "Inter-ExtraBold",
+          color: "white",
+          fontSize: "2rem",
+          marginTop: "10%",
+          display: "flex",
+          justifyContent: "center",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        Bienvenue sur votre profil {username}
+      </div>
+      {services.length === 0 ? (
+        <div>
+          <div
+            style={{
+              fontFamily: "Inter-ExtraBold",
+              color: "white",
+              fontSize: "1.5rem",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "4%",
+              textAlign: "center",
+            }}
+          >
+            Aucun service connecté
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div
+            style={{
+              fontFamily: "Inter-ExtraBold",
+              color: "white",
+              fontSize: "1.2rem",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "4%",
+              textAlign: "center",
+            }}
+          >
+            Vos services liés
+          </div>
+          <div className="divServicesCardsHome">
+            {services.map((service, index) => (
+              <Link
+                to={`/services/${service[3]}`}
+                style={{ textDecoration: "none", marginLeft: "1%" }}
+              >
+                <Card
+                  sx={{
+                    width: 160,
+                    marginLeft: "2%",
+                    height: 160,
+                    backgroundColor: service[1],
+                    borderRadius: "39px",
+                  }}
+                >
+                  <CardMedia
+                    sx={{
+                      height: 50,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    title="service media"
+                  />
+                  <CardContent
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "40%",
+                    }}
+                  >
+                    <div dangerouslySetInnerHTML={{ __html: service[2] }} />
+                    <h1 style={{ textAlign: "center", color: "#FFFFFF" }}>
+                      {service[0]}
+                    </h1>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      <TokenList tokens={tokens} />
       <div
         style={{
           fontFamily: "Inter-ExtraBold",
@@ -175,80 +252,19 @@ export default function HomePage() {
           textAlign: "center",
         }}
       >
-        Connected services
-      </div>
-      {services.length === 0 ? (
-        <div
+        <Button
           style={{
+            backgroundColor: "white",
+            color: "red",
+            width: "10%",
+            borderRadius: "10px",
             fontFamily: "Inter-ExtraBold",
-            color: "white",
-            fontSize: "2rem",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: "4%",
-            textAlign: "center",
           }}
+          onClick={disconnect}
         >
-          No service connected
-        </div>
-      ) : (
-        <div className="divServicesCardsHome">
-          {services.map((service, index) => (
-            <Link
-              to={`/services/${service[3]}`}
-              style={{ textDecoration: "none", marginLeft: "1%" }}
-            >
-              <Card
-                sx={{
-                  width: 160,
-                  marginLeft: "2%",
-                  height: 160,
-                  backgroundColor: service[1],
-                  borderRadius: "39px",
-                }}
-              >
-                <CardMedia
-                  sx={{
-                    height: 50,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  title="service media"
-                />
-                <CardContent
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "40%",
-                  }}
-                >
-                  <div dangerouslySetInnerHTML={{ __html: service[2] }} />
-                  <h1 style={{ textAlign: "center", color: "#FFFFFF" }}>
-                    {service[0]}
-                  </h1>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
-      <TokenList tokens={tokens} />
-      <Button
-        style={{
-          backgroundColor: "white",
-          color: "black",
-          borderRadius: "50px",
-          marginTop: "10%",
-          marginLeft: "45%",
-          fontFamily: "Inter-ExtraBold",
-        }}
-        onClick={disconnect}
-      >
-        Logout
-      </Button>
+          Déconnexion
+        </Button>
+      </div>
     </div>
   );
 }

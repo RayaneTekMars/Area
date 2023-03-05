@@ -75,14 +75,12 @@ function CreateScenario(
     .then((data) => {
       window.location.href = "https://www.automateme.fr/scenario";
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 export default function ScenarioPage() {
   const [services, setServices] = useState([]);
   const [servicesReaction, setServicesReaction] = useState([]);
-
 
   function setAvailableServices() {
     fetch("https://api.automateme.fr/subscriptions", {
@@ -93,16 +91,16 @@ export default function ScenarioPage() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         let serviceArray = [];
         let serviceReactionArray = [];
-        let services = data.data.map((item) => item.serviceName);
+        let services = ["Twitter", "Github", "Twitch", "Discord", "Spotify"];
         services.map((service) => {
           if (service === "Twitter") {
             serviceArray.push([
               "Twitter",
               "#1DA1F2",
-              `<svg width="69" height="57" viewBox="0 0 69 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+              `<svg width="69" height="70" viewBox="0 0 69 51" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_390_772)">
                 <path d="M61.7522 14.3311C61.7939 14.9374 61.7939 15.5437 61.7939 16.1557C61.7939 34.8008 47.6601 56.3043 21.8157 56.3043V56.2932C14.1811 56.3043 6.70521 54.1082 0.278198 49.9673C1.38832 50.1014 2.504 50.1685 3.62247 50.1712C9.94933 50.1768 16.0953 48.0449 21.0728 44.1192C15.0603 44.0046 9.78796 40.0677 7.9461 34.3202C10.0523 34.7282 12.2224 34.6443 14.2896 34.0771C7.73465 32.7471 3.01872 26.9633 3.01872 20.2462V20.0674C4.97187 21.1599 7.15872 21.7662 9.39566 21.8333C3.22183 17.6896 1.31876 9.4414 5.04699 2.99257C12.1807 11.808 22.706 17.1671 34.0047 17.7343C32.8724 12.8335 34.4193 7.69787 38.0696 4.25272C43.7287 -1.08963 52.6292 -0.81581 57.9488 4.86463C61.0956 4.24154 64.1115 3.08198 66.8715 1.43904C65.8226 4.70537 63.6274 7.47993 60.6949 9.24301C63.48 8.91331 66.201 8.16448 68.7635 7.02169C66.8771 9.86051 64.5011 12.3333 61.7522 14.3311Z" fill="white"/>
                 </g>
@@ -193,7 +191,7 @@ export default function ScenarioPage() {
             serviceArray.push([
               "Twitch",
               "#9146FF",
-              `<svg width="56" height="65" viewBox="0 0 56 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+              `<svg width="56" height="90" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11.6667 0L0 11.6071V53.3929H14V65L25.6667 53.3929H35L56 32.5V0H11.6667ZM51.3333 30.1786L42 39.4643H32.6667L24.5 47.5893V39.4643H14V4.64286H51.3333V30.1786Z" fill="white"/>
               <path d="M44.3333 12.7678H39.6667V26.6964H44.3333V12.7678Z" fill="white"/>
               <path d="M31.5 12.7678H26.8333V26.6964H31.5V12.7678Z" fill="white"/>
@@ -254,13 +252,16 @@ export default function ScenarioPage() {
   const [fieldReaction, setFieldReaction] = useState([]);
 
   function getActions(selectedServiceAction) {
-    fetch(`https://api.automateme.fr/services/${selectedServiceAction}/triggers`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    })
+    fetch(
+      `https://api.automateme.fr/services/${selectedServiceAction}/triggers`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         let actionList = data.map((elem) => {
@@ -381,7 +382,7 @@ export default function ScenarioPage() {
   return (
     <div className="PageStyle">
       <MainNavbar />
-      <div className="ScenarioTitle">Scénario</div>
+      <div className="ScenarioTitle">Nommez votre scénario</div>
       <div
         style={{
           display: "flex",
@@ -389,47 +390,74 @@ export default function ScenarioPage() {
           alignItems: "center",
         }}
       >
-        <div style={{ marginTop: "2%" }}>
-          <Typography
-            style={{
-              color: "white",
-              fontWeight: 600,
-              marginBottom: "2%",
-              textAlign: "center",
-            }}
-          >
-            Name
-          </Typography>
+        <div style={{ marginTop: "10%" }}>
           <TextField
             id="scenarioName"
             variant="outlined"
             color="primary"
             fullWidth
+            placeholder="Nom du scénario"
             InputProps={{
               style: {
-                borderRadius: "16px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                height: "45px",
+                width: "300px",
+                borderRadius: "10px",
                 backgroundColor: "#fff",
                 border: "none",
                 boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                textAlignLast: "center",
+                fontFamily: "Inter",
+                fontWeight: "900",
+                fontSize: "20px",
               },
             }}
             InputLabelProps={{
               style: { display: "none" },
             }}
           />
+          <div style={{ marginTop: "5%" }}>
+            <Typography
+              style={{
+                fontFamily: "Avenir",
+                fontWeight: "900",
+                fontSize: "32px",
+                color: "#fff",
+                textAlignLast: "center",
+                marginTop: "5%",
+              }}
+            >
+              Triggers
+            </Typography>
+          </div>
+          <div style={{ marginTop: "5%" }}>
+            <Typography
+              style={{
+                fontFamily: "Avenir",
+                fontWeight: "900",
+                fontSize: "20px",
+                color: "#fff",
+                textAlignLast: "center",
+                marginTop: "5%",
+              }}
+            >
+              Choisissez un service pour l’activation du scénario
+            </Typography>
+          </div>
         </div>
       </div>
 
       <div className="divServicesCardsCreate">
         {services.map((service, index) => (
-          <Link style={{ textDecoration: "none", marginLeft: "1%" }}>
+          <Link style={{ textDecoration: "none", marginLeft: "2%" }}>
             <Card
               sx={{
-                width: 120,
+                width: 110,
                 marginLeft: "4%",
-                height: 120,
+                height: 110,
                 backgroundColor: service[1],
-                borderRadius: "39px",
+                borderRadius: "28px",
               }}
               onClick={() => changeSelectedServiceAction(service[0])}
             >
@@ -516,7 +544,7 @@ export default function ScenarioPage() {
         ))}
       </div>
 
-      <div style={{ marginTop: "5%" }}>
+      <div>
         {paramAction.map((param, index) => (
           <Chip
             key={index}
@@ -528,6 +556,36 @@ export default function ScenarioPage() {
             }}
           />
         ))}
+      </div>
+      <div>
+        <div style={{ marginTop: "5%" }}>
+          <Typography
+            style={{
+              fontFamily: "Avenir",
+              fontWeight: "900",
+              fontSize: "32px",
+              color: "#fff",
+              textAlignLast: "center",
+              marginTop: "5%",
+            }}
+          >
+            Reactions
+          </Typography>
+        </div>
+        <div style={{ marginTop: "5%" }}>
+          <Typography
+            style={{
+              fontFamily: "Avenir",
+              fontWeight: "900",
+              fontSize: "20px",
+              color: "#fff",
+              textAlignLast: "center",
+              marginTop: "5%",
+            }}
+          >
+            Choisissez un service que vous souhaitez utiliser pour votre réaction
+          </Typography>
+        </div>
       </div>
       <div className="divServicesCardsCreate">
         {servicesReaction.map((service, index) => (
