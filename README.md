@@ -46,5 +46,6 @@ All the developer docs and user docs can be found [here](https://docs.automateme
 ## Authors
 
 - Rayane ELOUDJEDI - [GitHub](https://github.com/RayaneTekMars)
+- Mr.Priv4te - [GitHub](https://github.com/mrpriv4te)
 - Théo TARALLO - [GitHub](https://github.com/thtarallo)
 - Tony BANO - [GitHub](https://github.com/Tonymelyo)
